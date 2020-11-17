@@ -59,8 +59,15 @@ final class Validator
     /**
      * @return static
      */
-    public static function make(): self
+    public static function make(array $data = []): self
     {
-        return new self();
+        $v = new self();
+    
+        foreach ($data as $name => $datum)
+        {
+            $v->add($name, $datum[0], $datum[1] ?? false);
+        }
+
+        return $v;
     }
 }
