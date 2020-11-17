@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Validator;
+namespace Bermuda\Validation\Rules;
 
 
 /**
  * Interface RuleInterface
- * @package App\Chain
+ * @package Bermuda\Validation\Rules
  */
 interface RuleInterface
 {
