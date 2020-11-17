@@ -1,0 +1,16 @@
+{
+  "name": "bermudaphp/validation",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Bermuda\\Validation\\": "src/"
+    },
+    "files": [
+            "src/functions.php"
+    ]
+  },
+  "require": {
+    "php": ">= 7.4",
+    "bermudaphp/stringy": "^1.0.2"
+  }
+}
