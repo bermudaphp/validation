@@ -41,7 +41,7 @@ final class Validator
             {
                 if ($item['require'])
                 {
-                    $messages[$name] = ['Field with key ' . $name . ' is required!'];
+                    $messages[$name] = ['Missing require key: ' . $name];
                 }
                 
                 continue;
