@@ -19,5 +19,5 @@ interface RuleInterface
      * @param $value
      * @return array
      */
-    public function validate($value): array;
+    public function validate($value): array ;
 }
