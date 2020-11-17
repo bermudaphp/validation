@@ -37,9 +37,13 @@ final class Validator
 
         foreach ($this->rules as $name => $item)
         {
-            if (!array_key_exists($name, $data) && $item['require'])
+            if (!array_key_exists($name, $data))
             {
-                $messages[$name] = ['Field with key ' . $name . ' is required!'];
+                if ($item['require'])
+                {
+                    $messages[$name] = ['Field with key ' . $name . ' is required!'];
+                }
+                
                 continue;
             }
 
