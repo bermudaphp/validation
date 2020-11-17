@@ -1,15 +1,12 @@
 <?php
 
 
-namespace App\Validator\Rules;
-
-
-use App\Validator\RuleInterface;
+namespace Bermuda\Validation\Rules;
 
 
 /**
  * Class Numeric
- * @package App\Chain\Rules
+ * @package Bermuda\Validation\Rules
  */
 class IsNumber implements RuleInterface
 {
