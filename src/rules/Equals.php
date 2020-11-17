@@ -1,16 +1,16 @@
 <?php
 
 
-namespace App\Validator\Rules;
+namespace Bermuda\Validation\Rules;
 
 
-use App\Validator\RuleInterface;
 use function Bermuda\str_equals;
+use Bermuda\Validation\RuleInterface;
 
 
 /**
  * Class Equals
- * @package App\Chain\Rules
+ * @package Bermuda\Validation\Rules
  */
 class Equals implements RuleInterface
 {
