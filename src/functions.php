@@ -11,7 +11,7 @@ function v(array $data = []): Validator
     
     foreach ($data as $name => $datum)
     {
-        $v->add($name, $datum[0], $datum[1]);
+        $v->add($name, $datum[0], $datum[1] ?? false);
     }
     
     return $v;
