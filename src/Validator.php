@@ -4,6 +4,9 @@
 namespace Bermuda\Validation;
 
 
+use Bermuda\Validation\RuleInterface;
+
+
 /**
  * Class Validator
  * @package Bermuda\Validation
