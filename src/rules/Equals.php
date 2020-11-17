@@ -5,7 +5,6 @@ namespace Bermuda\Validation\Rules;
 
 
 use function Bermuda\str_equals;
-use Bermuda\Validation\RuleInterface;
 
 
 /**
