@@ -11,11 +11,6 @@ namespace Bermuda\Validation\Rules;
 interface RuleInterface
 {
     /**
-     * @return string
-     */
-    public function getName(): string ;
-
-    /**
      * @param $value
      * @return array
      */
