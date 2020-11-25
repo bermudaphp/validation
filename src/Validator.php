@@ -1,29 +1,58 @@
 <?php
 
 
-namespace Bermuda\Validation;
-
-
-use Bermuda\Validation\RuleInterface;
+namespace App\Validator;
 
 
 /**
  * Class Validator
- * @package Bermuda\Validation
+ * @package App\Validator
  */
 final class Validator
 {
     private array $rules = [];
 
+    public function __construct(array $rules)
+    {
+        foreach ($rules as $name => $datum)
+        {
+            $this->add($name, $datum[0], $datum[1] ?? false);
+        }
+    }
+
     /**
-     * @param string $name
+     * @param string|string[] $name
+     * @param RuleInterface $rule
+     * @return $this
+     */
+    public function require($name, RuleInterface $rule): self
+    {
+        return $this->add($name, $rule, true);
+    }
+
+    /**
+     * @param string|string[] $name
+     * @param RuleInterface $rule
+     * @return $this
+     */
+    public function optional($name, RuleInterface $rule): self
+    {
+        return $this->add($name, $rule, false);
+    }
+
+    /**
+     * @param string|string[] $name
      * @param RuleInterface $rule
      * @param bool $require
      * @return $this
      */
-    public function add(string $name, RuleInterface $rule, bool $require = false): self
+    public function add($name, RuleInterface $rule, bool $require = false): self
     {
-        $this->rules[$name] = compact('rule', 'require');
+        foreach ((array) $name as $item)
+        {
+            $this->rules[$item] = compact('rule', 'require');
+        }
+
         return $this;
     }
 
@@ -33,7 +62,7 @@ final class Validator
      */
     public function validate(array $data): array
     {
-        $messages = [];
+        $errors = [];
 
         foreach ($this->rules as $name => $item)
         {
@@ -41,33 +70,27 @@ final class Validator
             {
                 if ($item['require'])
                 {
-                    $messages[$name] = ['Missing require key: ' . $name];
+                    $errors[$name] = ['Field with key ' . $name . ' is required!'];
                 }
-                
+
                 continue;
             }
 
             if (($failure = $item['rule']->validate($data[$name])) != [])
             {
-                $messages[$name] = $failure;
+                $errors[$name] = $failure;
             }
         }
 
-        return $messages;
+        return $errors;
     }
 
     /**
+     * @param array $rules
      * @return static
      */
-    public static function make(array $data = []): self
+    public static function make(array $rules): self
     {
-        $v = new self();
-    
-        foreach ($data as $name => $datum)
-        {
-            $v->add($name, $datum[0], $datum[1] ?? false);
-        }
-
-        return $v;
+        return new self($rules);
     }
 }
