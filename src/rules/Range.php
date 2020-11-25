@@ -1,16 +1,22 @@
 <?php
 
 
-namespace Bermuda\Validation\Rules;
+namespace App\Validator\Rules;
+
+
+use App\Validator\RuleInterface;
 
 
 /**
  * Class Range
- * @package Bermuda\Validation\Rules
+ * @package App\Chain\Rules
  */
-final class Range implements RuleInterface
+class Range implements RuleInterface
 {
-    private float $x, $y;
+    /**
+     * @var float
+     */
+    protected $x, $y;
 
     public function __construct(float $x, float $y)
     {
@@ -19,24 +25,62 @@ final class Range implements RuleInterface
     }
 
     /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return 'range';
-    }
-
-    /**
      * @param $value
      * @return array
      */
     public function validate($value): array
     {
-        if (!is_numeric($value) || ($this->x > $value || $this->y < $value))
+        if (!is_numeric($value) || !$this->compare($value))
         {
             return [sprintf('The value must be a number in the range from %s to %s', $this->x, $this->y)];
         }
 
         return [];
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    protected function compare($value): bool
+    {
+        return $this->x > $value && $this->y < $value;
+    }
+
+    /**
+     * @param \DateTimeInterface $x
+     * @param \DateTimeInterface $y
+     * @return static
+     */
+    public static function date(\DateTimeInterface $x, \DateTimeInterface $y): self
+    {
+        return new class extends Range
+        {
+            /**
+             * @var \DateTimeInterface
+             */
+            protected $x, $y;
+
+            public function __construct(\DateTimeInterface $x, \DateTimeInterface $y)
+            {
+                $this->x = $x;
+                $this->y = $y;
+            }
+
+            /**
+             * @param $value
+             * @return array
+             */
+            public function validate($value): array
+            {
+                if ((new Date())->validate($value) != []
+                    || !$this->compare($value))
+                {
+                    return [sprintf('The value must be a datetime in the range from %s to %s', $this->x, $this->y)];
+                }
+
+                return [];
+            }
+        };
     }
 }

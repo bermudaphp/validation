@@ -1,12 +1,15 @@
 <?php
 
 
-namespace Bermuda\Validation\Rules;
+namespace App\Validator\Rules;
+
+
+use App\Validator\RuleInterface;
 
 
 /**
  * Class Length
- * @package Bermuda\Validation\Rules
+ * @package App\Validator\Rules
  */
 final class Length implements RuleInterface
 {
@@ -23,14 +26,8 @@ final class Length implements RuleInterface
      */
     public function validate($value): array
     {
-        return mb_strlen($value);
+        return is_string($value) && mb_strlen($value) == $this->length ? []
+            : ['String length must be equal to ' . $this->length];
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return 'length';
-    }
 }

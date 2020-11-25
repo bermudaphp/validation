@@ -1,12 +1,15 @@
 <?php
 
 
-namespace Bermuda\Validation\Rules;
+namespace App\Validator\Rules;
+
+
+use App\Validator\RuleInterface;
 
 
 /**
  * Class IsBool
- * @package Bermuda\Validation\Rules
+ * @package App\Chain\Rules
  */
 class IsBool implements RuleInterface
 {

@@ -1,12 +1,15 @@
 <?php
 
 
-namespace Bermuda\Validation\Rules;
+namespace App\Validator\Rules;
+
+
+use App\Validator\RuleInterface;
 
 
 /**
  * Class Numeric
- * @package Bermuda\Validation\Rules
+ * @package App\Chain\Rules
  */
 class IsNumber implements RuleInterface
 {
@@ -39,9 +42,11 @@ class IsNumber implements RuleInterface
                 {
                     return ['Value must be array of numbers!'];
                 }
+
+                return [];
             }
         }
 
-        return is_numeric($value) ? [] : ['The value must be a numeric!'];
+        return is_numeric($value) ? [] : ['The value must be a number!'];
     }
 }

@@ -1,12 +1,15 @@
 <?php
 
 
-namespace Bermuda\Validation\Rules;
+namespace App\Validator\Rules;
+
+
+use App\Validator\RuleInterface;
 
 
 /**
  * Class NotEmpty
- * @package Bermuda\Validation\Rules
+ * @package App\Chain\Rules
  */
 final class NotEmpty implements RuleInterface
 {
@@ -17,13 +20,5 @@ final class NotEmpty implements RuleInterface
     public function validate($value): array
     {
         return !empty($value) ? [] : ['The value must not be empty!'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return 'notEmpty';
     }
 }
