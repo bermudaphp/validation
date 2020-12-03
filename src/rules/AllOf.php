@@ -54,7 +54,7 @@ final class AllOf extends OneOf
      */
     public static function make($rule, bool $break = false): self
     {
-        return new self([$rule], $break);
+        return new self((array) $rule, $break);
     }
     
     /**
