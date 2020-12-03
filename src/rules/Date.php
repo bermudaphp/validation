@@ -1,15 +1,12 @@
 <?php
 
 
-namespace App\Validator\Rules;
-
-
-use App\Validator\RuleInterface;
+namespace Bermuda\Validation\Rules;
 
 
 /**
  * Class Datetime
- * @package App\Validator\Rules
+ * @package Bermuda\Validation\Rules
  */
 final class Date implements RuleInterface
 {
@@ -36,7 +33,7 @@ final class Date implements RuleInterface
             return ['The value must be a DateTime string'];
         }
     }
-
+    
     /**
      * @param \DateTimeInterface $dateTime
      * @param string $format
