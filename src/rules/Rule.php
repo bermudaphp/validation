@@ -1,24 +1,25 @@
 <?php
 
-
-namespace App\Validator\Rules;
-
-
-use App\Validator\RuleInterface;
+namespace Bermuda\Validation\Rules;
 
 
 /**
  * Class Rule
- * @package App\Validator\Rules
+ * @package  Bermuda\Validation\Rules;
  */
-class Rule
+final class RuleChain
 {
+    public function __construct()
+    {
+        throw new \RuntimeException(self::class . ' is not instantiable');
+    }
+    
     /**
      * @param RuleInterface $rule
      * @param RuleInterface ...$rules
      * @return RuleInterface
      */
-    public static function chain(RuleInterface $rule, RuleInterface ... $rules): RuleInterface
+    public static function of(RuleInterface $rule, RuleInterface ... $rules): RuleInterface
     {
         $current = $rule;
 
