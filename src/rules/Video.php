@@ -1,12 +1,9 @@
 <?php
 
+namespace Bermuda\Validation\Rules;
 
-namespace App\Validator\Rules;
 
-
-use App\Validator\RuleInterface;
-
-class Video implements RuleInterface
+class YoutubeVideo implements RuleInterface
 {
     use RuleTrait;
 
