@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Validator;
+namespace Bermuda\Validation;
 
 
-use App\Validator\Rules\RuleTrait;
+use Bermuda\Validation\Rules\RuleTrait;
 
 /**
  * Class OneOf
- * @package App\Validator
+ * @package Bermuda\Validation
  */
 class OneOf implements RuleInterface, \IteratorAggregate
 {
