@@ -8,7 +8,7 @@ namespace App\Validator;
  * Class Validator
  * @package App\Validator
  */
-final class Validator
+class Validator
 {
     private array $rules = [];
 
@@ -21,11 +21,20 @@ final class Validator
     }
 
     /**
+     * @param array $data
+     * @return array
+     */
+    final public function __invoke(array $data): array
+    {
+        return $this->validate($data);
+    }
+
+    /**
      * @param string|string[] $name
      * @param RuleInterface $rule
      * @return $this
      */
-    public function require($name, RuleInterface $rule): self
+    final public function require($name, RuleInterface $rule): self
     {
         return $this->add($name, $rule, true);
     }
@@ -35,7 +44,7 @@ final class Validator
      * @param RuleInterface $rule
      * @return $this
      */
-    public function optional($name, RuleInterface $rule): self
+    final public function optional($name, RuleInterface $rule): self
     {
         return $this->add($name, $rule, false);
     }
@@ -46,7 +55,7 @@ final class Validator
      * @param bool $require
      * @return $this
      */
-    public function add($name, RuleInterface $rule, bool $require = false): self
+    final public function add($name, RuleInterface $rule, bool $require = false): self
     {
         foreach ((array) $name as $item)
         {
@@ -54,6 +63,14 @@ final class Validator
         }
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    final public function getRules(): array
+    {
+        return $this->rules;
     }
 
     /**
@@ -91,6 +108,6 @@ final class Validator
      */
     public static function make(array $rules): self
     {
-        return new self($rules);
+        return new static($rules);
     }
 }
