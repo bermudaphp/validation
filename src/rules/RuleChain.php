@@ -4,7 +4,7 @@ namespace Bermuda\Validation\Rules;
 
 
 /**
- * Class Rule
+ * Class RuleChain
  * @package  Bermuda\Validation\Rules;
  */
 final class RuleChain
