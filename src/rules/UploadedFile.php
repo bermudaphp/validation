@@ -1,15 +1,11 @@
 <?php
 
-
-namespace App\Validator\Rules;
-
-
-use App\Validator\RuleInterface;
+namespace Bermuda\Validation\Rules;
 
 
 /**
  * Class UploadedFile
- * @package App\Validator\Rules
+ * @package Bermuda\Validation\Rules
  */
 class UploadedFile implements RuleInterface
 {
