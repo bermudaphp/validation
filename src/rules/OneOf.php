@@ -1,10 +1,10 @@
 <?php
 
-
 namespace Bermuda\Validation;
 
 
 use Bermuda\Validation\Rules\RuleTrait;
+
 
 /**
  * Class OneOf
@@ -102,5 +102,14 @@ class OneOf implements RuleInterface, \IteratorAggregate
         }
 
         return $result;
+    }
+    
+    /**
+     * @param RuleInterface[]|RuleInterface $rule
+     * @return static
+     */
+    public static function make($rule): self
+    {
+        return new self((array) $rule]);
     }
 }
