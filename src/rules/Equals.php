@@ -1,10 +1,6 @@
 <?php
 
-
-namespace App\Validator\Rules;
-
-
-use App\Validator\RuleInterface;
+namespace Bermuda\Validation\Rules;
 
 
 use function Bermuda\str_equals;
@@ -12,11 +8,14 @@ use function Bermuda\str_equals;
 
 /**
  * Class Equals
- * @package App\Chain\Rules
+ * @package Bermuda\Validation\Rules
  */
 abstract class Equals implements RuleInterface
 {
-    use RuleTrait {validateNext as protected;}
+    use RuleTrait
+    {
+        validateNext as protected;
+    }
 
     /**
      * @var mixed
@@ -109,11 +108,16 @@ abstract class Equals implements RuleInterface
             }
 
             /**
-             * @param \DateTimeInterface $v
+             * @param \DateTimeInterface|string $v
              * @return array
              */
             public function validate($v): array
             {
+                if ($v !instanceof \DateTimeInterface)
+                {
+                    $v = new \DateTime($v);
+                }
+                
                 return $this->operand->format($this->format) == $v->format($this->format)
                     ? $this->validateNext(null, $v) :
                     [
