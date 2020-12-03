@@ -1,33 +1,21 @@
 <?php
 
-
-namespace App\Validator\Rules;
-
-
-use App\Validator\RuleInterface;
+namespace Bermuda\Validation\Rules;
 
 
 /**
- * Class Numeric
- * @package App\Chain\Rules
+ * Class Number
+ * @package Bermuda\Validation\Rules
  */
-class IsNumber implements RuleInterface
+class Number implements RuleInterface
 {
     use RuleTrait;
 
-    private bool $isArray;
+    private bool $arrayOfNumbers;
 
-    public function __construct(bool $isArray = false)
+    public function __construct(bool $arrayOfNumbers = false)
     {
-        $this->isArray = $isArray;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return 'isNumber';
+        $this->arrayOfNumbers = $arrayOfNumbers;
     }
 
     /**
@@ -36,7 +24,7 @@ class IsNumber implements RuleInterface
      */
     public function __invoke($value): array
     {
-        if ($this->isArray)
+        if ($this->arrayOfNumbers)
         {
             foreach ((array) $value as $item)
             {
