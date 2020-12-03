@@ -48,12 +48,22 @@ final class AllOf extends OneOf
     }
 
     /**
-     * @param RuleInterface $rule
+     * @param RuleInterface[]|RuleInterface $rule
      * @param bool $break
      * @return static
      */
-    public static function make(RuleInterface $rule, bool $break = false): self
+    public static function make($rule, bool $break = false): self
     {
         return new self([$rule], $break);
+    }
+    
+    /**
+     * @param RuleInterface[]|RuleInterface $rule
+     * @param bool $break
+     * @return static
+     */
+    public static function breakF($rule): self
+    {
+        return static::make((array) $rule, true);
     }
 }
