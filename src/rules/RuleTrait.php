@@ -1,15 +1,11 @@
 <?php
 
-
-namespace App\Validator\Rules;
-
-
-use App\Validator\RuleInterface;
+namespace Bermuda\Validation\Rules;
 
 
 /**
  * Trait RuleTrait
- * @package App\Validator\Rules
+ * @package Bermuda\Validation\Rules
  */
 trait RuleTrait
 {
@@ -25,17 +21,17 @@ trait RuleTrait
     }
 
     /**
-     * @param array|null $result
+     * @param array $result
      * @param $value
      * @return array
      */
-    private function validateNext($value, ?array $result = []): array
+    private function validateNext($value, array $result = []): array
     {
-        if ((array) $result == [] && $this->next != null)
+        if ($result == [] && $this->next != null)
         {
             return ($this->next)($value);
         }
 
-        return (array) $result;
+        return $result;
     }
 }
