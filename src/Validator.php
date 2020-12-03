@@ -93,7 +93,7 @@ class Validator
                 continue;
             }
 
-            if (($failure = $item['rule']->validate($data[$name])) != [])
+            if (($failure = $item['rule']($data[$name])) != [])
             {
                 $errors[$name] = $failure;
             }
