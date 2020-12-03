@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Validator;
+namespace Bermuda\Validation;
 
 
 /**
- * Class Chain
- * @package App\Chain
+ * Class AllOf
+ * @package Bermuda\Validation
  */
 final class AllOf extends OneOf
 {
