@@ -1,15 +1,11 @@
 <?php
 
-
-namespace App\Validator\Rules;
-
-
-use App\Validator\RuleInterface;
+namespace Bermuda\Validation\Rules;
 
 
 /**
  * Class Range
- * @package App\Chain\Rules
+ * @package Bermuda\Validation\Rules
  */
 class Range implements RuleInterface
 {
