@@ -82,7 +82,7 @@ class OneOf implements RuleInterface, \IteratorAggregate
 
     /**
      * @param $value
-     * @return array|bool
+     * @return array
      */
     public function __invoke($value): array
     {
