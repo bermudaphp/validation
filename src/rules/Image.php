@@ -1,15 +1,12 @@
 <?php
 
 
-namespace App\Validator\Rules;
-
-
-use App\Validator\RuleInterface;
+namespace Bermuda\Validation\Rules;
 
 
 /**
  * Class Image
- * @package App\Validator\Rules
+ * @package Bermuda\Validation\Rules
  */
 class Image implements RuleInterface
 {
@@ -45,7 +42,7 @@ class Image implements RuleInterface
             {
                 if ($this->size != null && $this->size < filesize($value))
                 {
-                    return [sprintf('File size must be less than %s b', $this->size)];
+                    return [sprintf('Image size must be less than %s b', $this->size)];
                 }
 
                 return [];
