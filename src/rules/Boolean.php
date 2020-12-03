@@ -3,7 +3,7 @@
 namespace Bermuda\Validation\Rules;
 
 
-use function Bermuda\str_equals;
+use function Bermuda\str_equals_any;
 
 
 /**
