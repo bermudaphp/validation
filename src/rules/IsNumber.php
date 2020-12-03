@@ -13,6 +13,8 @@ use App\Validator\RuleInterface;
  */
 class IsNumber implements RuleInterface
 {
+    use RuleTrait;
+
     private bool $isArray;
 
     public function __construct(bool $isArray = false)
@@ -32,7 +34,7 @@ class IsNumber implements RuleInterface
      * @param $value
      * @return array
      */
-    public function validate($value): array
+    public function __invoke($value): array
     {
         if ($this->isArray)
         {

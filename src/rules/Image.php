@@ -13,6 +13,8 @@ use App\Validator\RuleInterface;
  */
 class Image implements RuleInterface
 {
+    use RuleTrait;
+
     private ?int $size = null, $width = null, $height = null;
 
     public function __construct(
@@ -27,18 +29,10 @@ class Image implements RuleInterface
     }
 
     /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return 'image';
-    }
-
-    /**
      * @param $value
      * @return array
      */
-    public function validate($value): array
+    public function __invoke($value): array
     {
         if (@(string) is_file($value))
         {

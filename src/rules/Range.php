@@ -13,6 +13,8 @@ use App\Validator\RuleInterface;
  */
 class Range implements RuleInterface
 {
+    use RuleTrait;
+
     /**
      * @var float
      */
@@ -28,7 +30,7 @@ class Range implements RuleInterface
      * @param $value
      * @return array
      */
-    public function validate($value): array
+    public function __invoke($value): array
     {
         if (!is_numeric($value) || !$this->compare($value))
         {
@@ -71,9 +73,9 @@ class Range implements RuleInterface
              * @param $value
              * @return array
              */
-            public function validate($value): array
+            public function __invoke($value): array
             {
-                if ((new Date())->validate($value) != []
+                if ((new Date())->__invoke($value) != []
                     || !$this->compare($value))
                 {
                     return [sprintf('The value must be a datetime in the range from %s to %s', $this->x, $this->y)];

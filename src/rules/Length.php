@@ -13,21 +13,26 @@ use App\Validator\RuleInterface;
  */
 final class Length implements RuleInterface
 {
-    private int $length;
+    use RuleTrait;
 
-    public function __construct(int $length)
+    private bool $mb;
+    private int $value;
+
+    public function __construct(int $value, bool $mb = true)
     {
-        $this->length = $length;
+        $this->mb = $mb;
+        $this->value = $value;
     }
 
     /**
      * @param $value
      * @return array
      */
-    public function validate($value): array
+    public function __invoke($value): array
     {
-        return is_string($value) && mb_strlen($value) == $this->length ? []
-            : ['String length must be equal to ' . $this->length];
+        return is_string($value) && ($this->mb ? mb_strlen($value)
+            : strlen($value) == $this->value) ? [] :
+            ['String length must be equal to ' . $this->value];
     }
 
 }

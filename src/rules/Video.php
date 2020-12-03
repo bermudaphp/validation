@@ -8,16 +8,13 @@ use App\Validator\RuleInterface;
 
 class Video implements RuleInterface
 {
-    public function getName(): string
-    {
-        return 'video';
-    }
+    use RuleTrait;
 
     /**
      * @param $value
      * @return array
      */
-    public function validate($value): array
+    public function __invoke($value): array
     {
         if (str_contains($value, 'https://www.youtube.com/watch?'))
         {

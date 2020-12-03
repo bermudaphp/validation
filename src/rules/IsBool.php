@@ -13,6 +13,8 @@ use App\Validator\RuleInterface;
  */
 class IsBool implements RuleInterface
 {
+    use RuleTrait;
+
     /**
      * @inheritDoc
      */
@@ -24,7 +26,7 @@ class IsBool implements RuleInterface
     /**
      * @inheritDoc
      */
-    public function validate($value): array
+    public function __invoke($value): array
     {
         return !is_bool($value) ? ['Value must be a boolean type!'] : [];
     }

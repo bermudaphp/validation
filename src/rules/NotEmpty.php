@@ -13,11 +13,13 @@ use App\Validator\RuleInterface;
  */
 final class NotEmpty implements RuleInterface
 {
+    use RuleTrait;
+
     /**
      * @param $value
      * @return array
      */
-    public function validate($value): array
+    public function __invoke($value): array
     {
         return !empty($value) ? [] : ['The value must not be empty!'];
     }

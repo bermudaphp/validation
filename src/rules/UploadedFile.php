@@ -13,16 +13,13 @@ use App\Validator\RuleInterface;
  */
 class UploadedFile implements RuleInterface
 {
-    public function getName(): string
-    {
-        return 'uploadedFile';
-    }
+    use RuleTrait;
 
     /**
      * @param $value
      * @return array
      */
-    public function validate($value): array
+    public function __invoke($value): array
     {
         if (!is_uploaded_file($value))
         {
