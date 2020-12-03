@@ -18,6 +18,8 @@ class Validator
         {
             $this->add($name, $datum[0], $datum[1] ?? false);
         }
+        
+        $this->registerRules();
     }
 
     /**
@@ -109,5 +111,9 @@ class Validator
     public static function make(array $rules): self
     {
         return new static($rules);
+    }
+    
+    protected function registerRules(): void
+    {
     }
 }
