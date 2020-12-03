@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Validator;
+namespace Bermuda\Validation;
 
 
 /**
  * Class Validator
- * @package App\Validator
+ * @package Bermuda\Validation
  */
 class Validator
 {
