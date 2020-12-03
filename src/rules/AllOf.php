@@ -1,12 +1,11 @@
 <?php
 
-
-namespace Bermuda\Validation;
+namespace Bermuda\Validation\Rules;
 
 
 /**
  * Class AllOf
- * @package Bermuda\Validation
+ * @package Bermuda\Validation\Rules
  */
 final class AllOf extends OneOf
 {
@@ -59,7 +58,6 @@ final class AllOf extends OneOf
     
     /**
      * @param RuleInterface[]|RuleInterface $rule
-     * @param bool $break
      * @return static
      */
     public static function breakF($rule): self
