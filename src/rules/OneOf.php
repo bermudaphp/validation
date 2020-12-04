@@ -107,6 +107,6 @@ class OneOf implements RuleInterface, \IteratorAggregate
      */
     public static function make($rule): self
     {
-        return new static((array) $rule]);
+        return new static((array) $rule);
     }
 }
