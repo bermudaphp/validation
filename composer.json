@@ -11,6 +11,6 @@
   },
   "require": {
     "php": ">= 7.4",
-    "bermudaphp/stringy": "^1.0.2"
+    "bermudaphp/stringy": "^1.0.3"
   }
 }
