@@ -7,7 +7,7 @@ use Bermuda\String\Str;
 
 
 /**
- * Class YoutubeVideo
+ * Class RegExp
  * @package Bermuda\Validation\Rules
  */
 class RegExp implements RuleInterface
@@ -25,6 +25,18 @@ class RegExp implements RuleInterface
     public function getExp(): string
     {
         return $this->exp;
+    }
+
+    /**
+     * @param string $regExp
+     * @return $this
+     */
+    public function withExp(string $regExp): self
+    {
+        $copy = clone $this;
+        $copy->exp = $regExp;
+        
+        return $copy;
     }
 
     /**
