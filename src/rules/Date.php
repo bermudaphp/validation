@@ -24,14 +24,14 @@ final class Date implements RuleInterface
             {
                 new \DateTime($value);
             }
-
-            return $this->validateNext($value);
         }
 
         catch (\Throwable $e)
         {
             return ['The value must be a DateTime string'];
         }
+        
+        return $this->validateNext($value);
     }
     
     /**
