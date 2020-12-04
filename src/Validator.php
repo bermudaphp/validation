@@ -18,7 +18,7 @@ class Validator
             $this->add($name, $datum[0], $datum[1] ?? false);
         }
         
-        $this->registerRules();
+        $this->registerDefaultRules();
     }
 
     /**
@@ -115,7 +115,7 @@ class Validator
         return new static($rules);
     }
     
-    protected function registerRules(): void
+    protected function registerDefaultRules(): void
     {
     }
 }
