@@ -12,7 +12,9 @@ use Bermuda\String\Str;
  */
 class RegExp implements RuleInterface
 {
-    private string $exp;
+    use RuleTrait;
+    
+    protected string $exp;
 
     public function __construct(string $exp)
     {
