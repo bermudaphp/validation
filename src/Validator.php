@@ -23,11 +23,11 @@ class Validator
 
     /**
      * @param array $data
-     * @return array
+     * @throws ValidationException if validation failed
      */
-    final public function __invoke(array $data): array
+    final public function __invoke(array $data): void
     {
-        return $this->validate($data);
+        $this->validate($data);
     }
 
     /**
@@ -76,9 +76,9 @@ class Validator
 
     /**
      * @param array $data
-     * @return array
+     * @throws ValidationException if validation failed
      */
-    public function validate(array $data): array
+    public function validate(array $data): void
     {
         $errors = [];
 
@@ -100,7 +100,10 @@ class Validator
             }
         }
 
-        return $errors;
+        if ($errors != [])
+        {
+            throw new ValidationException($errors);
+        }
     }
 
     /**
