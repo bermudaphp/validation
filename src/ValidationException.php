@@ -17,15 +17,7 @@ class ValidationException extends \RuntimeException
         $this->errors = $errors;
         parent::__construct('Validation is failed!');
     }
-
-    /**
-     * @return string
-     */
-    public function getCls(): string
-    {
-        return $this->cls;
-    }
-
+    
     /**
      * @return array
      */
