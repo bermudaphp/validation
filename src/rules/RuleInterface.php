@@ -11,9 +11,10 @@ interface RuleInterface
 {
     /**
      * @param $value
-     * @return array
+     * @throws ValidationException 
+     * if validation failed
      */
-    public function __invoke($value): array;
+    public function __invoke($value): void ;
 
     /**
      * @param RuleInterface|null $rule
