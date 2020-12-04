@@ -18,4 +18,13 @@ final class YoutubeVideo extends RegExp
     {
         parent::__construct(self::regexp);
     }
+    
+    /**
+     * @param string $regExp
+     * @return $this
+     */
+    public function withExp(string $regExp): self
+    {
+        throw new \RuntimeException(__METHOD__ . ' is dissable from this class')
+    }
 }
