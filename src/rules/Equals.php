@@ -58,7 +58,7 @@ abstract class Equals implements RuleInterface
 
                 if (str_equals($v, $this->operand, $this->caseInsensitive))
                 {
-                    return $this->validateNext(null, $v);
+                    return $this->validateNext($v);
                 }
 
                 return ['The value must be a string and equal to ' . $this->operand];
@@ -85,7 +85,7 @@ abstract class Equals implements RuleInterface
              */
             public function validate($v): array
             {
-                return $this->operand == $v ? $this->validateNext(null, $v) : ['The value must be a number and equal to '. $this->operand];
+                return $this->operand == $v ? $this->validateNext($v) : ['The value must be a number and equal to '. $this->operand];
             }
         };
     }
