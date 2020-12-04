@@ -13,12 +13,12 @@ class Validator
 
     public function __construct(array $rules)
     {
+        $this->registerDefaultRules();
+        
         foreach ($rules as $name => $datum)
         {
             $this->add($name, $datum[0], $datum[1] ?? false);
         }
-        
-        $this->registerDefaultRules();
     }
 
     /**
@@ -76,7 +76,8 @@ class Validator
 
     /**
      * @param array $data
-     * @throws ValidationException if validation failed
+     * If validation failed
+     * @throws ValidationException 
      */
     public function validate(array $data): void
     {
