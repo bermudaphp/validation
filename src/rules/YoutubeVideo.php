@@ -25,6 +25,6 @@ final class YoutubeVideo extends RegExp
      */
     public function withExp(string $regExp): self
     {
-        throw new \RuntimeException(__METHOD__ . ' is dissable from this class')
+        throw new \RuntimeException(__METHOD__ . ' is dissable from this class');
     }
 }
