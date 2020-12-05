@@ -32,9 +32,10 @@ final class ValidationException extends \RuntimeException
     }
     
     /**
+     * Return validator or rule class name
      * @return string
      */
-    public function getValidatorClass(): string
+    public function getClass(): string
     {
         return $this->class;
     }    
