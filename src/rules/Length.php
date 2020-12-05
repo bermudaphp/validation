@@ -26,9 +26,16 @@ final class Length implements RuleInterface
      */
     public function __invoke($value): array
     {
-        return is_string($value) && ($this->mb ? mb_strlen($value)
-            : strlen($value) == $this->value) ? [] :
-            ['String length must be equal to ' . $this->value];
+        return is_string($value) && $this->getStringLen($value) == $this->value
+            ? $this->validateNext($value) : ['String length must be equal to ' . $this->value];
     }
 
+    /**
+     * @param string $len
+     * @return int
+     */
+    private function getStringLen(string $value): int
+    {
+        return $this->mb ? mb_strlen($value) : strlen($value);
+    }
 }
