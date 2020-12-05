@@ -82,7 +82,22 @@ class Validator
      * If validation failed
      * @throws ValidationException 
      */
-    public function validate(array $data): void
+    final public function validate(array $data): void
+    {
+        if (($errors = $this->doValidate($data)) != [])
+        {
+            $stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+            $stack['class'] = static::class;
+
+            throw new ValidationException($stack, $errors);
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function doValidate(array $data): array
     {
         $errors = [];
 
@@ -104,10 +119,7 @@ class Validator
             }
         }
 
-        if ($errors != [])
-        {
-            throw new ValidationException($errors);
-        }
+        return $errors;
     }
 
     /**
