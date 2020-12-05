@@ -7,19 +7,22 @@ namespace Bermuda\Validation;
  * Class ValidationException
  * @package Bermuda\Validation
  */
-class ValidationException extends \RuntimeException
+final class ValidationException extends \RuntimeException
 {
-    protected array $errors = [];
-
+    private string $class;
+    private array $errors = [];
+    
     public function __construct(array $stack, array $errors)
     {
+        $this->errors = $errors;
+        
         $this->file = $stack['file'];
         $this->line = $stack['line'];
+        $this->class = $stack['class']
 
-        $this->errors = $errors;
         parent::__construct($this->stackToSring($stack));
     }
-
+    
     /**
      * @return array
      */
@@ -28,6 +31,14 @@ class ValidationException extends \RuntimeException
         return $this->errors;
     }
     
+    /**
+     * @return string
+     */
+    public function getValidatorClass(): string
+    {
+        return $this->class;
+    }    
+   
     /**
      * @param array $stack
      * @return string
