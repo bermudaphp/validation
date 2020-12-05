@@ -12,15 +12,15 @@ final class ValidationException extends \RuntimeException
     private string $class;
     private array $errors = [];
     
-    public function __construct(array $stack, array $errors)
+    public function __construct(array $prev_call, array $errors)
     {
         $this->errors = $errors;
         
-        $this->file = $stack['file'];
-        $this->line = $stack['line'];
-        $this->class = $stack['class']
+        $this->file = $prev_call['file'];
+        $this->line = $prev_call['line'];
+        $this->class = $prev_call['class']
 
-        parent::__construct($this->stackToSring($stack));
+        parent::__construct($this->prevToSring($prev_call));
     }
     
     /**
@@ -43,7 +43,7 @@ final class ValidationException extends \RuntimeException
      * @param array $stack
      * @return string
      */
-    private function stackToSring(array $stack): string
+    private function prevToSring(array $stack): string
     {
         return $stack['class'] . '::' . $stack['function'] . ' failed validation!';
     }
