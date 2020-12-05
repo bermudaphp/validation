@@ -86,10 +86,10 @@ class Validator
     {
         if (($errors = $this->doValidate($data)) != [])
         {
-            $stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
-            $stack['class'] = static::class;
+            $previous = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+            $previous['class'] = static::class;
 
-            throw new ValidationException($stack, $errors);
+            throw new ValidationException($previous, $errors);
         }
     }
 
