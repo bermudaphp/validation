@@ -27,7 +27,8 @@ function validate(RuleInterface $rule, $value): void
     if ($errors != [])
     {
         $previous = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
-        $previous['class'] = get_class($rule);
+        $previous['function'] = __FUNCTION__;
+        unset($previous['class']);
 
         throw new ValidationException($previous, $errors);
     }
