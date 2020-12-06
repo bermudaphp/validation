@@ -92,7 +92,7 @@ class Validator
             {
                 if ($item['require'])
                 {
-                    $errors[$name] = ['Field with key ' . $name . ' is required!'];
+                    $errors[$name] = ['Item with key ' . $name . ' is required!'];
                 }
 
                 continue;
