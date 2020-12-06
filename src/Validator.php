@@ -84,21 +84,6 @@ class Validator
      */
     final public function validate(array $data): void
     {
-        if (($errors = $this->doValidate($data)) != [])
-        {
-            $previous = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
-            $previous['class'] = static::class;
-
-            throw new ValidationException($previous, $errors);
-        }
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    protected function doValidate(array $data): array
-    {
         $errors = [];
 
         foreach ($this->rules as $name => $item)
@@ -119,7 +104,13 @@ class Validator
             }
         }
 
-        return $errors;
+        if ($errors != [])
+        {
+            $previous = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+            $previous['class'] = static::class;
+
+            throw new ValidationException($previous, $errors);
+        }
     }
 
     /**
