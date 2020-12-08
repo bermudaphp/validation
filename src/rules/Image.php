@@ -45,7 +45,7 @@ class Image implements RuleInterface
                     return [sprintf('Image size must be less than %s b', $this->size)];
                 }
 
-                return [];
+                return $this->validateNext($value);
             }
         }
 
