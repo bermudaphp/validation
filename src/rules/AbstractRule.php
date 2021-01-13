@@ -17,7 +17,17 @@ abstract class AbstractRule implements RuleInterface
      */
     public function __invoke($value): array
     {
-        return $this->validate($value) ? $this->validateNext($value) : $this->getMessageFor($value);
+        try
+        {
+            $result = $this->validate($value)
+        }
+        
+        catch(\Throwable $e)
+        {
+            $result = false;
+        }
+        
+        return  $result ? $this->validateNext($value) : $this->getMessageFor($value);
     }
     
     abstract protected function validate($value): bool ;
