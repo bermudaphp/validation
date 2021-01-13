@@ -25,7 +25,7 @@ class StrLength extends AbstractRule
 
     protected function getMessageFor($value): array
     {
-        ['Length must be equal to ' . $this->value];
+        return ['Length must be equal to ' . $this->value];
     }
 
     /**
