@@ -4,7 +4,7 @@ namespace Bermuda\Validation\Rules;
 
 
 /**
- * Class Length
+ * Class StrLength
  * @package Bermuda\Validation\Rules
  */
 class StrLength extends AbstractRule
