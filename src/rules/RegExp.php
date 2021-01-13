@@ -44,8 +44,8 @@ class RegExp extends AbstractRule
         return Str::match($this->exp, (string) $value);
     }
     
-    protected function getMessageFor($value): string
+    protected function getMessageFor($value): array
     {
-        return sprintf('The value must match the regular expression: %s', $this->exp);
+        return [sprintf('The value must match the regular expression: %s', $this->exp)];
     }
 }
