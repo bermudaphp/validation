@@ -10,10 +10,8 @@ use Bermuda\String\Str;
  * Class RegExp
  * @package Bermuda\Validation\Rules
  */
-class RegExp implements RuleInterface
+class RegExp extends AbstractRule
 {
-    use RuleTrait;
-    
     protected string $exp;
 
     public function __construct(string $exp)
@@ -41,17 +39,13 @@ class RegExp implements RuleInterface
         return $copy;
     }
 
-    /**
-     * @param $value
-     * @return array
-     */
-    public function __invoke($value): array
+    protected function validate($value): bool
     {
-        if (Str::match($this->exp, (string) $value))
-        {
-            return $this->validateNext($value);
-        }
-
-        return [sprintf('The value must match the regular expression: %s', $this->exp)];
+        return Str::match($this->exp, (string) $value);
+    }
+    
+    protected function getMessageFor($value): string
+    {
+        return sprintf('The value must match the regular expression: %s', $this->exp);
     }
 }
