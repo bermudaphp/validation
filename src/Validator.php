@@ -14,7 +14,7 @@ class Validator
 {
     private array $rules = [];
 
-    public function __construct(array $rules)
+    public function __construct(array $rules = [])
     {
         $this->registerDefaultRules();
         
