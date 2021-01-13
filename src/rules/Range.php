@@ -52,7 +52,7 @@ class Range implements RuleInterface
      */
     public static function date(\DateTimeInterface $x, \DateTimeInterface $y): self
     {
-        return new class extends Range
+        return new class($x, $y) extends Range
         {
             /**
              * @var \DateTimeInterface
