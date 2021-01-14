@@ -2,7 +2,6 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
  * Class Empty
  * @package Bermuda\Validation\Rules
@@ -13,7 +12,7 @@ final class Empty extends AbstractRule
      * @param $value
      * @return bool
      */
-    protected function validate($value): bool
+    protected function validate(&$value): bool
     {
         return empty($value);
     }
@@ -22,8 +21,8 @@ final class Empty extends AbstractRule
      * @param $value
      * @return array
      */
-    protected function getMessageFor($value): array
+    protected function getMessageFor($value): string
     {
-        return ['Must be empty'];
+        return 'Must be empty';
     }
 }
