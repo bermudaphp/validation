@@ -4,71 +4,87 @@ namespace Bermuda\Validation\Rules;
 
 
 /**
- * Class Datetime
+ * Class Date
  * @package Bermuda\Validation\Rules
  */
-final class Date implements RuleInterface
+final class Date extends AbstractRule
 {
-    use RuleTrait;
-
-    private ?string $format = null;
-
-    public function __construct(?string $format = null)
+    use DateTimeFactoryAwareTrait;
+    
+    public function __construct(string $format = 'd/m/Y')
     {
-        $this->format = $format;
-    }
-
-    /**
-     * @param $value
-     * @return array
-     */
-    public function __invoke($value): array
-    {
-        if ($value instanceof \DateTimeInterface)
-        {
-            return $this->validateNext($value);
-        }
-
-        try
-        {
-            $value = (string) $value;
-
-            if ($this->format != null && \DateTime::createFromFormat($this->format, $value) !== false)
-            {
-                return $this->validateNext($value);
-            }
-
-            new \DateTime($value);
-        }
-
-        catch (\Throwable $e)
-        {
-            return [$this->getMessage()];
-        }
-
-        return $this->validateNext($value);
+        $this->datetimeFormat = $format;
+        $this->dateTimeFactory = $this->getDateTimeFactory();
     }
     
     /**
-     * @param \DateTimeInterface $dateTime
-     * @param string $format
-     * @return RuleInterface
+     * @inheritDoc
      */
-    public static function equalTo(\DateTimeInterface $dateTime, string $format = 'Y-m-d H:i:s'): RuleInterface
+    protected function validate(&$value): bool
     {
-        return (new self())->setNext(Equals::date($dateTime, $format));
+        if (!$value instanceof \DateTimeInterface)
+        {
+            $value = ($this->dateTimeFactory)($value, $this->datetimeFormat)
+        }
+        
+        return true;
+    }
+    
+    /**
+     * @param \DateTimeInterface $operand
+     * @param string $format
+     * @return self
+     */
+    public static function equals(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
+    {
+        return (new self($format))->setNext(new Equals($operand));
+    }
+    
+    /**
+     * @param \DateTimeInterface $operand
+     * @param string $format
+     * @return self
+     */
+    public static function greaterThenEquals(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
+    {
+        return (new self($format))->setNext(new GreaterThenEquals($operand));
+    }
+    
+    /**
+     * @param \DateTimeInterface $operand
+     * @param string $format
+     * @return self
+     */
+    public static function greaterThen(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
+    {
+        return (new self($format))->setNext(new GreaterThen($operand));
     }
 
     /**
-     * @return string
+     * @param \DateTimeInterface $operand
+     * @param string $format
+     * @return self
      */
-    private function getMessage(): string
+    public static function lessThen(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
     {
-        if ($this->format != null)
-        {
-            return 'The value must be a DateTimeInterface instance or string format: ' . $this->format;
-        }
+        return (new self($format))->setNext(new LessThen($operand));
+    }
+    
+    /**
+     * @param \DateTimeInterface $operand
+     * @param string $format
+     * @return self
+     */
+    public static function lessThenEquals(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
+    {
+        return (new self($format))->setNext(new LessThenEquals($operand));
+    }
 
-        return 'The value must be a DateTimeInterface instance or datetime string any format';
+    /**
+     * @inheritDoc
+     */
+    protected function getMessageFor($value): string
+    {
+        return 'Must be a date';
     }
 }
