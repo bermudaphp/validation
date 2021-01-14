@@ -15,7 +15,7 @@ class LessThanEquals extends LessThan
 
     protected function getMessageFor($value): array
     {
-        return 'Must be less than or equals '. $this->operand;
+        return ['Must be less than or equals '. $this->operand];
     }
 
     /**
