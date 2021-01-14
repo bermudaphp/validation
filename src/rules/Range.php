@@ -7,16 +7,13 @@ namespace Bermuda\Validation\Rules;
  * Class Range
  * @package Bermuda\Validation\Rules
  */
-class Range implements RuleInterface
+class Range extends AbstractRule
 {
     use RuleTrait;
 
-    /**
-     * @var float
-     */
     protected $x, $y;
 
-    public function __construct(float $x, float $y)
+    public function __construct($x, $y)
     {
         $this->x = $x;
         $this->y = $y;
@@ -24,36 +21,33 @@ class Range implements RuleInterface
 
     /**
      * @param $value
-     * @return array
-     */
-    public function __invoke($value): array
-    {
-        if (!is_numeric($value) || !$this->compare($value))
-        {
-            return [sprintf('The value must be a number in the range from %s to %s', $this->x, $this->y)];
-        }
-
-        return [];
-    }
-
-    /**
-     * @param $value
      * @return bool
      */
-    protected function compare($value): bool
+    protected function validate($value): bool
     {
-        return $this->x > $value && $this->y < $value;
+        return is_numeric($value) && $value >= $this->x && $value <= $this->y;
+    }
+    
+    protected function getMessageFor($value): array
+    {
+        return ["Must be a number in the range from {$this->x} to {$this->y}"];
     }
 
     /**
-     * @param \DateTimeInterface $x
-     * @param \DateTimeInterface $y
-     * @return static
+     * @param string|\DateTimeInterface $x
+     * @param string|\DateTimeInterface $y
+     * @return DateTimeFactoryAwareTrait|self
+     * @throws \InvalidArgumentException
      */
-    public static function date(\DateTimeInterface $x, \DateTimeInterface $y): self
+    public static function date($x, $y): self
     {
+        self::check('x', $x);
+        self::check('y', $y);
+        
         return new class($x, $y) extends Range
         {
+            use DateTimeFactoryAwareTrait;
+            
             /**
              * @var \DateTimeInterface
              */
@@ -64,21 +58,37 @@ class Range implements RuleInterface
                 $this->x = $x;
                 $this->y = $y;
             }
-
-            /**
-             * @param $value
-             * @return array
-             */
-            public function __invoke($value): array
+            
+            protected function validate($value): bool
             {
-                if ((new Date())->__invoke($value) != []
-                    || !$this->compare($value))
+                if ($value instanceof \DateTimeInterface)
                 {
-                    return [sprintf('The value must be a datetime in the range from %s to %s', $this->x, $this->y)];
+                    $value = ($this->dateTimeFactory)($value);
                 }
 
-                return [];
+                return parent::validate($value);
+            }
+
+            protected function getMessageFor($value): array
+            {
+                return ["Must be a date in the range from {$this->x->format($this->datetimeFormat)} to {$this->y->format($this->datetimeFormat)}"];
             }
         };
+    }
+    
+    private static function check(string $name, &$argument): void
+    {
+        if (!$argument instanceof \DateTimeInterface)
+        {
+            try
+            {
+                $$argument = new \DateTime($argument);
+            }
+
+            catch (\Throwable $e)
+            {
+                throw new \InvalidArgumentException("{$name} must be a \DateTimeInterface instance or datetime string", 0, $e);
+            }
+        }
     }
 }
