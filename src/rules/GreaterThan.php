@@ -32,10 +32,11 @@ class GreaterThan extends AbstractRule
 
     /**
      * @param string|\DateTimeInterface $operand
+     * @param string $format
      * @return DateTimeFactoryAwareTrait|self
      * @throws \InvalidArgumentException
      */
-    public static function date($operand = 'now'): self
+    public static function date($operand = 'now', string $format = 'd/m/Y'): self
     {
         static::check($operand);
 
@@ -43,16 +44,18 @@ class GreaterThan extends AbstractRule
         {
             use DateTimeFactoryAwareTrait;
 
-            public function __construct(\DateTimeInterface $operand)
+            public function __construct(\DateTimeInterface $operand, string $format)
             {
                 $this->operand = $operand;
+                $this->datetimeFormat = $format
+                $this->dateTimeFactory = $this->getDatetimeFactory();
             }
 
             protected function validate($value): bool
             {
                 if ($value instanceof \DateTimeInterface)
                 {
-                    $value = ($this->dateTimeFactory)($value);
+                    $value = ($this->dateTimeFactory)($value, $this->datetimeFormat);
                 }
 
                 return parent::validate($value);
