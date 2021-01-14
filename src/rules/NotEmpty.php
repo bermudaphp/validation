@@ -7,16 +7,23 @@ namespace Bermuda\Validation\Rules;
  * Class NotEmpty
  * @package Bermuda\Validation\Rules
  */
-final class NotEmpty implements RuleInterface
+final class NotEmpty extends AbstractRule
 {
-    use RuleTrait;
-
     /**
+     * @param $value
+     * @return bool
+     */
+    protected function validate($value): bool
+    {
+        return !empty($value);
+    }
+    
+     /**
      * @param $value
      * @return array
      */
-    public function __invoke($value): array
+    protected function getMessageFor($value): array
     {
-        return !empty($value) ? [] : ['The value must not be empty!'];
+        return ['Must be not empty'];
     }
 }
