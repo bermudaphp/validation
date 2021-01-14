@@ -26,6 +26,6 @@ final class Boolean extends AbstractRule
      */
     protected function getMessageFor($value): array
     {
-        ['Must be boolean or equal to any of: 1, 0, on, off!'];
+        return ['Must be boolean or equal to any of: 1, 0, on, off!'];
     }
 }
