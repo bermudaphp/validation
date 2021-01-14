@@ -27,7 +27,7 @@ class LessThan extends AbstractRule
 
     protected function getMessageFor($value): array
     {
-        return 'Must be less than ';
+        return ['Must be less than ' . $this->operand];
     }
 
     /**
