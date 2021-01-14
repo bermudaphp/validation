@@ -3,55 +3,41 @@
 namespace Bermuda\Validation\Rules;
 
 /**
- * Class GreaterThanEquals
+ * Class GreaterThan
  * @package Bermuda\Validation\Rules
  */
-class GreaterThanEquals extends GreaterThan
+class GreaterThanEquals extends AbstractRule
 {
-    protected function validate($value): bool
-    {
-        return $value >= $this->operand;
-    }
-
-    protected function getMessageFor($value): array
-    {
-        return 'Must be greater than or equals '. $this->operand;
-    }
-
     /**
-     * @param string|\DateTimeInterface $operand
-     * @param string $format
-     * @return DateTimeFactoryAwareTrait|self
-     * @throws \InvalidArgumentException
+     * @var float|int|string|\DateTimeInterface
      */
-    public static function date($operand = 'now', string $format = 'd/m/Y'): self
+    protected $operand;
+    protected string $dateTimeFormat;
+
+    protected function __construct($operand, string $dateTimeFormat = 'd/m/Y')
     {
-        static::check($operand);
-        return new class($operand, string $format) extends GreaterThanEquals
+        $this->operand = $operand;
+        $this->dateTimeFormat = $dateTimeFormat;
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    protected function validate(&$value): bool
+    {
+        return $value >= $this->operand
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    protected function getMessageFor($value): string
+    {
+        if ($this->operand instanceof \DateTimeInterface)
         {
-            use DateTimeFactoryAwareTrait;
-
-            public function __construct(\DateTimeInterface $operand, string $format)
-            {
-                $this->operand = $operand;
-                $this->datetimeFormat = $format
-                $this->dateTimeFactory = $this->getDatetimeFactory();
-            }
-
-            protected function validate($value): bool
-            {
-                if ($value instanceof \DateTimeInterface)
-                {
-                    $value = ($this->dateTimeFactory)($value, $this->datetimeFormat);
-                }
-
-                return parent::validate($value);
-            }
-
-            protected function getMessageFor($value): array
-            {
-                return ['Date must be greater than or equals ' . $this->operand->format($this->datetimeFormat)];
-            }
-        };
+            return 'Must be a date and greater than or equals ' $this->operand->format($this->dateTimeFormat);
+        }
+        
+        return 'Must be greater than or equals ' . $this->operand;
     }
 }
