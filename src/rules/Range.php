@@ -82,7 +82,7 @@ class Range extends AbstractRule
         {
             try
             {
-                $$argument = new \DateTime($argument);
+                $argument = new \DateTime($argument);
             }
 
             catch (\Throwable $e)
