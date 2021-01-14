@@ -2,17 +2,12 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
  * Class AbstractRule
  * @package Bermuda\Validation\Rules
  */
 abstract class AbstractRule implements RuleInterface
-{
-    use RuleTrait { validateNext as protected; }
-    
-    protected string $message;
-
+{       
     /**
      * @param $value
      * @return array
