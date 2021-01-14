@@ -2,9 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-
-use function Bermuda\str_equals_any;
-
+use Bermuda\String\Str;
 
 /**
  * Class Boolean
@@ -15,17 +13,16 @@ final class Boolean extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function validate($value): bool
+    protected function validate(&$value): bool
     {
-        return is_bool($value) || (is_numeric($value) && ($value == 1 || $value == 0)) 
-            || (is_string($value) && str_equals_any($value, ['on', 'off'], true));
+        return Str::equalsAny($value, ['on', 'off', '1', '0'], true);
     }
     
     /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): array
+    protected function getMessageFor($value): string
     {
-        return ['Must be boolean or equal to any of: 1, 0, on, off!'];
+        return 'Must be equal to any of: 1, 0, on, off!';
     }
 }
