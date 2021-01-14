@@ -20,6 +20,7 @@ class GreaterThanEquals extends GreaterThan
 
     /**
      * @param string|\DateTimeInterface $operand
+     * @param string $format
      * @return DateTimeFactoryAwareTrait|self
      * @throws \InvalidArgumentException
      */
