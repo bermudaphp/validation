@@ -27,9 +27,9 @@ abstract class AbstractRule implements RuleInterface
             $result = false;
         }
         
-        return  $result ? $this->validateNext($value) : $this->getMessageFor($value);
+        return  $result ? $this->validateNext($value) : [$this->getMessageFor($value)];
     }
-    
-    abstract protected function validate($value): bool ;
-    abstract protected function getMessageFor($value): array ;
+     
+    abstract protected function validate(&$value): bool ;
+    abstract protected function getMessageFor($value): string ;
 }
