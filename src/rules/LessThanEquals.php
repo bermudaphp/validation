@@ -27,7 +27,7 @@ class LessThanEquals extends LessThan
     public static function date($operand = 'now', string $format = 'd/m/Y'): self
     {
         static::check($operand);
-        return new class($operand) extends GreaterThanEquals
+        return new class($operand) extends LessThanEquals
         {
             use DateTimeFactoryAwareTrait;
 
