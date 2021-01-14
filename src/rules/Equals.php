@@ -35,7 +35,7 @@ class Equals extends AbstractRule
     {
         if ($this->operand instanceof \DateTimeInterface)
         {
-            return 'Must be date and equals to' $this->operand->format($this->dateTimeFormat);
+            return 'Must be a date and equals to' $this->operand->format($this->dateTimeFormat);
         }
         
         return 'Must be equals to ' . $this->operand;
