@@ -2,14 +2,13 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
  * Trait RuleTrait
  * @package Bermuda\Validation\Rules
  */
 trait RuleTrait
 {
-    private ?RuleInterface $next = null;
+    protected ?RuleInterface $next = null;
 
     /**
      * @param RuleInterface|null $rule
@@ -25,7 +24,7 @@ trait RuleTrait
      * @param $value
      * @return array
      */
-    private function validateNext($value, array $result = []): array
+    protected function validateNext($value, array $result = []): array
     {
         if ($result == [] && $this->next != null)
         {
