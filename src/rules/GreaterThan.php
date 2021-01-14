@@ -1,14 +1,10 @@
 <?php
 
-namespace App;
-
-
-use Bermuda\Validation\Rules\AbstractRule;
-
+namespace Bermuda\Validation\Rules;
 
 /**
  * Class GreaterThan
- * @package App
+ * @package Bermuda\Validation\Rules
  */
 class GreaterThan extends AbstractRule
 {
