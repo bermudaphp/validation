@@ -1,54 +1,74 @@
 <?php
 
-
 namespace Bermuda\Validation\Rules;
 
+use Bermuda\String\Str;
 
 /**
  * Class Image
  * @package Bermuda\Validation\Rules
  */
-class Image implements RuleInterface
+final class Image extends AbstractRule
 {
-    use RuleTrait;
+    private ?int $maxImageSize = null, $maxImageWidth = null, $maxImageHeight = null, string $msg = '';
 
-    private ?int $size = null, $width = null, $height = null;
-
-    public function __construct(
-        ?int $size = null,
-        int $width = null,
-        ?int $height = null
-    )
+    public function __construct(?int $maxImageSize = null,
+        int $maxImageWidth = null, ?int $maxImageHeight = null)
     {
-        $this->size = $size;
-        $this->width = $width;
-        $this->height = $height;
+        $this->maxImageSize = $maxImageSize;
+        $this->maxImageWidth = $maxImageWidth;
+        $this->maxImageHeight = $maxImageHeight;
     }
-
+ 
     /**
-     * @param $value
-     * @return array
+     * @inheritDoc
      */
-    public function __invoke($value): array
+    protected function validate(&$value): bool
     {
         if (@(string) is_file($value))
         {
-            $mime = (string) finfo_file(
-                finfo_open(FILEINFO_MIME_TYPE),
-                $value
-            );
+            $mime = (string) finfo_file(finfo_open(FILEINFO_MIME_TYPE), $value);
 
-            if (str_contains($mime, 'image'))
+            if (Str::contains($mime, 'image'))
             {
-                if ($this->size != null && $this->size < filesize($value))
+                if ($this->maxImageSize != null && $this->maxImageSize < filesize($value))
                 {
-                    return [sprintf('Image size must be less than %s b', $this->size)];
+                    $this->msg = sprintf('Image size must be less than %s b', $this->size);
+                    return false;
                 }
-
-                return $this->validateNext($value);
+                
+                list($width, $height) = getimagesize($value);
+                
+                if ($this->maxImageWidth != null && $this->maxImageWidth < $width)
+                {
+                    $this->msg = sprintf('Image width must be less than %s px', $this->maxImageWidth);
+                    return false;
+                }
+                
+                if ($this->maxImageHeight != null && $this->maxImageHeight < $height)
+                {
+                    $this->msg = sprintf('Image height must be less than %s px', $this->maxImageHeight);
+                    return false;
+                }
+                
+                return true;
             }
         }
-
-        return ['Value must be a image!'];
+        
+        return false;
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    protected function getMessageFor($value): string
+    {
+        if ($this->msg != '')
+        {
+            $msg = $this->msg; $this->msg = '';
+            return $msg;
+        }
+        
+        return 'Must be a image';
     }
 }
