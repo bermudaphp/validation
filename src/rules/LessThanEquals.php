@@ -25,7 +25,7 @@ class LessThanEquals extends AbstractRule
      */
     protected function validate(&$value): bool
     {
-        return $value > $this->operand
+        return $value <= $this->operand
     }
     
     /**
