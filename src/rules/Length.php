@@ -39,7 +39,7 @@ final class Length extends AbstractRule
      * @param bool $multibite
      * @return static
      */
-    public static function equals(int $length, bool $multibyte = true): self
+    public static function equals(int $length, bool $multibyte = true): RuleInterface
     {
         return (new self('String length must be equals to ' . $length, $multibyte))->setNext(new Equals($length));
     }
@@ -49,7 +49,7 @@ final class Length extends AbstractRule
      * @param bool $multibite
      * @return static
      */
-    public static function greaterThan(int $length, bool $multibyte = true): self
+    public static function greaterThan(int $length, bool $multibyte = true): RuleInterface
     {
         return (new self('String length must be greater than ' . $length, $multibyte))->setNext(new GreaterThan($length));
     }
@@ -59,7 +59,7 @@ final class Length extends AbstractRule
      * @param bool $multibite
      * @return static
      */
-    public static function greaterThanEquals(int $length, bool $multibyte = true): self
+    public static function greaterThanEquals(int $length, bool $multibyte = true): RuleInterface
     {
        return (new self('String length must be greater than or equals ' . $length, $multibyte))->setNext(new GreaterThanEquals($length));
     }
@@ -69,7 +69,7 @@ final class Length extends AbstractRule
      * @param bool $multibite
      * @return static
      */
-    public static function lessThan(int $length, bool $multibyte = true): self
+    public static function lessThan(int $length, bool $multibyte = true): RuleInterface
     {
         return (new self('String length must be less than ' . $length, $multibyte))->setNext(new LessThan($length));
     }
@@ -79,7 +79,7 @@ final class Length extends AbstractRule
      * @param bool $multibite
      * @return static
      */
-    public static function lessThanEquals(int $length, bool $multibyte = true): self
+    public static function lessThanEquals(int $length, bool $multibyte = true): RuleInterface
     {
         return (new self('String length must be less than or equals ' . $length, $multibyte))->setNext(new LessThanEquals($length));
     }
@@ -89,7 +89,7 @@ final class Length extends AbstractRule
      * @param bool $multibite
      * @return static
      */
-    public static function range(int $minLength, int $maxLength, bool $multibyte = true): self
+    public static function range(int $minLength, int $maxLength, bool $multibyte = true): RuleInterface
     {
         return (new self("String length must be in the range from {$minLength} to {$maxLength}", $multibyte))->setNext(new Range($minLength, $maxLength));
     }
