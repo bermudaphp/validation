@@ -8,34 +8,22 @@ namespace Bermuda\Validation\Rules;
  */
 class File extends AbstractRule
 {
-    protected ?int $maxImageSize = null;
+    protected ?int $maxFileSize = null;
 
     public function __construct(?int $maxFileSize = null)
     {
-        $this->maxFileSize = $maxImageSize;
+        if ($maxFileSize != null)
+        {
+            $this->setNext(new Filesize($maxFileSize));
+        }
     }
+    
     /**
      * @inheritDoc
      */
     protected function validate(&$value): bool
     {
-        if (is_uploaded_file($value))
-        {
-            return $this->checkMaxFileSize($value);
-        }
-        
-        return false;
-    }
-    
-    protected function checkMaxFileSize($value): bool
-    {
-        if ($this->maxFileSize != null && $this->maxFileSize < filesize($value))
-        {
-            $this->msg = sprintf('File size must be less than %s b', $this->maxFileSize);
-            return false;
-        }
-        
-        return true;
+        return is_uploaded_file($value);
     }
     
     /**
