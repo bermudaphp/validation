@@ -96,10 +96,10 @@ final class StrLength extends AbstractRule
     }
 
     /**
-     * @param string $len
+     * @param string $value
      * @return int
      */
-    protected function getStringLength(string $value): int
+    private function getStringLength(string $value): int
     {
         return $this->mb ? mb_strlen($value) : strlen($value);
     }
