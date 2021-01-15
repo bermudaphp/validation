@@ -29,7 +29,7 @@ class File extends AbstractRule
     
     protected function checkMaxFileSize($value, string $msg): bool
     {
-        if ($this->maxFileSize < filesize($value))
+        if ($this->maxFileSize != null && $this->maxFileSize < filesize($value))
         {
             $this->msg = $msg;
             return false;
