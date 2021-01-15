@@ -17,15 +17,8 @@ final class Image extends File
     {
         parent::__construct($maxImageSize);
         
-        if ($maxImageWidth != null)
-        {
-            $this->setNext();
-        }
-                           
-        if ($maxImageWidth != null)
-        {
-            $this->setNext((new LessThanEquals($maxImageHeight))->setMessage(sprintf('Image height must be less than or equals %s px', $maxImageHeight)));
-        }
+        $this->maxImageWidth = $maxImageWidth;
+        $this->maxImageHeight = $maxImageHeight;
     }
  
     /**
