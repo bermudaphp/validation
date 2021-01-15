@@ -2,6 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
+
 /**
  * Class AllOf
  * @package Bermuda\Validation\Rules

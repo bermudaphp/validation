@@ -35,7 +35,7 @@ class GreaterThanEquals extends AbstractRule
     {
         if ($this->operand instanceof \DateTimeInterface)
         {
-            return 'Must be a date and greater than or equals ' $this->operand->format($this->dateTimeFormat);
+            return 'Must be a date and greater than or equals ' . $this->operand->format($this->dateTimeFormat);
         }
         
         return 'Must be greater than or equals ' . $this->operand;

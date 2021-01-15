@@ -35,7 +35,7 @@ class LessThanEquals extends AbstractRule
     {
         if ($this->operand instanceof \DateTimeInterface)
         {
-            return 'Must be a date and less than or equals ' $this->operand->format($this->dateTimeFormat);
+            return 'Must be a date and less than or equals ' . $this->operand->format($this->dateTimeFormat);
         }
         
         return 'Must be less than or equals ' . $this->operand;

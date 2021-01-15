@@ -7,7 +7,7 @@ namespace Bermuda\Validation\Rules;
  * @package Bermuda\Validation\Rules
  */
 abstract class AbstractRule implements RuleInterface
-{    
+{
     use RuleTrait ;
     protected string $msg = '';
     
