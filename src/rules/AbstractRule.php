@@ -15,6 +15,7 @@ abstract class AbstractRule implements RuleInterface
     {
         $this->msg = $msg;
     }
+    
     /**
      * @param $value
      * @return array
@@ -34,9 +35,14 @@ abstract class AbstractRule implements RuleInterface
         return  $result ? $this->validateNext($value) : $this->getMessage($value);
     }
     
-    public function setMessage(string $msg): void
+    /**
+     * @param $msg
+     * @return $this
+     */
+    public function setMessage(string $msg): self
     {
         $this->msg = $msg;
+        return $this;
     }
     
     protected function getMessage($value): array
