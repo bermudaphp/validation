@@ -11,6 +11,10 @@ abstract class AbstractRule implements RuleInterface
     use RuleTrait ;
     protected string $msg = '';
     
+    public function __construct(string $msg = '')
+    {
+        $this->msg = $msg;
+    }
     /**
      * @param $value
      * @return array
@@ -37,14 +41,12 @@ abstract class AbstractRule implements RuleInterface
     
     protected function getMessage($value): array
     {
-        if ($this->msg = '')
+        if ($this->msg == '')
         {
-            return $this->getMessageFor($value);
+            return [$this->getMessageFor($value)];
         }
         
-        $msg = $this->msg; $this->msg = '';
-        
-        return [$msg];
+        return [$this->msg];
     }
      
     abstract protected function validate(&$value): bool ;
