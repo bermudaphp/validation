@@ -2,12 +2,11 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
- * Class RuleChain
+ * Class Chain
  * @package  Bermuda\Validation\Rules;
  */
-final class RuleChain
+final class Chain
 {
     public function __construct()
     {
