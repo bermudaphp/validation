@@ -24,7 +24,7 @@ final class Date extends AbstractRule
     {
         if (!$value instanceof \DateTimeInterface)
         {
-            $value = ($this->dateTimeFactory)($value, $this->datetimeFormat)
+            $value = ($this->dateTimeFactory)($value, $this->datetimeFormat);
         }
         
         return true;
