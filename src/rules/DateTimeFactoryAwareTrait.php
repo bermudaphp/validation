@@ -8,8 +8,8 @@ namespace Bermuda\Validation\Rules;
  */
 trait DateTimeFactoryAwareTrait
 {
-    private $dateTimeFactory = null;
-    private string $dateTimeFormat = 'd/m/Y';
+    protected $dateTimeFactory = null;
+    protected string $dateTimeFormat = 'd/m/Y';
 
     /**
      * @param callable $factory
