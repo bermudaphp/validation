@@ -46,7 +46,7 @@ final class Date extends AbstractRule
      */
     public static function greaterThenEquals(\DateTimeInterface $operand, string $format = 'd/m/Y'): RuleInterface
     {
-        return (new self($format))->setNext(new GreaterThenEquals($operand));
+        return (new self($format))->setNext(new GreaterThanEquals($operand));
     }
     
     /**
@@ -56,7 +56,7 @@ final class Date extends AbstractRule
      */
     public static function greaterThen(\DateTimeInterface $operand, string $format = 'd/m/Y'): RuleInterface
     {
-        return (new self($format))->setNext(new GreaterThen($operand));
+        return (new self($format))->setNext(new GreaterThan($operand));
     }
 
     /**
@@ -66,7 +66,7 @@ final class Date extends AbstractRule
      */
     public static function lessThen(\DateTimeInterface $operand, string $format = 'd/m/Y'): RuleInterface
     {
-        return (new self($format))->setNext(new LessThen($operand));
+        return (new self($format))->setNext(new LessThan($operand));
     }
     
     /**
@@ -76,7 +76,7 @@ final class Date extends AbstractRule
      */
     public static function lessThenEquals(\DateTimeInterface $operand, string $format = 'd/m/Y'): RuleInterface
     {
-        return (new self($format))->setNext(new LessThenEquals($operand));
+        return (new self($format))->setNext(new LessThanEquals($operand));
     }
 
     /**
