@@ -2,9 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 use Bermuda\String\Str;
-
 
 /**
  * Class YoutubeVideo
