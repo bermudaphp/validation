@@ -2,8 +2,6 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\String\Str;
-
 /**
  * Class Url
  * @package Bermuda\Validation\Rules
