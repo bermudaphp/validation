@@ -7,7 +7,9 @@ namespace Bermuda\Validation\Rules;
  * @package Bermuda\Validation\Rules
  */
 abstract class AbstractRule implements RuleInterface
-{       
+{    
+    protected string $msg = '';
+    
     /**
      * @param $value
      * @return array
@@ -24,7 +26,24 @@ abstract class AbstractRule implements RuleInterface
             $result = false;
         }
         
-        return  $result ? $this->validateNext($value) : [$this->getMessageFor($value)];
+        return  $result ? $this->validateNext($value) : $this->getMessage($value);
+    }
+    
+    public function setMessage(string $msg): void
+    {
+        $this->msg = $msg;
+    }
+    
+    protected function getMessage($value): array
+    {
+        if ($this->msg = '')
+        {
+            return $this->getMessageFor($value);
+        }
+        
+        $msg = $this->msg; $this->msg = '';
+        
+        return [$msg];
     }
      
     abstract protected function validate(&$value): bool ;
