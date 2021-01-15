@@ -32,16 +32,15 @@ final class Image extends File
 
             if (Str::contains($mime, 'image'))
             {
-                list($width, $height) = getimagesize($value);
-                
                 if ($this->maxImageWidth != null)
                 {
+                    list($width, $height) = getimagesize($value);
                     $this->setNext($this->getNext($this->maxImageWidth, $width, sprintf('Image width must be less than or equals %s px', $this->maxImageWidth)));
                 }
                 
                 if ($this->maxImageHeight != null)
                 {
-                    $this->setNext($this->getNext($this->maxImageHeight, $height, sprintf('Image height must be less than or equals %s px', $this->maxImageHeight)));
+                    $this->setNext($this->getNext($this->maxImageHeight, $height ?? getimagesize($value)[1], sprintf('Image height must be less than or equals %s px', $this->maxImageHeight)));
                 }
      
                 return true;
