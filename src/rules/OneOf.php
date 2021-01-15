@@ -2,7 +2,6 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
  * Class OneOf
  * @package Bermuda\Validation\Rules
