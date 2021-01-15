@@ -2,30 +2,37 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
  * Class StrLength
  * @package Bermuda\Validation\Rules
  */
-class StrLength extends AbstractRule
+final class StrLength extends AbstractRule
 {
-    protected int $length;
-    protected bool $multibyte;
+    private string $msg;
+    private bool $multibyte;
 
-    public function __construct(int $length, bool $multibyte = true)
+    private function __construct(string $msg, bool $multibyte = true)
     {
-        $this->length = $length;
+        $this->msg = $msg;
         $this->multibyte = $multibyte;
+       
     }
 
-    protected function validate($value): bool
+    /**
+     * @inheritDoc
+     */
+    protected function validate(&$value): bool
     {
-        return is_string($value) && $this->getStringLen($value) == $this->length;
+        $value = $this->getStringLength($value);
+        return true;
     }
 
-    protected function getMessageFor($value): array
+    /**
+     * @inheritDoc
+     */
+    protected function getMessageFor($value): string
     {
-        return ['Length must be equal to ' . $this->value];
+        return $this->msg;
     }
 
     /**
@@ -35,7 +42,7 @@ class StrLength extends AbstractRule
      */
     public static function equals(int $length, bool $multibyte = true): self
     {
-        return new self($length, $multibyte);
+        return (new self('String length must be equals to ' . $length, $multibyte))->setNext(new Equals($length));
     }
 
     /**
@@ -45,13 +52,7 @@ class StrLength extends AbstractRule
      */
     public static function greaterThan(int $length, bool $multibyte = true): self
     {
-        return new class($length, $multibyte) extends StrLength
-        {
-            protected function validate($value): bool
-            {
-                return is_string($value) && $this->getStringLen($value) > $this->length;
-            }
-        };
+        return (new self('String length must be greater than ' . $length, $multibyte))->setNext(new GreaterThan($length));
     }
 
     /**
@@ -59,15 +60,9 @@ class StrLength extends AbstractRule
      * @param bool $multibite
      * @return static
      */
-    public static function greaterThanOrEquals(int $length, bool $multibyte = true): self
+    public static function greaterThanEquals(int $length, bool $multibyte = true): self
     {
-        return new class($length, $multibyte) extends StrLength
-        {
-            protected function validate($value): bool
-            {
-                return is_string($value) && $this->getStringLen($value) >= $this->length;
-            }
-        };
+       return (new self('String length must be greater than or equals ' . $length, $multibyte))->setNext(new GreaterThanEquals($length));
     }
 
     /**
@@ -77,13 +72,7 @@ class StrLength extends AbstractRule
      */
     public static function lessThan(int $length, bool $multibyte = true): self
     {
-        return new class($length, $multibyte) extends StrLength
-        {
-            protected function validate($value): bool
-            {
-                return is_string($value) && $this->getStringLen($value) < $this->length;
-            }
-        };
+        return (new self('String length must be less than ' . $length, $multibyte))->setNext(new LessThan($length));
     }
 
     /**
@@ -91,15 +80,9 @@ class StrLength extends AbstractRule
      * @param bool $multibite
      * @return static
      */
-    public static function lessThanOrEquals(int $length, bool $multibyte = true): self
+    public static function lessThanEquals(int $length, bool $multibyte = true): self
     {
-        return new class($length, $multibyte) extends StrLength
-        {
-            protected function validate($value): bool
-            {
-                return is_string($value) && $this->getStringLen($value) <= $this->length;
-            }
-        };
+        return (new self('String length must be less than or equals ' . $length, $multibyte))->setNext(new LessThanEquals($length));
     }
 
     /**
@@ -107,31 +90,16 @@ class StrLength extends AbstractRule
      * @param bool $multibite
      * @return static
      */
-    public static function range(int $left, int $right, bool $multibyte = true): self
+    public static function range(int $minLength, int $maxLength, bool $multibyte = true): self
     {
-        return new class($left, $right, $multibyte) extends StrLength
-        {
-            private int $right;
-
-            public function __construct(int $length, int $right, bool $multibyte = true)
-            {
-                parent::__construct($length, $right, $multibyte);
-            }
-
-            protected function validate($value): bool
-            {
-                return is_string($value) && $this->length
-                    <= ($len = $this->getStringLen($value))
-                    && $this->right >= $len;
-            }
-        };
+        return (new self("String length must be in the range from {$minLength} to {$maxLength}", $multibyte))->setNext(new Range($minLength, $maxLength));
     }
 
     /**
      * @param string $len
      * @return int
      */
-    protected function getStringLen(string $value): int
+    protected function getStringLength(string $value): int
     {
         return $this->mb ? mb_strlen($value) : strlen($value);
     }
