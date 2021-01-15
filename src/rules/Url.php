@@ -2,9 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 use Bermuda\String\Str;
-
 
 /**
  * Class Url
@@ -35,8 +33,11 @@ final class Url extends RegExp
         throw new \RuntimeException(__METHOD__ . ' is dissable from this class');
     }
     
-    protected function getMessageFor($value): array
+    /**
+     * @inheritDoc
+     */
+    protected function getMessageFor($value): string
     {
-        return ['Value must be a correct url'];
+        return 'Must be a correct url';
     }
 }
