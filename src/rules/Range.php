@@ -35,6 +35,6 @@ final class Range extends AbstractRule
             return "Must be a date in the range from {$this->x->format($this->datetimeFormat)} to {$this->y->format($this->datetimeFormat)}";
         }
 
-        return "Must be a number in the range from {$this->x} to {$this->y}"];
+        return "Must be a number in the range from {$this->x} to {$this->y}";
     }
 }
