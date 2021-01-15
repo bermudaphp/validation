@@ -8,14 +8,14 @@ use Bermuda\String\Str;
  * Class Image
  * @package Bermuda\Validation\Rules
  */
-final class Image extends AbstractRule
+final class Image extends File
 {
-    private ?int $maxImageSize = null, $maxImageWidth = null, $maxImageHeight = null, string $msg = '';
+    private $maxImageWidth = null, $maxImageHeight = null;
 
     public function __construct(?int $maxImageSize = null,
         int $maxImageWidth = null, ?int $maxImageHeight = null)
     {
-        $this->maxImageSize = $maxImageSize;
+        $this->maxFileSize = $maxImageSize;
         $this->maxImageWidth = $maxImageWidth;
         $this->maxImageHeight = $maxImageHeight;
     }
@@ -25,18 +25,12 @@ final class Image extends AbstractRule
      */
     protected function validate(&$value): bool
     {
-        if (@(string) is_file($value))
+        if (parent::validate($value))
         {
             $mime = (string) finfo_file(finfo_open(FILEINFO_MIME_TYPE), $value);
 
             if (Str::contains($mime, 'image'))
             {
-                if ($this->maxImageSize != null && $this->maxImageSize < filesize($value))
-                {
-                    $this->msg = sprintf('Image size must be less than %s b', $this->size);
-                    return false;
-                }
-                
                 list($width, $height) = getimagesize($value);
                 
                 if ($this->maxImageWidth != null && $this->maxImageWidth < $width)
@@ -63,12 +57,6 @@ final class Image extends AbstractRule
      */
     protected function getMessageFor($value): string
     {
-        if ($this->msg != '')
-        {
-            $msg = $this->msg; $this->msg = '';
-            return $msg;
-        }
-        
         return 'Must be a image';
     }
 }
