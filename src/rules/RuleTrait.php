@@ -12,7 +12,7 @@ trait RuleTrait
 
     /**
      * @param RuleInterface|null $rule
-     * @return this
+     * @return $this
      */
     public function setNext(?RuleInterface $rule): RuleInterface
     { 
