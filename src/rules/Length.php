@@ -14,7 +14,7 @@ final class Length extends AbstractRule
     {
         $this->msg = $msg;
         $this->multibyte = $multibyte;
-       
+
     }
 
     /**
@@ -51,7 +51,7 @@ final class Length extends AbstractRule
      */
     public static function greaterThan(int $length, bool $multibyte = true): self
     {
-        return (new self($msg = 'String length must be greater than ' . $length, $multibyte))->setNext((new GreaterThan($length))->setMessage($msg)));
+        return (new self($msg = 'String length must be greater than ' . $length, $multibyte))->setNext((new GreaterThan($length))->setMessage($msg));
     }
 
     /**
@@ -61,7 +61,7 @@ final class Length extends AbstractRule
      */
     public static function greaterThanEquals(int $length, bool $multibyte = true): self
     {
-       return (new self($msg = 'String length must be greater than or equals ' . $length, $multibyte))->setNext((new GreaterThanEquals($length))->setMessage($msg)));
+        return (new self($msg = 'String length must be greater than or equals ' . $length, $multibyte))->setNext((new GreaterThanEquals($length))->setMessage($msg));
     }
 
     /**
@@ -71,7 +71,7 @@ final class Length extends AbstractRule
      */
     public static function lessThan(int $length, bool $multibyte = true): self
     {
-        return (new self($msg = 'String length must be less than ' . $length, $multibyte))->setNext((new LessThan($length))->setMessage($msg)));
+        return (new self($msg = 'String length must be less than ' . $length, $multibyte))->setNext((new LessThan($length))->setMessage($msg));
     }
 
     /**
@@ -81,7 +81,7 @@ final class Length extends AbstractRule
      */
     public static function lessThanEquals(int $length, bool $multibyte = true): self
     {
-        return (new self($msg = 'String length must be less than or equals ' . $length, $multibyte))->setNext((new LessThanEquals($length))->setMessage($msg)));
+        return (new self($msg = 'String length must be less than or equals ' . $length, $multibyte))->setNext((new LessThanEquals($length))->setMessage($msg));
     }
 
     /**
@@ -91,7 +91,7 @@ final class Length extends AbstractRule
      */
     public static function range(int $minLength, int $maxLength, bool $multibyte = true): self
     {
-        return (new self($msg = "String length must be in the range from {$minLength} to {$maxLength}", $multibyte))->setNext((new Range($minLength, $maxLength))->setMessage($msg)));
+        return (new self($msg = "String length must be in the range from {$minLength} to {$maxLength}", $multibyte))->setNext((new Range($minLength, $maxLength))->setMessage($msg));
     }
 
     /**
