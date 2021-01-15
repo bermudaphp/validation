@@ -10,10 +10,10 @@ final class Date extends AbstractRule
 {
     use DateTimeFactoryAwareTrait;
     
-    public function __construct(string $format = 'd/m/Y')
+    public function __construct(string $format = 'd/m/Y', callable $dateTimeFactory = null)
     {
-        $this->datetimeFormat = $format;
-        $this->dateTimeFactory = $this->getDateTimeFactory();
+        $this->dateTimeFormat = $format;
+        $this->dateTimeFactory = $dateTimeFactory ?? $this->getDateTimeFactory();
     }
     
     /**
@@ -23,7 +23,7 @@ final class Date extends AbstractRule
     {
         if (!$value instanceof \DateTimeInterface)
         {
-            $value = ($this->dateTimeFactory)($value, $this->datetimeFormat);
+            $value = ($this->dateTimeFactory)($value, $this->dateTimeFormat);
         }
         
         return true;
@@ -42,7 +42,7 @@ final class Date extends AbstractRule
     /**
      * @param \DateTimeInterface $operand
      * @param string $format
-     * @return self
+     * @return RuleInterface
      */
     public static function greaterThenEquals(\DateTimeInterface $operand, string $format = 'd/m/Y'): RuleInterface
     {
@@ -52,7 +52,7 @@ final class Date extends AbstractRule
     /**
      * @param \DateTimeInterface $operand
      * @param string $format
-     * @return self
+     * @return RuleInterface
      */
     public static function greaterThen(\DateTimeInterface $operand, string $format = 'd/m/Y'): RuleInterface
     {
@@ -62,7 +62,7 @@ final class Date extends AbstractRule
     /**
      * @param \DateTimeInterface $operand
      * @param string $format
-     * @return self
+     * @return RuleInterface
      */
     public static function lessThen(\DateTimeInterface $operand, string $format = 'd/m/Y'): RuleInterface
     {
@@ -72,7 +72,7 @@ final class Date extends AbstractRule
     /**
      * @param \DateTimeInterface $operand
      * @param string $format
-     * @return self
+     * @return RuleInterface
      */
     public static function lessThenEquals(\DateTimeInterface $operand, string $format = 'd/m/Y'): RuleInterface
     {
