@@ -2,41 +2,25 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
  * Class Number
  * @package Bermuda\Validation\Rules
  */
-class Number implements RuleInterface
+class Number extends AbstractRule
 {
-    use RuleTrait;
-
-    private bool $arrayOfNumbers;
-
-    public function __construct(bool $arrayOfNumbers = false)
-    {
-        $this->arrayOfNumbers = $arrayOfNumbers;
-    }
-
-    /**
-     * @param $value
-     * @return array
+   /**
+     * @inheritDoc
      */
-    public function __invoke($value): array
+    protected function validate(&$value): bool
     {
-        if ($this->arrayOfNumbers)
-        {
-            foreach ((array) $value as $item)
-            {
-                if (!is_numeric($item))
-                {
-                    return ['Value must be array of numbers!'];
-                }
-
-                return [];
-            }
-        }
-
-        return is_numeric($value) ? [] : ['The value must be a number!'];
+        return is_numeric($value);
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    protected function getMessageFor($value): string
+    {
+        return 'Must be a number';
     }
 }
