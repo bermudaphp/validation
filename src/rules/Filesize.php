@@ -12,7 +12,7 @@ class Filesize extends AbstractRule
 
     public function __construct(?int $maxFileSize = null)
     {
-        $this->maxFileSize = $maxImageSize;
+        $this->maxFileSize = $maxFileSize;
     }
     
     /**
@@ -20,7 +20,7 @@ class Filesize extends AbstractRule
      */
     protected function validate(&$value): bool
     {
-        return $this->maxFileSize < filesize($value);
+        return $this->maxFileSize >= filesize($value);
     }
     
     /**
