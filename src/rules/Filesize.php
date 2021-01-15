@@ -28,6 +28,6 @@ class Filesize extends AbstractRule
      */
     protected function getMessageFor($value): string
     {
-        return sprintf('File size must be less than %s b', $this->maxFileSize);
+        return sprintf('File size must be less than or equals %s b', $this->maxFileSize);
     }
 }
