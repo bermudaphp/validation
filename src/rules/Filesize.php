@@ -3,7 +3,7 @@
 namespace Bermuda\Validation\Rules;
 
 /**
- * Class File
+ * Class Filesize
  * @package Bermuda\Validation\Rules
  */
 class Filesize extends AbstractRule
