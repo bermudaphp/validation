@@ -3,7 +3,7 @@
 namespace Bermuda\Validation\Rules;
 
 /**
- * Class GreaterThan
+ * Class GreaterThanEquals
  * @package Bermuda\Validation\Rules
  */
 class GreaterThanEquals extends AbstractRule
