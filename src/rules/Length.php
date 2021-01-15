@@ -3,12 +3,11 @@
 namespace Bermuda\Validation\Rules;
 
 /**
- * Class StrLength
+ * Class Length
  * @package Bermuda\Validation\Rules
  */
-final class StrLength extends AbstractRule
+final class Length extends AbstractRule
 {
-    private string $msg;
     private bool $multibyte;
 
     private function __construct(string $msg, bool $multibyte = true)
