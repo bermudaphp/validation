@@ -8,6 +8,7 @@ namespace Bermuda\Validation\Rules;
  */
 abstract class AbstractRule implements RuleInterface
 {    
+    use RuleTrait ;
     protected string $msg = '';
     
     /**
@@ -18,7 +19,7 @@ abstract class AbstractRule implements RuleInterface
     {
         try
         {
-            $result = $this->validate($value)
+            $result = $this->validate($value);
         }
         
         catch(\Throwable $e)
