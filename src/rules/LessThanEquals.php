@@ -14,7 +14,7 @@ class LessThanEquals extends AbstractRule
     protected $operand;
     protected string $dateTimeFormat;
 
-    protected function __construct($operand, string $dateTimeFormat = 'd/m/Y')
+    public function __construct($operand, string $dateTimeFormat = 'd/m/Y')
     {
         $this->operand = $operand;
         $this->dateTimeFormat = $dateTimeFormat;
@@ -25,7 +25,7 @@ class LessThanEquals extends AbstractRule
      */
     protected function validate(&$value): bool
     {
-        return $value <= $this->operand
+        return $value <= $this->operand;
     }
     
     /**
