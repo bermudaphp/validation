@@ -2,15 +2,12 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
  * Class Date
  * @package Bermuda\Validation\Rules
  */
 final class Date extends AbstractRule
 {
-    use DateTimeFactoryAwareTrait;
-    
     public function __construct(string $format = 'd/m/Y')
     {
         $this->datetimeFormat = $format;
