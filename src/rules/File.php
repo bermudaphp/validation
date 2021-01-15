@@ -21,17 +21,17 @@ class File extends AbstractRule
     {
         if (is_uploaded_file($value))
         {
-            return $this->checkMaxFileSize($value, sprintf('File size must be less than %s b', $this->maxFileSize));
+            return $this->checkMaxFileSize($value);
         }
         
         return false;
     }
     
-    protected function checkMaxFileSize($value, string $msg): bool
+    protected function checkMaxFileSize($value): bool
     {
         if ($this->maxFileSize != null && $this->maxFileSize < filesize($value))
         {
-            $this->msg = $msg;
+            $this->msg = sprintf('File size must be less than %s b', $this->maxFileSize);
             return false;
         }
         
