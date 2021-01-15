@@ -15,9 +15,17 @@ final class Image extends File
     public function __construct(?int $maxImageSize = null,
         int $maxImageWidth = null, ?int $maxImageHeight = null)
     {
-        $this->maxFileSize = $maxImageSize;
-        $this->maxImageWidth = $maxImageWidth;
-        $this->maxImageHeight = $maxImageHeight;
+        parent::__construct($maxImageSize);
+        
+        if ($maxImageWidth != null)
+        {
+            $this->setNext();
+        }
+                           
+        if ($maxImageWidth != null)
+        {
+            $this->setNext((new LessThanEquals($maxImageHeight))->setMessage(sprintf('Image height must be less than or equals %s px', $maxImageHeight)));
+        }
     }
  
     /**
@@ -33,18 +41,16 @@ final class Image extends File
             {
                 list($width, $height) = getimagesize($value);
                 
-                if ($this->maxImageWidth != null && $this->maxImageWidth < $width)
+                if ($this->maxImageWidth != null)
                 {
-                    $this->msg = sprintf('Image width must be less than %s px', $this->maxImageWidth);
-                    return false;
+                    $this->setNext($this->getNext($this->maxImageWidth, $width, sprintf('Image width must be less than or equals %s px', $this->maxImageWidth)));
                 }
                 
-                if ($this->maxImageHeight != null && $this->maxImageHeight < $height)
+                if ($this->maxImageHeight != null)
                 {
-                    $this->msg = sprintf('Image height must be less than %s px', $this->maxImageHeight);
-                    return false;
+                    $this->setNext($this->getNext($this->maxImageHeight, $height, sprintf('Image height must be less than or equals %s px', $this->maxImageHeight)));
                 }
-                
+     
                 return true;
             }
         }
@@ -58,5 +64,25 @@ final class Image extends File
     protected function getMessageFor($value): string
     {
         return 'Must be a image';
+    }
+    
+    private function getNext(int $x, int $y, string $msg): RuleInterface
+    {
+        return new class extends LessThanEquals
+        {
+            private int $y;
+            
+            public function __construct(int $x, int $y, string $msg)
+            {
+                $this->y = $y;
+                parent::__construct($x);
+                $this->setMessage($msg);
+            }
+            
+            protected function validate(&$v): bool
+            {
+                return parent::validate($this->y);
+            }
+        }
     }
 }
