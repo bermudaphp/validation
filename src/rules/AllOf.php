@@ -2,7 +2,6 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
  * Class AllOf
  * @package Bermuda\Validation\Rules
@@ -62,6 +61,6 @@ final class AllOf extends OneOf
      */
     public static function breakF($rule): self
     {
-        return static::make((array) $rule, true);
+        return static::make($rule, true);
     }
 }
