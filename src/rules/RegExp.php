@@ -2,9 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 use Bermuda\String\Str;
-
 
 /**
  * Class RegExp
@@ -39,13 +37,19 @@ class RegExp extends AbstractRule
         return $copy;
     }
 
-    protected function validate($value): bool
+    /**
+     * @inheritDoc
+     */
+    protected function validate(&$value): bool
     {
         return Str::match($this->exp, (string) $value);
     }
     
-    protected function getMessageFor($value): array
+    /**
+     * @inheritDoc
+     */
+    protected function getMessageFor($value): string
     {
-        return [sprintf('The value must match the regular expression: %s', $this->exp)];
+        return sprintf('Must be match the regular expression: %s', $this->exp);
     }
 }
