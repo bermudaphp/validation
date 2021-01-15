@@ -3,7 +3,7 @@
 namespace Bermuda\Validation\Rules;
 
 /**
- * Class LessThan
+ * Class LessThanEquals
  * @package Bermuda\Validation\Rules
  */
 class LessThanEquals extends AbstractRule
