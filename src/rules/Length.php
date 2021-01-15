@@ -100,6 +100,6 @@ final class Length extends AbstractRule
      */
     private function getStringLength(string $value): int
     {
-        return $this->mb ? mb_strlen($value) : strlen($value);
+        return $this->multibyte ? mb_strlen($value) : strlen($value);
     }
 }
