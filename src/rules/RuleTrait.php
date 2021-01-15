@@ -12,11 +12,15 @@ trait RuleTrait
 
     /**
      * @param RuleInterface|null $rule
-     * @return RuleInterface|null
+     * @return this
      */
-    public function setNext(?RuleInterface $rule):? RuleInterface
-    {
-        return $this->next = $rule;
+    public function setNext(?RuleInterface $rule): RuleInterface
+    { 
+        $this->next != null && $rule != null ? 
+            $this->next->setNext($rule) : 
+            $this->next = $rule;
+        
+        return $this;
     }
 
     /**
@@ -24,13 +28,13 @@ trait RuleTrait
      * @param $value
      * @return array
      */
-    protected function validateNext($value, array $result = []): array
+    protected function validateNext($value): array
     {
-        if ($result == [] && $this->next != null)
+        if ($this->next != null)
         {
             return ($this->next)($value);
         }
 
-        return $result;
+        return [];
     }
 }
