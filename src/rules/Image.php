@@ -61,21 +61,20 @@ final class Image extends File
     
     private function getNext(int $x, int $y, string $msg): RuleInterface
     {
-        return new class extends LessThanEquals
+        return new class extends AbstractRule
         {
-            private int $y;
+            private int $x, $y;
             
             public function __construct(int $x, int $y, string $msg)
             {
-                $this->y = $y;
-                parent::__construct($x);
+                $this->x = $x; $this->y = $y; 
                 $this->setMessage($msg);
             }
             
             protected function validate(&$v): bool
             {
-                return parent::validate($this->y);
+                return $this->x >= $this->y;
             }
-        }
+        };
     }
 }
