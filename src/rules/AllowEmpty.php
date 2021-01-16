@@ -3,26 +3,24 @@
 namespace Bermuda\Validation\Rules;
 
 /**
- * Class Empty
+ * Class AllowEmpty
  * @package Bermuda\Validation\Rules
  */
-final class AllowEmpty extends AbstractRule
+final class AllowEmpty implements RuleInterface;
 {
-    /**
-     * @param $value
-     * @return bool
-     */
-    protected function validate(&$value): bool
+    use RuleTrait;
+    
+    public function __construct(RuleInterface $next)
     {
-        return empty($value);
+        $this->setNext($next);
     }
     
-     /**
+    /**
      * @param $value
      * @return array
      */
-    protected function getMessageFor($value): string
+    public function __invoke($value): array
     {
-        return 'Must be empty';
+        return !empty($value) ? $this->validateNext($value) : [];
     }
 }
