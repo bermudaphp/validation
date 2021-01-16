@@ -36,34 +36,14 @@ class Validator
     /**
      * @param string|string[] $name
      * @param RuleInterface $rule
-     * @return $this
-     */
-    final public function require($name, RuleInterface $rule): self
-    {
-        return $this->add($name, $rule, true);
-    }
-
-    /**
-     * @param string|string[] $name
-     * @param RuleInterface $rule
-     * @return $this
-     */
-    final public function optional($name, RuleInterface $rule): self
-    {
-        return $this->add($name, $rule, false);
-    }
-
-    /**
-     * @param string|string[] $name
-     * @param RuleInterface $rule
      * @param bool $require
      * @return $this
      */
-    final public function add($name, RuleInterface $rule, bool $require = false): self
+    final public function add($name, RuleInterface $rule): self
     {
-        foreach ((array) $name as $item)
+        foreach ((array) $name as $n)
         {
-            $this->rules[$item] = compact('rule', 'require');
+            $this->rules[$n] = $rule;
         }
 
         return $this;
@@ -86,21 +66,11 @@ class Validator
     {
         $errors = [];
 
-        foreach ($this->rules as $name => $item)
+        foreach ($this->rules as $name => $rule)
         {
-            if (!array_key_exists($name, $data))
+            if (($messages = $rule($data[$name] ?? null)) != [])
             {
-                if ($item['require'])
-                {
-                    $errors[$name] = ['Item with key ' . $name . ' is required!'];
-                }
-
-                continue;
-            }
-
-            if (($failure = $item['rule']($data[$name])) != [])
-            {
-                $errors[$name] = $failure;
+                $errors[$name] = $messages;
             }
         }
 
