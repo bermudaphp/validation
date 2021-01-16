@@ -33,7 +33,6 @@ class Validator
     /**
      * @param string|string[] $name
      * @param RuleInterface $rule
-     * @param bool $require
      * @return $this
      */
     final public function add($name, RuleInterface $rule): self
