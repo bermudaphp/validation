@@ -22,6 +22,6 @@ final class AllOf extends OneOf
             }
         }
 
-        return [];
+        return $this->validateNext($value);
     }
 }
