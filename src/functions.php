@@ -2,17 +2,23 @@
 
 namespace Bermuda\Validation;
 
-
 use Bermuda\Validation\Rules\RuleInterface;
 
-
 /**
- * @param array $data
+ * @param RuleInterface[] $rules
  * @return Validator
+ * @throws ValidationException
  */
-function v(array $data = []): Validator
+function v(iterable $rules = [], ?array $data = null): Validator
 {
-    return Validator::make($data);
+    $v = Validator::makeOf($rules);
+    
+    if ($data != null)
+    {
+        $v->validate($data);
+    }
+    
+    return $v
 }
 
 /**
