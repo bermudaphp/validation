@@ -13,7 +13,7 @@ class Validator
     /**
      * @var RuleInterface[]
      */
-    private array $rules = [];
+    protected array $rules = [];
 
     public function __construct(iterable $rules = [])
     {
