@@ -18,7 +18,7 @@ function v(iterable $rules = [], ?array $data = null): Validator
         $v->validate($data);
     }
     
-    return $v
+    return $v;
 }
 
 /**
