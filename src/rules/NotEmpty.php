@@ -2,12 +2,11 @@
 
 namespace Bermuda\Validation\Rules;
 
-
 /**
  * Class NotEmpty
  * @package Bermuda\Validation\Rules
  */
-final class NotEmpty extends AbstractRule
+class NotEmpty extends AbstractRule
 {
     /**
      * @param $value
