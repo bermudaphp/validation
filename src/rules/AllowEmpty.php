@@ -6,7 +6,7 @@ namespace Bermuda\Validation\Rules;
  * Class Empty
  * @package Bermuda\Validation\Rules
  */
-final class IsEmpty extends AbstractRule
+final class AllowEmpty extends AbstractRule
 {
     /**
      * @param $value
