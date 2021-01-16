@@ -16,7 +16,7 @@ class OneOf implements RuleInterface, \IteratorAggregate
     /**
      * @var RuleInterface[]
      */
-    private array $rules = [];
+    protected array $rules = [];
 
     /**
      * OneOf constructor.
@@ -85,19 +85,15 @@ class OneOf implements RuleInterface, \IteratorAggregate
      */
     public function __invoke($value): array
     {
-        $msgs = [];
-
         foreach ($this->rules as $rule)
         {
             if (($msg = $rule($value)) == [])
             {
                 return $this->validateNext($value);
-            }
-
-            $msgs = array_merge($result, $msg);
+            } 
         }
 
-        return $msgs;
+        return $msg;
     }
     
     /**
@@ -113,7 +109,7 @@ class OneOf implements RuleInterface, \IteratorAggregate
      * @param RuleInterface[]|RuleInterface $rule
      * @return static
      */
-    public function require($rule): self
+    final public function require($rule): self
     {
         return static::make((new Required)->setNext($rule));
     }
@@ -122,7 +118,7 @@ class OneOf implements RuleInterface, \IteratorAggregate
      * @param RuleInterface[]|RuleInterface $rule
      * @return static
      */
-    public function allowEmpty($rule): self
+    final public function allowEmpty($rule): self
     {
         return static::make(new AllowEmpty($rule));
     }
