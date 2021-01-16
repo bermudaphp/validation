@@ -2,9 +2,7 @@
 
 namespace Bermuda\Validation;
 
-
 use Bermuda\Validation\Rules\RuleInterface;
-
 
 /**
  * Class Validator
@@ -12,16 +10,15 @@ use Bermuda\Validation\Rules\RuleInterface;
  */
 class Validator
 {
+    /**
+     * @var RuleInterface[]
+     */
     private array $rules = [];
 
-    public function __construct(array $rules = [])
+    public function __construct(iterable $rules = [])
     {
         $this->registerDefaultRules();
-        
-        foreach ($rules as $name => $datum)
-        {
-            $this->add($name, $datum[0], $datum[1] ?? false);
-        }
+        $this->addRules($rules);
     }
 
     /**
@@ -48,6 +45,20 @@ class Validator
 
         return $this;
     }
+    
+    /**
+     * @param RuleInterface[] $rules
+     * @return $this
+     */
+    public function addRules(iterable $rules): self
+    {
+        foreach($rules as $n => $rule)
+        {
+            $this->add($n, $rule);
+        }
+        
+        return $this;
+    }
 
     /**
      * @return array
@@ -66,28 +77,28 @@ class Validator
     {
         $errors = [];
 
-        foreach ($this->rules as $name => $rule)
+        foreach ($this->rules as $n => $rule)
         {
-            if (($messages = $rule($data[$name] ?? null)) != [])
+            if (($msg = $rule($data[$n] ?? null)) != [])
             {
-                $errors[$name] = $messages;
+                $errors[$n] = count($msg) > 1 ? $msg : $msg[0];
             }
         }
 
         if ($errors != [])
         {
-            $previous = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
-            $previous['class'] = static::class;
+            $prev = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+            $prev['class'] = static::class;
 
-            throw new ValidationException($previous, $errors);
+            throw new ValidationException($prev, $errors);
         }
     }
 
     /**
-     * @param array $rules
+     * @param RuleInterface[] $rules
      * @return static
      */
-    public static function make(array $rules): self
+    public static function makeOf(iterable $rules): self
     {
         return new static($rules);
     }
