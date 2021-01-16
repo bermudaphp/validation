@@ -85,19 +85,19 @@ class OneOf implements RuleInterface, \IteratorAggregate
      */
     public function __invoke($value): array
     {
-        $result = [];
+        $msgs = [];
 
         foreach ($this->rules as $rule)
         {
-            if (($failure = $rule($value)) == [])
+            if (($msg = $rule($value)) == [])
             {
                 return $this->validateNext($value);
             }
 
-            $result = array_merge($result, $failure);
+            $msgs = array_merge($result, $msg);
         }
 
-        return $result;
+        return $msgs;
     }
     
     /**
@@ -106,7 +106,7 @@ class OneOf implements RuleInterface, \IteratorAggregate
      */
     public static function make($rule): self
     {
-        return new static((array) $rule);
+        return new static(is_iterable($rule) ? $rule : [$rule]);
     }
     
     /**
@@ -124,6 +124,6 @@ class OneOf implements RuleInterface, \IteratorAggregate
      */
     public function allowEmpty($rule): self
     {
-        return static::make((new AllowEmpty)->setNext($rule));
+        return static::make(new AllowEmpty($rule));
     }
 }
