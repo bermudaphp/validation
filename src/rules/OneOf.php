@@ -109,7 +109,7 @@ class OneOf implements RuleInterface, \IteratorAggregate
      * @param RuleInterface[]|RuleInterface $rule
      * @return static
      */
-    final public static function allowEmpty($rule): self
+    public static function allowEmpty($rule): self
     {
         $self = new self(new AllowEmpty);
         return is_iterable($rule) ? $self->addRules($rule) : $self->addRule($rule);
