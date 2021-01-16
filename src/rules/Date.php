@@ -30,53 +30,53 @@ final class Date extends AbstractRule
     }
     
     /**
-     * @param \DateTimeInterface $operand
+     * @param \DateTimeInterface|null $operand
      * @param string $format
      * @return self
      */
-    public static function equals(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
+    public static function equals(?\DateTimeInterface $operand = null, string $format = 'd/m/Y'): self
     {
-        return (new self($format))->setNext(new Equals($operand));
+        return (new self($format))->setNext(new Equals($operand ?? new \DateTime()));
     }
     
     /**
-     * @param \DateTimeInterface $operand
+     * @param \DateTimeInterface|null $operand
      * @param string $format
      * @return self
      */
-    public static function greaterThenEquals(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
+    public static function greaterThenEquals(?\DateTimeInterface $operand = null, string $format = 'd/m/Y'): self
     {
-        return (new self($format))->setNext(new GreaterThanEquals($operand));
+        return (new self($format))->setNext(new GreaterThanEquals($operand ?? new \DateTime()));
     }
     
     /**
-     * @param \DateTimeInterface $operand
+     * @param \DateTimeInterface|null $operand
      * @param string $format
      * @return self
      */
-    public static function greaterThen(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
+    public static function greaterThen(?\DateTimeInterface $operand = null, string $format = 'd/m/Y'): self
     {
-        return (new self($format))->setNext(new GreaterThan($operand));
+        return (new self($format))->setNext(new GreaterThan($operand ?? new \DateTime()));
     }
 
     /**
-     * @param \DateTimeInterface $operand
+     * @param \DateTimeInterface|null $operand
      * @param string $format
      * @return self
      */
-    public static function lessThen(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
+    public static function lessThen(?\DateTimeInterface $operand = null, string $format = 'd/m/Y'): self
     {
-        return (new self($format))->setNext(new LessThan($operand));
+        return (new self($format))->setNext(new LessThan($operand ?? new \DateTime()));
     }
     
     /**
-     * @param \DateTimeInterface $operand
+     * @param \DateTimeInterface|null $operand
      * @param string $format
      * @return self
      */
-    public static function lessThenEquals(\DateTimeInterface $operand, string $format = 'd/m/Y'): self
+    public static function lessThenEquals(?\DateTimeInterface $operand = null, string $format = 'd/m/Y'): self
     {
-        return (new self($format))->setNext(new LessThanEquals($operand));
+        return (new self($format))->setNext(new LessThanEquals($operand ?? new \DateTime()));
     }
 
     /**
