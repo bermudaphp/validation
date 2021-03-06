@@ -82,7 +82,7 @@ final class Date extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): string
+    protected function getMessage($value): string
     {
         return 'Must be a date';
     }
