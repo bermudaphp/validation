@@ -14,6 +14,7 @@ final class Date extends AbstractRule
     {
         $this->dateTimeFormat = $format;
         $this->dateTimeFactory = $dateTimeFactory ?? $this->getDateTimeFactory();
+        parent::__construct(null);
     }
     
     /**
