@@ -31,13 +31,21 @@ class LessThan extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): string
+    protected function getDefaultMessage($value): string
     {
         if ($this->operand instanceof \DateTimeInterface)
         {
-            return 'Must be a date and less than ' . $this->operand->format($this->dateTimeFormat);
+            return 'Must be a date and less than :operand';
         }
         
-        return 'Must be less than ' . $this->operand;
+        return 'Must be less than :operand';
+    }
+    
+    /**
+     * @return array
+     */
+    protected function getReplacmentAttributes(): array
+    {
+        return [':operand' => $this->operand instanceof \DateTimeInterface ? $this->operand->format($this->dateTimeFormat) : $this->operand];
     }
 }
