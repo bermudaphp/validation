@@ -24,10 +24,18 @@ class Filesize extends AbstractRule
     }
     
     /**
+     * @return array
+     */
+    protected function getReplacmentAttributes(): array
+    {
+        return [':size' => $this->maxFileSize];
+    }
+    
+    /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): string
+    protected function getDefaultMessage(): string
     {
-        return sprintf('File size must be less than or equals %s b', $this->maxFileSize);
+        return 'File size must be less than or equals :size b. File size: :v';
     }
 }
