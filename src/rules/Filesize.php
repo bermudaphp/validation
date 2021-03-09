@@ -13,6 +13,7 @@ class Filesize extends AbstractRule
     public function __construct(?int $maxFileSize = null)
     {
         $this->maxFileSize = $maxFileSize;
+        parent::__construct(null);
     }
     
     /**
