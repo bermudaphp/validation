@@ -31,13 +31,21 @@ class GreaterThanEquals extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): string
+    protected function getDefaultMessage($value): string
     {
         if ($this->operand instanceof \DateTimeInterface)
         {
-            return 'Must be a date and greater than or equals ' . $this->operand->format($this->dateTimeFormat);
+            return 'Must be a date and greater than or equals :operand';
         }
         
-        return 'Must be greater than or equals ' . $this->operand;
+        return 'Must be greater than or equals :operand';
+    }
+    
+    /**
+     * @return array
+     */
+    protected function getReplacmentAttributes(): array
+    {
+        return [':operand' => $this->operand instanceof \DateTimeInterface ? $this->operand->format($this->dateTimeFormat) : $this->operand];
     }
 }
