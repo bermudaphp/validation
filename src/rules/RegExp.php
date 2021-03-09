@@ -15,6 +15,7 @@ class RegExp extends AbstractRule
     public function __construct(string $exp)
     {
         $this->exp = $exp;
+        parent::__construct(null)
     }
 
     /**
@@ -48,8 +49,16 @@ class RegExp extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): string
+    protected function getDefaultMessage(): string
     {
-        return sprintf('Must be match the regular expression: %s', $this->exp);
+        return 'Must be match the regular expression: :exp';
+    }
+    
+    /**
+     * @return array
+     */
+    protected function getReplacmentAttributes(): array
+    {
+        return [':exp' => $this->exp];
     }
 }
