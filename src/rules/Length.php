@@ -12,7 +12,7 @@ final class Length extends AbstractRule
 
     private function __construct(string $message, bool $multibyte = true)
     {
-        $this->message = $msg;
+        $this->message = $message;
         $this->multibyte = $multibyte;
     }
 
