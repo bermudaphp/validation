@@ -15,6 +15,7 @@ final class Range extends AbstractRule
     {
         $this->x = $x; $this->y = $y;
         $this->dateTimeFormat = $dateTimeFormat;
+        parent::__construct(null);
     }
 
     /**
@@ -28,13 +29,24 @@ final class Range extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): string
+    protected function getDefaultMessage(): string
     {
-        if ($value instanceof \DateTimeInterface)
+        if ($this->x instanceof \DateTimeInterface)
         {
-            return "Must be a date in the range from {$this->x->format($this->dateTimeFormat)} to {$this->y->format($this->dateTimeFormat)}";
+            return "Must be a date in the range from :left to :right";
         }
 
-        return "Must be a number in the range from {$this->x} to {$this->y}";
+        return "Must be a number in the range from :left to :right";
+    }
+    
+    /**
+     * @return array
+     */
+    protected function getReplacmentAttributes(): array
+    {
+        return [
+            ':left' => $this->x instanceof \DateTimeInterface ? $this->x->format($this->dateTimeFormat) : $this->x,
+            ':right' => $this->y instanceof \DateTimeInterface ? $this->y->format($this->dateTimeFormat) : $this->y
+        ];
     }
 }
