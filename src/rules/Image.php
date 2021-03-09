@@ -53,7 +53,7 @@ final class Image extends File
     /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): string
+    protected function getDefaultMessage(): string
     {
         return 'Must be a image';
     }
