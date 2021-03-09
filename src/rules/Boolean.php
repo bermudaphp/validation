@@ -21,7 +21,7 @@ final class Boolean extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): string
+    protected function getDefaultMessage(): string
     {
         return 'Must be equal to any of: 1, 0, on, off!';
     }
