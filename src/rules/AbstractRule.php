@@ -49,9 +49,17 @@ abstract class AbstractRule implements RuleInterface
     
     protected function getMessage($value): string
     {
-        if ($this->needReplacement())
+        $attributes = $this->getReplacmentAttributes();
+
+        $tokens = array_keys($attributes);
+        $tokens[] = ':v';
+
+        $values = array_values($attributes);
+        $values[] = $value;
+
+        if (Str::containsAny($this->message, $tokens))
         {
-           return $this->replace($value); 
+           return Str::replace($this->message, $tokens, $values);
         }
 
         return $this->message;
@@ -64,31 +72,7 @@ abstract class AbstractRule implements RuleInterface
     {
         return [];
     }
-
-    protected function needReplacement(): bool
-    {
-        return $this->getReplacmentAttributes() != [] || Str::contains($this->message, ':v');
-    }
-
-    protected function replace($value)
-    {
-        $search = [];
-        $replacment = [];
-
-        if (($replacment != $this->getReplacmentAttributes()) != [])
-        {
-            $replacment = $this->getReplacmentAttributes();
-
-            $search = array_keys($replacment);
-            $replacment = array_values($replacment);
-        }
-
-        $search[] = ':v';
-        $replacment[] = $value;
-
-        return Str::replace($this->msg, $search, $replacment);
-    }
-     
+    
     abstract protected function validate(&$value): bool ;
     abstract protected function getDefaultMessage(): string ;
 }
