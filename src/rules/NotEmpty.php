@@ -21,7 +21,7 @@ class NotEmpty extends AbstractRule
      * @param $value
      * @return array
      */
-    protected function getMessageFor($value): string
+    protected function getDefaultMessage(): string
     {
         return 'Must be not empty';
     }
