@@ -21,7 +21,7 @@ class ValidationException extends \RuntimeException
         $this->class = $stack['class'] ?? null;
         $this->funcName = $stack['function'];
 
-        parent::__construct($this->stackToSring($stack));
+        parent::__construct($this->stackToSring($stack), 400);
     }
     
     /**
