@@ -16,6 +16,7 @@ class File extends AbstractRule
         {
             $this->setNext(new Filesize($maxFileSize));
         }
+        parent::__construct(null);
     }
     
     /**
