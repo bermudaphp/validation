@@ -10,11 +10,10 @@ final class Length extends AbstractRule
 {
     private bool $multibyte;
 
-    private function __construct(string $msg, bool $multibyte = true)
+    private function __construct(string $message, bool $multibyte = true)
     {
-        $this->msg = $msg;
+        $this->message = $msg;
         $this->multibyte = $multibyte;
-
     }
 
     /**
@@ -29,9 +28,9 @@ final class Length extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function getMessageFor($value): string
+    protected function getDefaultMessage(): string
     {
-        return $this->msg;
+        return '';
     }
 
     /**
