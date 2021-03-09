@@ -18,6 +18,7 @@ class LessThan extends AbstractRule
     {
         $this->operand = $operand;
         $this->dateTimeFormat = $dateTimeFormat;
+        parent::__construct(null);
     }
     
     /**
