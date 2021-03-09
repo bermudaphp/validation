@@ -15,7 +15,7 @@ class RegExp extends AbstractRule
     public function __construct(string $exp)
     {
         $this->exp = $exp;
-        parent::__construct(null)
+        parent::__construct(null);
     }
 
     /**
