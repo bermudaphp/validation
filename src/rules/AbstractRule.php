@@ -11,13 +11,13 @@ use Bermuda\String\Str;
 abstract class AbstractRule implements RuleInterface
 {
     use RuleTrait ;
-    protected string $msg = '';
+    protected string $message;
 
-    public function __construct(string $msg = '')
+    public function __construct(?string $message = null)
     {
-        $this->msg = $msg;
+        $this->message = $message ?? $this->getDefaultMessage();
     }
-
+    
     /**
      * @param $value
      * @return array
@@ -47,14 +47,14 @@ abstract class AbstractRule implements RuleInterface
         return $this;
     }
     
-    protected function getMessage($value):string
+    protected function getMessage($value): string
     {
         if ($this->needReplacement())
         {
            return $this->replace($value); 
         }
 
-        return $this->msg;
+        return $this->message;
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class AbstractRule implements RuleInterface
 
     protected function needReplacement(): bool
     {
-        return false;
+        return $this->getReplacmentAttributes() != [] || Str::contains($this->message, ':v');
     }
 
     protected function replace($value)
@@ -90,4 +90,5 @@ abstract class AbstractRule implements RuleInterface
     }
      
     abstract protected function validate(&$value): bool ;
+    abstract protected function getDefaultMessage(): string ;
 }
