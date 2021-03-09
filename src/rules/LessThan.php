@@ -32,7 +32,7 @@ class LessThan extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function getDefaultMessage($value): string
+    protected function getDefaultMessage(): string
     {
         if ($this->operand instanceof \DateTimeInterface)
         {
