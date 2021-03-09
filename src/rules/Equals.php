@@ -31,7 +31,7 @@ class Equals extends AbstractRule
     /**
      * @inheritDoc
      */
-    protected function getMessage($value): string
+    protected function getDefaultMessage(): string
     {
         if ($this->operand instanceof \DateTimeInterface)
         {
