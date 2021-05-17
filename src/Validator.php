@@ -37,7 +37,7 @@ class Validator
      */
     final public function add($name, RuleInterface $rule): self
     {
-        foreach ((array) $name as $n)
+        foreach (is_array($name) ? $name : [$name] as (string) $n)
         {
             $this->rules[$n] = $rule;
         }
@@ -76,11 +76,11 @@ class Validator
     {
         $errors = [];
 
-        foreach ($this->rules as $n => $rule)
+        foreach ($this->rules as $name => $rule)
         {
-            if (($msg = $rule($data[$n] ?? null)) != [])
+            if (($msg = $rule($data[$name] ?? null)) != [])
             {
-                $errors[$n] = count($msg) > 1 ? $msg : $msg[0];
+                $errors[$name] = count($msg) > 1 ? $msg : $msg[0];
             }
         }
 
