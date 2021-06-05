@@ -86,10 +86,10 @@ class Validator
 
         if ($errors != [])
         {
-            $prev = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
-            $prev['class'] = static::class;
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+            $backtrace['class'] = static::class;
 
-            throw new ValidationException($prev, $errors);
+            throw $this->getException($backtrace, $errors);
         }
     }
 
@@ -100,6 +100,11 @@ class Validator
     public static function makeOf(iterable $rules): self
     {
         return new static($rules);
+    }
+    
+    protected function getException(array $backtrace, array $errors): ValidationException
+    {
+        return new ValidationException($backtrace, $errors);
     }
     
     protected function registerDefaultRules(): void
