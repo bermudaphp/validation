@@ -11,7 +11,7 @@ use Bermuda\String\Str;
 abstract class AbstractRule implements RuleInterface
 {
     use RuleTrait ;
-    protected string $message;
+    protected string $message = '';
 
     public function __construct(?string $message = null)
     {
