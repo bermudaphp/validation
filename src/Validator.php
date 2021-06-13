@@ -37,7 +37,7 @@ class Validator
      */
     final public function add($name, RuleInterface $rule): self
     {
-        foreach (is_array($name) ? $name : [$name] as (string) $n)
+        foreach (is_array($name) ? $name : [$name] as $n)
         {
             $this->rules[$n] = $rule;
         }
