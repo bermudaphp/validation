@@ -4,17 +4,12 @@ namespace Bermuda\Validation;
 
 use Bermuda\Validation\Rules\RuleInterface;
 
-/**
- * Class Validator
- * @package Bermuda\Validation
- */
 class Validator
 {
     /**
      * @var RuleInterface[]
      */
     protected array $rules = [];
-
     public function __construct(iterable $rules = [])
     {
         $this->registerDefaultRules();
@@ -35,10 +30,9 @@ class Validator
      * @param RuleInterface $rule
      * @return $this
      */
-    final public function add($name, RuleInterface $rule): self
+    final public function add(string|array $name, RuleInterface $rule): self
     {
-        foreach (is_array($name) ? $name : [$name] as $n)
-        {
+        foreach (is_array($name) ? $name : [$name] as $n) {
             $this->rules[$n] = $rule;
         }
 
@@ -51,8 +45,7 @@ class Validator
      */
     public function addRules(iterable $rules): self
     {
-        foreach($rules as $n => $rule)
-        {
+        foreach($rules as $n => $rule) {
             $this->add($n, $rule);
         }
         
@@ -75,36 +68,23 @@ class Validator
     final public function validate(array $data): void
     {
         $errors = [];
-
-        foreach ($this->rules as $name => $rule)
-        {
-            if (($msg = $rule($data[$name] ?? null)) != [])
-            {
-                $errors[$name] = count($msg) > 1 ? $msg : $msg[0];
+        foreach ($this->rules as $name => $rule) {
+            if (($result = $rule->validate($data[$name])) !== true) {
+                $errors[$name] = $result;
             }
         }
 
-        if ($errors != [])
-        {
+        if ($errors != []) {
             $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
             $backtrace['class'] = static::class;
 
-            throw $this->getException($backtrace, $errors);
+            $this->throwException($backtrace, $errors);
         }
     }
-
-    /**
-     * @param RuleInterface[] $rules
-     * @return static
-     */
-    public static function makeOf(iterable $rules): self
-    {
-        return new static($rules);
-    }
     
-    protected function getException(array $backtrace, array $errors): ValidationException
+    protected function throwException(array $backtrace, array $errors): never
     {
-        return new ValidationException($backtrace, $errors);
+        throw new ValidationException($backtrace, $errors);
     }
     
     protected function registerDefaultRules(): void
