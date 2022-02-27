@@ -14,6 +14,6 @@ final class Boolean implements RuleInterface
 
     protected function doValidate($var): bool
     {
-        return StringHelper::equals($value, ['on', 'off', '1', '0'], true);
+        return StringHelper::equals($var, ['on', 'off', '1', '0'], true);
     }
 }
