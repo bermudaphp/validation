@@ -32,6 +32,8 @@ trait RuleTrait
 
     protected function getWildcards($var): array
     {
+        $wildcards = [];
+        
         if (strpos($this->message, $this->valueWildcard) !== false) {
             $wildcards = [$this->valueWildcard => $this->prepareVar($var)];
         }
@@ -40,7 +42,7 @@ trait RuleTrait
             $wildcards = array_merge($wildcards, $this->wildcards);
         }
 
-        return $wildcards ?? [];
+        return $wildcards;
     }
 
     protected function prepareVar($var): string
