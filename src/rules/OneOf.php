@@ -16,8 +16,13 @@ class OneOf implements RuleInterface, \IteratorAggregate
         if ($rules === []) {
             throw new \InvalidArgumentException('Rule array must not be empty');
         }
-        
+
         $this->addRules($rules);
+    }
+
+    protected function doValidate($var): bool
+    {
+        return true;
     }
 
     /**
