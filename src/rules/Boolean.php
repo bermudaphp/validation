@@ -2,27 +2,18 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\String\Str;
+use Bermuda\String\StringHelper;
 
-/**
- * Class Boolean
- * @package Bermuda\Validation\Rules
- */
-final class Boolean extends AbstractRule
+final class Boolean implements RuleInterface
 {
-    /**
-     * @inheritDoc
-     */
-    protected function validate(&$value): bool
+    use RuleTrait;
+    public function __construct(string $message = 'Value must be boolean')
     {
-        return Str::equalsAny($value, ['on', 'off', '1', '0'], true);
+        $this->message = $message;
     }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultMessage(): string
+
+    protected function doValidate($var): bool
     {
-        return 'Must be equal to any of: 1, 0, on, off!';
+        return StringHelper::equals($value, ['on', 'off', '1', '0'], true);
     }
 }
