@@ -2,40 +2,30 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class OneOf
- * @package Bermuda\Validation\Rules
- */
+use Generator;
+
 class OneOf implements RuleInterface, \IteratorAggregate
 {
-    use RuleTrait
-    {
-        validateNext as protected;
-    }
-
+    use RuleTrait;
     /**
      * @var RuleInterface[]
      */
     protected array $rules = [];
-
-    /**
-     * OneOf constructor.
-     * @param RuleInterface[] $rules
-     */
-    public function __construct(iterable $rules = [])
+    public function __construct(array $rules = [])
     {
+        if ($rules === []) {
+            throw new \InvalidArgumentException('Rule array must not be empty');
+        }
+        
         $this->addRules($rules);
     }
 
     /**
      * @return RuleInterface[]
      */
-    final public function getIterator(): \Generator
+    final public function getIterator(): Generator
     {
-        foreach ($this->rules as $rule)
-        {
-            yield $rule;
-        }
+        foreach ($this->rules as $rule) yield $rule;
     }
 
     /**
@@ -61,7 +51,7 @@ class OneOf implements RuleInterface, \IteratorAggregate
      */
     final public function addRule(RuleInterface $rule): self
     {
-        $this->rules[get_class($rule)] = $rule;
+        $this->rules[$rule::class] = $rule;
         return $this;
     }
 
@@ -71,37 +61,21 @@ class OneOf implements RuleInterface, \IteratorAggregate
      */
     final public function addRules(iterable $rules): self
     {
-        foreach ($rules as $rule)
-        {
-            $this->addRule($rule);
-        }
-
+        foreach ($rules as $rule) $this->addRule($rule);
         return $this;
     }
 
     /**
-     * @param $value
-     * @return array
+     * @inerhitDoc
      */
-    public function __invoke($value): array
+    public function validate($value): bool|string
     {
-        foreach ($this->rules as $rule)
-        {
-            if (($msg = $rule($value)) == [])
-            {
-                return $this->validateNext($value);
-            } 
+        foreach ($this->rules as $rule) {
+            if (($result = $rule->validate($value)) === true) {
+                return $this->validateNext($var);
+            }
         }
 
-        return $msg;
-    }
-    
-    /**
-     * @param RuleInterface[]|RuleInterface $rule
-     * @return static
-     */
-    public static function make($rule): self
-    {
-        return new static(is_iterable($rule) ? $rule : [$rule]);
+        return $result;
     }
 }
