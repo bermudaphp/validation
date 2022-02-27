@@ -7,17 +7,6 @@ trait RuleTrait
     protected string $message = '';
     protected ?array $wildcards = [];
     protected string $valueWildcard = ':v';
-    protected ?RuleInterface $next = null;
-
-    /**
-     * @param RuleInterface|null $rule
-     * @return RuleInterface
-     */
-    public function setNext(?RuleInterface $rule): RuleInterface
-    {
-        $this->next = $rule;
-        return $rule ?? $this;
-    }
 
     /**
      * @param string $pattern
@@ -35,7 +24,7 @@ trait RuleTrait
     public function validate($var): bool|string
     {
         if (($result = $this->doValidate($this->prepareVar($var))) === true) {
-            return $this->validateNext($var);
+            return true;
         }
 
         return $this->generateMessage($this->getWildcards($var));
@@ -58,17 +47,7 @@ trait RuleTrait
     }
 
     abstract protected function doValidate($var): bool;
-
-    /**
-     * @param array $result
-     * @param $value
-     * @return array
-     */
-    protected function validateNext($value): bool|string
-    {
-        return $this->next?->validate($value) ?? true;
-    }
-
+    
     /**
      * @param array $wildcards
      * @return string
