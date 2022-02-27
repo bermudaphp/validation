@@ -16,7 +16,7 @@ trait RuleTrait
     public function setNext(?RuleInterface $rule): RuleInterface
     {
         $this->next = $rule;
-        return $rule;
+        return $rule ?? $this;
     }
 
     /**
