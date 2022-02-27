@@ -34,7 +34,7 @@ trait RuleTrait
      */
     public function validate($var): bool|string
     {
-        if ($this->checkType($var) && ($result = $this->doValidate($this->prepareVar($var))) === true) {
+        if (($result = $this->doValidate($this->prepareVar($var))) === true) {
             return $this->validateNext($var);
         }
 
