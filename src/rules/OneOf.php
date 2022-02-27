@@ -77,7 +77,7 @@ class OneOf implements RuleInterface, \IteratorAggregate
     {
         foreach ($this->rules as $rule) {
             if (($result = $rule->validate($value)) === true) {
-                return $this->validateNext($var);
+                return $this->validateNext($value);
             }
         }
 
