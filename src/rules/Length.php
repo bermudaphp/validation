@@ -2,103 +2,108 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class Length
- * @package Bermuda\Validation\Rules
- */
-final class Length extends AbstractRule
+abstract class Length implements RuleInterface
 {
-    private bool $multibyte;
-
-    private function __construct(string $message, bool $multibyte = true)
+    use RuleTrait;
+    protected function __construct(string $message, array $wildcards)
     {
         $this->message = $message;
-        $this->multibyte = $multibyte;
+        $this->wildcards = $wildcards;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function validate(&$value): bool
+   protected function prepareVar($var): string
     {
-        $value = $this->getStringLength($value);
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultMessage(): string
-    {
-        return '';
+        return mb_strlen($var);
     }
 
     /**
      * @param int $length
-     * @param bool $multibite
-     * @return self
+     * @param string $message
+     * @return static
      */
-    public static function equals(int $length, bool $multibyte = true): self
+    public static function equals(int $length, string $message = 'The string length must be equal to :len'): self
     {
-        return (new self($msg = 'String length must be equals to ' . $length, $multibyte))->setNext((new Equals($length))->setMessage($msg));
+        return new class($message, [':len' => $length]) extends Length {
+            protected function doValidate($var): bool
+            {
+                return $var == $this->wildcards[':len'];
+            }
+        };
     }
 
     /**
      * @param int $length
-     * @param bool $multibite
-     * @return self
+     * @param string $message
+     * @return static
      */
-    public static function greaterThan(int $length, bool $multibyte = true): self
+    public static function greaterThan(int $length, string $message = 'The string length must be greater than :len'): self
     {
-        return (new self($msg = 'String length must be greater than ' . $length, $multibyte))->setNext((new GreaterThan($length))->setMessage($msg));
+        return new class($message, [':len' => $length]) extends Length {
+            protected function doValidate($var): bool
+            {
+                return $var > $this->wildcards[':len'];
+            }
+        };
     }
 
     /**
      * @param int $length
-     * @param bool $multibite
-     * @return self
+     * @param string $message
+     * @return static
      */
-    public static function greaterThanEquals(int $length, bool $multibyte = true): self
+    public static function greaterThanEquals(int $length, string $message = 'The string length must be greater than or equals to :len'): self
     {
-        return (new self($msg = 'String length must be greater than or equals ' . $length, $multibyte))->setNext((new GreaterThanEquals($length))->setMessage($msg));
+        return new class($message, [':len' => $length]) extends Length {
+            protected function doValidate($var): bool
+            {
+                return $var >= $this->wildcards[':len'];
+            }
+        };
     }
 
     /**
      * @param int $length
-     * @param bool $multibite
-     * @return self
+     * @param string $message
+     * @return static
      */
-    public static function lessThan(int $length, bool $multibyte = true): self
+    public static function lessThan(int $length, string $message = 'The string length must be less than :len'): self
     {
-        return (new self($msg = 'String length must be less than ' . $length, $multibyte))->setNext((new LessThan($length))->setMessage($msg));
+        return new class($message, [':len' => $length]) extends Length {
+            protected function doValidate($var): bool
+            {
+                return $var < $this->wildcards[':len'];
+            }
+        };
     }
 
     /**
      * @param int $length
-     * @param bool $multibite
-     * @return self
+     * @param string $message
+     * @return static
      */
-    public static function lessThanEquals(int $length, bool $multibyte = true): self
+    public static function lessThanEquals(int $length, string $message = 'The string length must be less than or equals to :len'): self
     {
-        return (new self($msg = 'String length must be less than or equals ' . $length, $multibyte))->setNext((new LessThanEquals($length))->setMessage($msg));
+        return new class($message, [':len' => $length]) extends Length {
+            protected function doValidate($var): bool
+            {
+                return $var <= $this->wildcards[':len'];
+            }
+        };
     }
 
     /**
-     * @param int $length
-     * @param bool $multibite
-     * @return self
+     * @param int $min
+     * @param int $max
+     * @param string $message
+     * @return static
      */
-    public static function range(int $minLength, int $maxLength, bool $multibyte = true): self
+    public static function between(int $min, int $max, string $message = 'The string length must be between :min and :max'): self
     {
-        return (new self($msg = "String length must be in the range from {$minLength} to {$maxLength}", $multibyte))->setNext((new Range($minLength, $maxLength))->setMessage($msg));
-    }
-
-    /**
-     * @param string $value
-     * @return int
-     */
-    private function getStringLength(string $value): int
-    {
-        return $this->multibyte ? mb_strlen($value) : strlen($value);
+        return new class($message, [':min' => $min, ':max' => $max]) extends Length {
+            protected function doValidate($var): bool
+            {
+                return $var >= $this->wildcards[':min'] && $this->wildcards[':max'] >= $var;
+            }
+        };
     }
 }
