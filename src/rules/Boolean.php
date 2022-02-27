@@ -7,13 +7,18 @@ use Bermuda\String\StringHelper;
 final class Boolean implements RuleInterface
 {
     use RuleTrait;
-    public function __construct(string $message = 'Value must be boolean')
+    public function __construct(string $message = 'Value must be boolean or string equal any of: on, off, true, false, 0, 1')
     {
         $this->message = $message;
     }
 
+    protected function getTypes(): array
+    {
+        return ['string', 'boolean', 'integer'];
+    }
+
     protected function doValidate($var): bool
     {
-        return (is_string($var) && StringHelper::equals($var, ['on', 'off', '1', '0', 'true', 'false'])) || is_bool($var);
+        return is_bool($var) || (is_string($var) && StringHelper::equals((string) $var, ['on', 'off', '1', '0', 'true', 'false']));
     }
 }
