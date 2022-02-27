@@ -10,8 +10,8 @@ abstract class Length implements RuleInterface
         $this->message = $message;
         $this->wildcards = $wildcards;
     }
-
-   protected function prepareVar($var): string
+    
+    protected function prepareVar($var): string
     {
         return mb_strlen($var);
     }
@@ -26,7 +26,7 @@ abstract class Length implements RuleInterface
         return new class($message, [':len' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return $var == $this->wildcards[':len'];
+                return is_string($var) && $var == $this->wildcards[':len'];
             }
         };
     }
@@ -41,7 +41,7 @@ abstract class Length implements RuleInterface
         return new class($message, [':len' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return $var > $this->wildcards[':len'];
+                return is_string($var) && $var > $this->wildcards[':len'];
             }
         };
     }
@@ -56,7 +56,7 @@ abstract class Length implements RuleInterface
         return new class($message, [':len' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return $var >= $this->wildcards[':len'];
+                return is_string($var) && $var >= $this->wildcards[':len'];
             }
         };
     }
@@ -71,7 +71,7 @@ abstract class Length implements RuleInterface
         return new class($message, [':len' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return $var < $this->wildcards[':len'];
+                return is_string($var) && $var < $this->wildcards[':len'];
             }
         };
     }
@@ -86,7 +86,7 @@ abstract class Length implements RuleInterface
         return new class($message, [':len' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return $var <= $this->wildcards[':len'];
+                return is_string($var) && $var <= $this->wildcards[':len'];
             }
         };
     }
@@ -102,7 +102,7 @@ abstract class Length implements RuleInterface
         return new class($message, [':min' => $min, ':max' => $max]) extends Length {
             protected function doValidate($var): bool
             {
-                return $var >= $this->wildcards[':min'] && $this->wildcards[':max'] >= $var;
+                return is_string($var) && $var >= $this->wildcards[':min'] && $this->wildcards[':max'] >= $var;
             }
         };
     }
