@@ -12,11 +12,6 @@ final class Boolean implements RuleInterface
         $this->message = $message;
     }
 
-    protected function getTypes(): array
-    {
-        return ['string', 'boolean', 'integer'];
-    }
-
     protected function doValidate($var): bool
     {
         return is_bool($var) || (is_string($var) && StringHelper::equals((string) $var, ['on', 'off', '1', '0', 'true', 'false']));
