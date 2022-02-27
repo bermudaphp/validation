@@ -2,23 +2,16 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class AllOf
- * @package Bermuda\Validation\Rules
- */
 final class AllOf extends OneOf
 {
     /**
-     * @param $value
-     * @return array
+     * @inerhitDoc
      */
-    public function __invoke($value): array
+    public function validate($value): bool|string
     {
-        foreach ($this->rules as $rule)
-        {
-            if (($msg = $rule($value)) != [])
-            {
-                return $msg;
+        foreach ($this->rules as $rule) {
+            if (($result = $rule->validate($value)) !== true) {
+                return $result;
             }
         }
 
