@@ -41,16 +41,6 @@ trait RuleTrait
         return $this->generateMessage($this->getWildcards($var));
     }
 
-    protected function checkType($var): bool
-    {
-        return in_array(gettype($var), $this->getTypes());
-    }
-
-    protected function getTypes(): array
-    {
-        return ['string'];
-    }
-
     protected function getWildcards($var): array
     {
         $wildcards = [$this->valueWildcard => $this->prepareVar($var)];
