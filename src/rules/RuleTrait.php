@@ -23,7 +23,7 @@ trait RuleTrait
      */
     public function validate($var): bool|string
     {
-        if (($result = $this->doValidate($this->prepareVar($var))) === true) {
+        if (($result = $this->doValidate($var)) === true) {
             return true;
         }
 
@@ -32,8 +32,10 @@ trait RuleTrait
 
     protected function getWildcards($var): array
     {
-        $wildcards = [$this->valueWildcard => $this->prepareVar($var)];
-
+        if (strpos($this->message, $this->valueWildcard) !== false) {
+            $wildcards = [$this->valueWildcard => $this->prepareVar($var)];
+        }
+        
         if ($this->wildcards !== []) {
             $wildcards = array_merge($wildcards, $this->wildcards);
         }
@@ -41,13 +43,13 @@ trait RuleTrait
         return $wildcards;
     }
 
-    protected function prepareVar($var)
+    protected function prepareVar($var): string
     {
         return $var;
     }
 
     abstract protected function doValidate($var): bool;
-    
+
     /**
      * @param array $wildcards
      * @return string
