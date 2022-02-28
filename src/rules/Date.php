@@ -7,7 +7,7 @@ use Bermuda\Clock\Clock;
 final class Date implements RuleInterface
 {
     use RuleTrait;
-    public function __construct(string $message = 'Value must be a valid date')
+    public function __construct(string $message = 'Value must be a valid date', private ?string $format = null)
     {
         $this->message = $message;
     }
@@ -15,7 +15,7 @@ final class Date implements RuleInterface
     protected function doValidate($var): bool
     {
         try {
-            return $var instanceof \DateTimeInterface || Clock::create($var) instanceof \DateTimeInterface;
+            return $var instanceof \DateTimeInterface || Clock::create($var, format: $this->format) instanceof \DateTimeInterface;
         } catch (\Throwable) {
             return false;
         }
