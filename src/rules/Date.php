@@ -20,27 +20,27 @@ class Date implements RuleInterface
             return false;
         }
     }
-    
-    public static function between(\DateTimeInterface $min, \DateTimeInterface $max, ?string $format = null): self
+
+    public static function between(\DateTimeInterface $min, \DateTimeInterface $max, string $message ='Value must be a valid date between :min and :max', ?string $format = null): self
     {
-        return new class('Value must be a valid date between :min and :max', $format, $min, $max) extends Date {
-            public function __construct(string $message = 'Value must be a valid date', ?string $format = null)
+        return new class($min, $max, $message, $format) extends Date {
+            public function __construct(\DateTimeInterface $min, \DateTimeInterface $max, string $message, ?string $format)
             {
                 parent::__construct($message, $format);
                 $this->wildcards[':min'] = $min; $this->wildcards[':max'] = $max;
             }
-            
+
             protected function doValidate($var): bool
             {
                 if (!parent::doValidate($var)) {
                     return false;
                 }
-                
-                if ($var instanceof \DateTimeInterface) {
+
+                if (!$var instanceof \DateTimeInterface) {
                     $var = Clock::create($var, $this->format);
                 }
-                
-                return $this->wildcards[':min'] >= $var && $var <= $this->wildcards[':max'];
+
+                return $var >= $this->wildcards[':min'] && $var <= $this->wildcards[':max'];
             }
         };
     }
