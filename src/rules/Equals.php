@@ -2,43 +2,23 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class Equals
- * @package Bermuda\Validation\Rules
- */
-class Equals extends AbstractRule
-{
-    /**
-     * @var float|int|string|\DateTimeInterface
-     */
-    protected $operand;
-    protected string $dateTimeFormat;
+use Bermuda\Validation\Equalible;
 
-    public function __construct($operand, string $dateTimeFormat = 'd/m/Y')
+final class Equals implements RuleInterface
+{
+    use RuleTrait;
+    public function __construct(private int|float|string|Equalible $operand, string $message = 'Value must be equal to :operand', private bool $strict = true)
     {
-        $this->operand = $operand;
-        $this->dateTimeFormat = $dateTimeFormat;
-        parent::__construct(null);
+        $this->message = $message;
+        $this->wildcards[':operand'] = (string) $this->operand;
     }
     
-    /**
-     * @inheritDoc
-     */
-    protected function validate(&$value): bool
+    protected function doValidate($var): bool
     {
-        return $value == $this->operand;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultMessage(): string
-    {
-        if ($this->operand instanceof \DateTimeInterface)
-        {
-            return 'Must be a date and equals to' . $this->operand->format($this->dateTimeFormat);
+        if ($this->operand instanceof Equalible) {
+            return $this->operand->equalTo($var);
         }
         
-        return 'Must be equals to ' . $this->operand;
+        return $this->strict ? $var === $this->operand : $var == $this->operand;
     }
 }
