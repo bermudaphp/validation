@@ -52,7 +52,7 @@ class Date implements RuleInterface
      * @param string|null $format
      * @return static
      */
-    public static function any(array $dates, string $message ='Value must be a valid date:format equal to any :dates', ?string $format = null): self
+    public static function any(array $dates, string $message ='Value must be a valid date:format equal to any: :dates', ?string $format = null): self
     {
         return new class($dates, $message, $format) extends Date {
             public function __construct(array $dates, string $message, ?string $format)
@@ -104,7 +104,7 @@ class Date implements RuleInterface
         };
     }
 
-    public static function between(\DateTimeInterface $min, \DateTimeInterface $max, string $message ='Value must be a valid date :format between :min and :max', ?string $format = null): self
+    public static function between(\DateTimeInterface $min, \DateTimeInterface $max, string $message ='Value must be a valid date:format between :min and :max', ?string $format = null): self
     {
         return new class($min, $max, $message, $format) extends Date {
             public function __construct(\DateTimeInterface $min, \DateTimeInterface $max, string $message, ?string $format)
