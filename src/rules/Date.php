@@ -40,7 +40,7 @@ class Date implements RuleInterface
                     $var = Clock::create($var, $this->format);
                 }
 
-                return $var >= $this->wildcards[':min'] && $var <= $this->wildcards[':max'];
+                return $var >= $this->wildcards[':min'] && $this->wildcards[':max'] >= $var;
             }
         };
     }
