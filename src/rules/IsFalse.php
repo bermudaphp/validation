@@ -11,7 +11,7 @@ final class IsFalse implements RuleInterface
     {
         if ($message == '') {
             $message = $this->strict ? 'Value must be false'
-                : 'Value must be boolean or equal any of: false, off, 0';
+                : 'Value must be false or equal any of: \'false\', \'off\', \'0\'';
         }
 
         $this->message = $message;
@@ -23,6 +23,6 @@ final class IsFalse implements RuleInterface
             return $var === false;
         }
 
-        return $var === false || (is_string($var) && StringHelper::equals((string) $var, ['off', '0', 'off'])) || $var = 0;
+        return $var === false || (is_string($var) && StringHelper::equals($var, ['off', '0', 'false'])) || $var == 0;
     }
 }
