@@ -14,6 +14,6 @@ final class Between implements RuleInterface
 
     protected function doValidate($var): bool
     {
-        return is_numeric($var) && $this->wildcards[':min'] >= $var && $var <= $this->wildcards[':max'];
+        return is_numeric($var) && $var >= $this->wildcards[':min'] && $this->wildcards[':max'] >= $var;
     }
 }
