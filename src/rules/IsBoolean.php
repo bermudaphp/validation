@@ -11,7 +11,7 @@ final class IsBoolean implements RuleInterface
     {
         if ($message == '') {
             $message = $this->strict ? 'Value must be boolean'
-                : 'Value must be boolean or string equal any of: on, off, true, false, 0, 1';
+                : 'Value must be boolean or equal any of: \'on\', \'off\', \'true\', \'false\', 0, 1';
         }
 
         $this->message = $message;
@@ -23,7 +23,7 @@ final class IsBoolean implements RuleInterface
             return is_bool($var);
         }
 
-        return is_bool($var) || (is_string($var) && StringHelper::equals((string) $var, ['on', 'off', '1', '0', 'true', 'false']))
-            || ($var == 1 || $var = 0);
+        return is_bool($var) || (is_string($var) && StringHelper::equals($var, ['on', 'off', '1', '0', 'true', 'false']))
+            || ($var == 1 || $var == 0);
     }
 }
