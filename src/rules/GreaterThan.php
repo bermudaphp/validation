@@ -2,51 +2,21 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class GreaterThan
- * @package Bermuda\Validation\Rules
- */
-class GreaterThan extends AbstractRule
+final class GreaterThan implements RuleInterface
 {
-    /**
-     * @var float|int|string|\DateTimeInterface
-     */
-    protected $operand;
-    protected string $dateTimeFormat;
+    use RuleTrait;
+    public function __construct(float|int $operand, string $message = 'Value must be greater than :operand')
+    {
+        $this->message = $message;
+        $this->wildcards[':operand'] = $operand;
+    }
 
-    public function __construct($operand, string $dateTimeFormat = 'd/m/Y')
+    protected function doValidate($var): bool
     {
-        $this->operand = $operand;
-        $this->dateTimeFormat = $dateTimeFormat;
-        parent::__construct(null);
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function validate(&$value): bool
-    {
-        return $value > $this->operand;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultMessage(): string
-    {
-        if ($this->operand instanceof \DateTimeInterface)
-        {
-            return 'Must be a date and greater than :operand';
+        if (!is_numeric($var)) {
+            return false;
         }
-        
-        return 'Must be greater than :operand';
-    }
-    
-    /**
-     * @return array
-     */
-    protected function getReplacmentAttributes(): array
-    {
-        return [':operand' => $this->operand instanceof \DateTimeInterface ? $this->operand->format($this->dateTimeFormat) : $this->operand];
+
+        return $var > $this->wildcards[':operand'];
     }
 }
