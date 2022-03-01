@@ -25,4 +25,9 @@ final class IsFalse implements RuleInterface
 
         return $var === false || (is_string($var) && StringHelper::equals($var, ['off', '0', 'false'])) || $var == 0;
     }
+    
+    public function getName(): string 
+    {
+        return 'isFalse';
+    }
 }
