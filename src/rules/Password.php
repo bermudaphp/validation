@@ -4,20 +4,33 @@ namespace Bermuda\Validation\Rules;
 
 use Bermuda\String\StringHelper;
 
-final class Password implements RuleInterface
+final class Password implements RuleInterface, ValidationDataAwareInterface
 {
     use RuleTrait;
+    private ?array $data = null;
+    private ?string $confirm = null;
     private bool $symbols = true, $numbers = true;
     public function __construct(private int $length = 8, private array $messages = [])
     {
         if ($this->messages == []) {
             $this->messages['not'] = 'Value must be password string';
+            $this->messages['confirm'] = 'Passwords do not match';
             $this->messages['symbols'] = 'Password must contain at least one symbol';
             $this->messages['numbers'] = 'Password must contain at least one number';
             $this->messages['length'] = 'Minimum password length - :length characters';
         }
 
         $this->wildcards[':length'] = $this->length;
+    }
+
+    /**
+     * @param array $data
+     * @return self
+     */
+    public function setData(array $data): ValidationDataAwareInterface
+    {
+        $this->data = $data;
+        return $this;
     }
 
     protected function doValidate($var): bool
@@ -42,12 +55,24 @@ final class Password implements RuleInterface
             return false;
         }
 
+        if ($this->confirm != null && ($data[$this->confirm] ?? null) != $var) {
+            $this->message = $this->messages['confirm'];
+            $this->wildcards[':confirm'] = $this->confirm;
+            return false;
+        }
+
         return true;
     }
 
     public function getName(): string
     {
         return 'password';
+    }
+
+    public function needConfirm (string $key): self
+    {
+        $this->confirm = $key;
+        return $this;
     }
 
     /**
