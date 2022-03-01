@@ -6,10 +6,15 @@ use Generator;
 trait RuleCollectionTrait
 {
     /**
-     * @var RuleInterface[]
+     * @var array<RuleInterface|RuleCollectionInterface>
      */
     protected array $rules = [];
-    public function __construct(array $rules = [])
+
+    /**
+     * @param iterable<RuleInterface|RuleCollectionInterface> $rules
+     * @throws \InvalidArgumentException if $rules is empty
+     */
+    public function __construct(iterable $rules = [])
     {
         if ($rules === []) {
             throw new \InvalidArgumentException('Rule array must not be empty');
@@ -19,7 +24,7 @@ trait RuleCollectionTrait
     }
 
     /**
-     * @return RuleInterface[]
+     * @return iterable<RuleInterface|RuleCollectionInterface>
      */
     final public function getIterator(): Generator
     {
@@ -27,7 +32,7 @@ trait RuleCollectionTrait
     }
 
     /**
-     * @return RuleInterface[]
+     * @return array<RuleInterface|RuleCollectionInterface>
      */
     public function getRules(): array
     {
@@ -35,36 +40,35 @@ trait RuleCollectionTrait
     }
 
     /**
-     * @param string|RuleInterface $rule
-     * @return bool
+     * @inerhitDoc
      */
-    public function hasRule(string|RuleInterface $rule): bool
+    public function hasRule(string|RuleInterface|RuleCollectionInterface $rule): bool
     {
         if (is_string($rule)) {
             return isset($this->rules[$rule]);
         }
-        
+
         foreach($this->rules as $r) {
             if ($rule === $r) {
                 return true;
             }
         }
-        
+
         return false;
     }
 
     /**
-     * @param RuleInterface $rule
+     * @param RuleInterface|RuleCollectionInterface $rule
      * @return $this
      */
-    public function addRule(RuleInterface $rule): self
+    public function addRule(RuleInterface|RuleCollectionInterface $rule): self
     {
         $this->rules[$rule->getName()] = $rule;
         return $this;
     }
 
     /**
-     * @param RuleInterface[] $rules
+     * @param iterable<RuleInterface|RuleCollectionInterface> $rules
      * @return $this
      */
     public function addRules(iterable $rules): self
