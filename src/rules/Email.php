@@ -18,4 +18,9 @@ final class Email implements RuleInterface
 
         return filter_var($var, FILTER_VALIDATE_EMAIL);
     }
+    
+    public function getName(): string 
+    {
+        return 'email';
+    }
 }
