@@ -7,6 +7,7 @@ final class Numbers implements RuleInterface
     use RuleTrait;
     public function __construct(string $message = 'Value must be a array of numbers')
     {
+        $this->message = $message;
     }
 
     protected function doValidate($var): bool
