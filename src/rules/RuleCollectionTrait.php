@@ -35,7 +35,7 @@ trait RuleCollectionTrait
     }
 
     /**
-     * @param string $rule
+     * @param string|RuleInterface $rule
      * @return bool
      */
     public function hasRule(string|RuleInterface $rule): bool
