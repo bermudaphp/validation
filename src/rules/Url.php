@@ -22,7 +22,7 @@ final class Url extends RegEx
      * @param string $regExp
      * @return $this
      */
-    public function withExp(string $regExp): self
+    public function withExp(string $exp): self
     {
         throw new \RuntimeException(__METHOD__ . ' is dissable from this class');
     }
