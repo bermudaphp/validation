@@ -19,4 +19,9 @@ final class GreaterThanEquals implements RuleInterface
 
         return $var >= $this->wildcards[':operand'];
     }
+    
+    public function getName(): string 
+    {
+        return 'greaterThanEquals';
+    }
 }
