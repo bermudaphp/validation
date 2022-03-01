@@ -35,12 +35,22 @@ trait RuleCollectionTrait
     }
 
     /**
-     * @param string $name
+     * @param string $rule
      * @return bool
      */
-    public function ruleExists(string $name): bool
+    public function hasRule(string|RuleInterface $rule): bool
     {
-        return isset($this->rules[$name]);
+        if (is_string($rule)) {
+            return isset($this->rules[$rule]);
+        }
+        
+        foreach($this->rules as $r) {
+            if ($rule === $r) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
