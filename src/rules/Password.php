@@ -54,8 +54,8 @@ final class Password implements RuleInterface, ValidationDataAwareInterface
             $this->message = $this->messages['length'];
             return false;
         }
-
-        if ($this->confirm != null && ($data[$this->confirm] ?? null) != $var) {
+        
+        if ($this->confirm != null && ($this->data[$this->confirm] ?? null) != $var) {
             $this->message = $this->messages['confirm'];
             $this->wildcards[':confirm'] = $this->confirm;
             return false;
