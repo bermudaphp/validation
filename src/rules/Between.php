@@ -11,6 +11,11 @@ final class Between implements RuleInterface
         $this->wildcards[':min'] = $min;
         $this->wildcards[':max'] = $max;
     }
+    
+    public function getName(): string 
+    {
+        return 'between';
+    }
 
     protected function doValidate($var): bool
     {
