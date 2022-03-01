@@ -22,4 +22,9 @@ final class OneOf implements RuleCollectionInterface
 
         return $result;
     }
+    
+    public function getName(): string 
+    {
+        return 'oneOf';
+    }
 }
