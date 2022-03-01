@@ -2,25 +2,16 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class Number
- * @package Bermuda\Validation\Rules
- */
-class Number extends AbstractRule
+final class Number implements RuleInterface
 {
-   /**
-     * @inheritDoc
-     */
-    protected function validate(&$value): bool
+    use RuleTrait;
+    public function __construct(string $message = 'Value must be a number')
     {
-        return is_numeric($value);
+        $this->message = $message;
     }
     
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultMessage(): string
+    protected function doValidate($var): bool
     {
-        return 'Must be a number';
+        return is_numeric($var);
     }
 }
