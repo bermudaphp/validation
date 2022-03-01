@@ -24,4 +24,9 @@ final class IsJson implements RuleInterface
         
         return true;
     }
+    
+    public function getName(): string 
+    {
+        return 'isJson';
+    }
 }
