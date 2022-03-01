@@ -2,28 +2,19 @@
 
 namespace Bermuda\Validation;
 
-/**
- * Class ValidationException
- * @package Bermuda\Validation
- */
 class ValidationException extends \RuntimeException
 {
-    protected ?string $class;
-    protected string $funcName;
-    protected array $errors = [];
-    
-    public function __construct(array $stack, array $errors)
+    public function __construct(protected array $errors, protected array $data, public readonly ?Validator $validator = null, int $deep = null)
     {
-        $this->errors = $errors;
-        
-        $this->file = $stack['file'];
-        $this->line = $stack['line'];
-        $this->class = $stack['class'] ?? null;
-        $this->funcName = $stack['function'];
+        if ($deep !== null) {
+            $stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $deep)[$deep - 1];
+            $this->file = $stack['file'];
+            $this->line = $stack['line'];
+        }
 
-        parent::__construct($this->stackToSring($stack), 400);
+        parent::__construct('Validation failed. Errors count: ' .count($errors), 400);
     }
-    
+
     /**
      * @return array
      */
@@ -31,35 +22,12 @@ class ValidationException extends \RuntimeException
     {
         return $this->errors;
     }
-    
-    /**
-     * Return validator class name
-     * @return string|null
-     */
-    public function getClass():? string
-    {
-        return $this->class;
-    }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getFunctionName(): string
+    public function getValidationData(): array
     {
-        return $this->funcName;
-    }
-   
-    /**
-     * @param array $stack
-     * @return string
-     */
-    protected function stackToSring(array $stack): string
-    {
-        if (!isset($stack['class']))
-        {
-            return $stack['function'] . ' failed validation!';
-        }
-
-        return $stack['class'] . '::' . $stack['function'] . ' failed validation!';
+        return $this->data;
     }
 }
