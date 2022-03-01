@@ -17,4 +17,9 @@ final class Equals implements RuleInterface
     {
         return $this->strict ? $var === $this->operand : $var == $this->operand;
     }
+    
+    public function getName(): string 
+    {
+        return 'equals';
+    }
 }
