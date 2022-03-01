@@ -22,13 +22,13 @@ class RegEx implements RuleInterface
     }
 
     /**
-     * @param string $regEx
+     * @param string $exp
      * @return static
      */
-    public function withExp(string $regEx): self
+    public function withExp(string $exp): self
     {
         $copy = clone $this;
-        $copy->exp = $regEx;
+        $copy->exp = $exp;
         
         return $copy;
     }
