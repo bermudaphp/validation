@@ -18,4 +18,9 @@ final class Ip implements RuleInterface
 
         return filter_var($var, FILTER_VALIDATE_IP);
     }
+    
+    public function getName(): string 
+    {
+        return 'ip';
+    }
 }
