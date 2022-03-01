@@ -12,6 +12,11 @@ class Date implements RuleInterface
         $this->message = $message;
         $this->wildcards[':format'] = $format == null ? '' : ' in format: ' . $format;
     }
+    
+    public function getName(): string 
+    {
+        return 'date';
+    }
 
     protected function doValidate($var): bool
     {
@@ -43,6 +48,11 @@ class Date implements RuleInterface
 
                 return $var == $this->wildcards[':date'];
             }
+            
+            public function getName(): string 
+            {
+                return 'date.concrete';
+            }
         };
     }
 
@@ -67,6 +77,10 @@ class Date implements RuleInterface
 
                 return $this->include ? $var <= $this->wildcards[':date'] : $var < $this->wildcards[':date'];
             }
+            public function getName(): string 
+            {
+                return 'date.before';
+            }
         };
     }
 
@@ -90,6 +104,11 @@ class Date implements RuleInterface
                 }
 
                 return $this->include ? $var >= $this->wildcards[':date'] : $var > $this->wildcards[':date'];
+            }
+            
+            public function getName(): string 
+            {
+                return 'date.after';
             }
         };
     }
@@ -149,6 +168,10 @@ class Date implements RuleInterface
 
                 return $wildcards;
             }
+            public function getName(): string 
+            {
+                return 'date.any';
+            }
         };
     }
 
@@ -172,6 +195,10 @@ class Date implements RuleInterface
                 }
 
                 return $var >= $this->wildcards[':min'] && $this->wildcards[':max'] >= $var;
+            }
+            public function getName(): string 
+            {
+                return 'date.any';
             }
         };
     }
