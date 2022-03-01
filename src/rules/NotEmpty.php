@@ -19,7 +19,7 @@ final class NotEmpty implements RuleInterface
      * @param string $message
      * @return RuleInterface
      */
-    public static function revers(string $message = 'Must be empty'): RuleInterface
+    public static function reverse(string $message = 'Must be empty'): RuleInterface
     {
         return new class($message) implements RuleInterface
         {
