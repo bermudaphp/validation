@@ -41,4 +41,9 @@ class RegEx implements RuleInterface
         
         return StringHelper::match($this->exp, $var);
     }
+    
+    public function getName(): string 
+    {
+        return 'regEx';
+    }
 }
