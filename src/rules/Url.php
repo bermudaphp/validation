@@ -19,8 +19,9 @@ final class Url extends RegEx
     }
 
     /**
-     * @param string $regExp
-     * @return $this
+     * @param string $exp
+     * @return self
+     * @throws \RuntimeException
      */
     public function withExp(string $exp): self
     {
