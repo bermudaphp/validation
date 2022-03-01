@@ -6,11 +6,12 @@
       "Bermuda\\Validation\\": "src/"
     },
     "files": [
-            "src/functions.php"
+      "src/functions.php"
     ]
   },
   "require": {
-    "php": ">= 7.4",
-    "bermudaphp/stringy": "^2.0.3"
+    "php": "^8.1",
+    "bermudaphp/stringy": "^2.0.3",
+    "bermudaphp/utils-byte": "^1.0"
   }
 }
