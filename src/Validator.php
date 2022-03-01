@@ -3,17 +3,20 @@
 namespace Bermuda\Validation;
 
 use Bermuda\Validation\Rules\RuleInterface;
+use Bermuda\Validation\Rules\RuleCollectionInterface;
+use Bermuda\Validation\Rules\ValidationDataAwareInterface;
 
 class Validator
 {
-    /**
-     * @var RuleInterface[]|RuleCollectionInterface[]
-     */
     protected array $rules = [];
+
+    /**
+     * @param iterable<RuleInterface|RuleCollectionInterface> $rules
+     */
     public function __construct(iterable $rules = [])
     {
-        $rules = array_merge($this->registerDefaultRules(), $rules);
-        $this->addRules($rules);
+        $this->addRules($this->getDefaultRules())
+            ->addRules($rules);
     }
 
     /**
@@ -40,7 +43,7 @@ class Validator
     }
     
     /**
-     * @param RuleInterface[]|RuleCollectionInterface[] $rules
+     * @param iterable<RuleInterface|RuleCollectionInterface> $rules
      * @return $this
      */
     public function addRules(iterable $rules): self
@@ -53,7 +56,7 @@ class Validator
     }
 
     /**
-     * @return RuleCollectionInterface[]|RuleInterface[]
+     * @return array
      */
     final public function getRules(): array
     {
@@ -62,30 +65,32 @@ class Validator
 
     /**
      * @param array $data
-     * If validation failed
      * @throws ValidationException 
+     * If validation failed
      */
     final public function validate(array $data): void
     {
         $errors = [];
         foreach ($this->rules as $name => $rule) {
+            if ($rule instanceof ValidationDataAwareInterface) {
+                $rule->setData($data);
+            }
+
             if (($result = $rule->validate($data[$name])) !== true) {
                 $errors[$name] = $result;
             }
         }
 
         if ($errors != []) {
-            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
-            $backtrace['class'] = static::class;
-            $this->throwException($backtrace, $errors);
+            throw $this->createException($errors, $data);
         }
     }
-    
-    protected function throwException(array $backtrace, array $errors): never
+
+    protected function createException(array $errors, array $data, $deep = 3): ValidationException
     {
-        throw new ValidationException($backtrace, $errors);
+        return new ValidationException($errors, $data, $this, $deep);
     }
-    
+
     protected function getDefaultRules(): array
     {
         return [];
