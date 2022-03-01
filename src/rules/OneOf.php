@@ -9,10 +9,9 @@ final class OneOf implements RuleCollectionInterface
     use RuleCollectionTrait;
 
     /**
-     * @param $value
-     * @return bool|string
+     * @inheritDoc
      */
-    public function validate($value): bool|string
+    public function validate($value): bool|string|array
     {
         foreach ($this->rules as $rule) {
             if (($result = $rule->validate($value)) === true) {
