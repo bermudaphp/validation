@@ -26,4 +26,9 @@ final class IsBoolean implements RuleInterface
         return is_bool($var) || (is_string($var) && StringHelper::equals($var, ['on', 'off', '1', '0', 'true', 'false']))
             || ($var == 1 || $var == 0);
     }
+    
+    public function getName(): string 
+    {
+        return 'isBoolean';
+    }
 }
