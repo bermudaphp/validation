@@ -2,51 +2,21 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class LessThanEquals
- * @package Bermuda\Validation\Rules
- */
-class LessThanEquals extends AbstractRule
+final class LessThanEquals implements RuleInterface
 {
-    /**
-     * @var float|int|string|\DateTimeInterface
-     */
-    protected $operand;
-    protected string $dateTimeFormat;
+    use RuleTrait;
+    public function __construct(float|int $operand, string $message = 'Value must be less than or equal to :operand')
+    {
+        $this->message = $message;
+        $this->wildcards[':operand'] = $operand;
+    }
 
-    public function __construct($operand, string $dateTimeFormat = 'd/m/Y')
+    protected function doValidate($var): bool
     {
-        $this->operand = $operand;
-        $this->dateTimeFormat = $dateTimeFormat;
-        parent::__construct(null);
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function validate(&$value): bool
-    {
-        return $value <= $this->operand;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultMessage(): string
-    {
-        if ($this->operand instanceof \DateTimeInterface)
-        {
-            return 'Must be a date and less than or equals :operand';
+        if (!is_numeric($var)) {
+            return false;
         }
-        
-        return 'Must be less than or equals :operand';
-    }
-    
-    /**
-     * @return array
-     */
-    protected function getReplacmentAttributes(): array
-    {
-        return [':operand' => $this->operand instanceof \DateTimeInterface ? $this->operand->format($this->dateTimeFormat) : $this->operand];
+
+        return $this->wildcards[':operand'] >= $var;
     }
 }
