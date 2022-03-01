@@ -15,18 +15,28 @@ abstract class Length implements RuleInterface
     {
         return mb_strlen($var);
     }
+    
+    public function getName(): string 
+    {
+        return 'length';
+    }
 
     /**
      * @param int $length
      * @param string $message
      * @return static
      */
-    public static function equals(int $length, string $message = 'The string length must be equal to :len'): self
+    public static function equalTo(int $length, string $message = 'The string length must be equal to :len'): self
     {
         return new class($message, [':len' => $length]) extends Length {
             protected function doValidate($var): bool
             {
                 return is_string($var) && $var == $this->wildcards[':len'];
+            }
+            
+            public function getName(): string 
+            {
+                return 'length.equalTo';
             }
         };
     }
@@ -43,6 +53,11 @@ abstract class Length implements RuleInterface
             {
                 return is_string($var) && $var > $this->wildcards[':len'];
             }
+            
+            public function getName(): string 
+            {
+                return 'length.greaterThan';
+            }
         };
     }
 
@@ -57,6 +72,11 @@ abstract class Length implements RuleInterface
             protected function doValidate($var): bool
             {
                 return is_string($var) && $var >= $this->wildcards[':len'];
+            }
+            
+            public function getName(): string 
+            {
+                return 'length.greaterThanEquals';
             }
         };
     }
@@ -73,6 +93,11 @@ abstract class Length implements RuleInterface
             {
                 return is_string($var) && $var < $this->wildcards[':len'];
             }
+            
+            public function getName(): string 
+            {
+                return 'length.lessThan';
+            }
         };
     }
 
@@ -87,6 +112,11 @@ abstract class Length implements RuleInterface
             protected function doValidate($var): bool
             {
                 return is_string($var) && $var <= $this->wildcards[':len'];
+            }
+            
+            public function getName(): string 
+            {
+                return 'length.lessThanEquals';
             }
         };
     }
@@ -103,6 +133,11 @@ abstract class Length implements RuleInterface
             protected function doValidate($var): bool
             {
                 return is_string($var) && $var >= $this->wildcards[':min'] && $this->wildcards[':max'] >= $var;
+            }
+            
+            public function getName(): string 
+            {
+                return 'length.between';
             }
         };
     }
