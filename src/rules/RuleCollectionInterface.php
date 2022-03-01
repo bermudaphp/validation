@@ -14,6 +14,7 @@ interface RuleCollectionInterface extends \IteratorAggregate
     public function validate($value): bool|string|array ;
     public function addRule(RuleInterface|RuleCollectionInterface $rule): RuleCollectionInterface ;
     public function hasRule(string|RuleInterface|RuleCollectionInterface $rule): bool ;
+    public function getName(): string ;
     /**
      * @return Traversable<RuleInterface|RuleCollectionInterface>
      */
