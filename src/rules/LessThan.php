@@ -19,4 +19,9 @@ final class LessThan implements RuleInterface
 
         return $this->wildcards[':operand'] > $var;
     }
+    
+    public function getName(): string 
+    {
+        return 'lessThan';
+    }
 }
