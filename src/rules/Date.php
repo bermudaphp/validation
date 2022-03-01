@@ -46,6 +46,54 @@ class Date implements RuleInterface
         };
     }
 
+    public static function before(\DateTimeInterface $date, string $message ='Value must be a valid date:format before :date', ?string $format = null, bool $include = false): self
+    {
+        return new class($date, $message, $format, $include) extends Date {
+            public function __construct(\DateTimeInterface $date, string $message, ?string $format, private bool $include)
+            {
+                parent::__construct($message, $format);
+                $this->wildcards[':date'] = $date;
+            }
+
+            protected function doValidate($var): bool
+            {
+                if (!parent::doValidate($var)) {
+                    return false;
+                }
+
+                if (!$var instanceof \DateTimeInterface) {
+                    $var = Clock::create($var, $this->format);
+                }
+
+                return $this->include ? $var <= $this->wildcards[':date'] : $var < $this->wildcards[':date'];
+            }
+        };
+    }
+
+    public static function after(\DateTimeInterface $date, string $message ='Value must be a valid date:format after :date', ?string $format = null, bool $include = false): self
+    {
+        return new class($date, $message, $format, $include) extends Date {
+            public function __construct(\DateTimeInterface $date, string $message, ?string $format, private bool $include)
+            {
+                parent::__construct($message, $format);
+                $this->wildcards[':date'] = $date;
+            }
+
+            protected function doValidate($var): bool
+            {
+                if (!parent::doValidate($var)) {
+                    return false;
+                }
+
+                if (!$var instanceof \DateTimeInterface) {
+                    $var = Clock::create($var, $this->format);
+                }
+
+                return $this->include ? $var >= $this->wildcards[':date'] : $var > $this->wildcards[':date'];
+            }
+        };
+    }
+
     /**
      * @param \DateTimeInterface[] $dates
      * @param string $message
