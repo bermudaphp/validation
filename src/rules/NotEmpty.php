@@ -14,6 +14,11 @@ final class NotEmpty implements RuleInterface
     {
         return !empty($var);
     }
+    
+    public function getName(): string 
+    {
+        return 'notEmpty';
+    }
 
     /**
      * @param string $message
@@ -31,6 +36,11 @@ final class NotEmpty implements RuleInterface
             protected function doValidate($var): bool
             {
                 return empty($var);
+            }
+            
+            public function getName(): string 
+            {
+                return 'empty';
             }
         };
     }
