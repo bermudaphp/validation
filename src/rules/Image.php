@@ -2,78 +2,88 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\String\Str;
+use Bermuda\Utils\Byte;
+use Bermuda\Detector\Detector;
+use Bermuda\Detector\FinfoDetector;
+use Psr\Http\Message\UploadedFileInterface;
 
-/**
- * Class Image
- * @package Bermuda\Validation\Rules
- */
-final class Image extends File
+final class Image implements RuleInterface
 {
-    private $maxImageWidth = null, $maxImageHeight = null;
-
-    public function __construct(?int $maxImageSize = null,
-        int $maxImageWidth = null, ?int $maxImageHeight = null)
+    use RuleTrait;
+    private Detector $detector;
+    private ?Byte $maxImageSize = null;
+    private array $extensions = [];
+    public function __construct(int|string $maxImageSize = null,
+        private ?int $maxImageWidth = null, private ?int $maxImageHeight = null)
     {
-        parent::__construct($maxImageSize);
-        
-        $this->maxImageWidth = $maxImageWidth;
-        $this->maxImageHeight = $maxImageHeight;
-    }
- 
-    /**
-     * @inheritDoc
-     */
-    protected function validate(&$value): bool
-    {
-        if (parent::validate($value))
-        {
-            $mime = (string) finfo_file(finfo_open(FILEINFO_MIME_TYPE), $value);
-
-            if (Str::contains($mime, 'image'))
-            {
-                if ($this->maxImageWidth != null)
-                {
-                    list($width, $height) = getimagesize($value);
-                    $this->setNext($this->getNext($this->maxImageWidth, $width, sprintf('Image width must be less than or equals %s px', $this->maxImageWidth)));
-                }
-                
-                if ($this->maxImageHeight != null)
-                {
-                    $this->setNext($this->getNext($this->maxImageHeight, $height ?? getimagesize($value)[1], sprintf('Image height must be less than or equals %s px', $this->maxImageHeight)));
-                }
-     
-                return true;
-            }
+        if ($maxImageSize != null) {
+            $this->wildcards[':size'] = new Byte($maxImageSize);
         }
-        
-        return false;
+
+        $this->detector = new FinfoDetector;
     }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultMessage(): string
+
+    public function getName(): string
     {
-        return 'Must be a image';
+        return 'image';
     }
-    
-    private function getNext(int $x, int $y, string $msg): RuleInterface
+
+    public function setExtensions(string ...$extensions): self
     {
-        return new class extends AbstractRule
-        {
-            private int $x, $y;
-            
-            public function __construct(int $x, int $y, string $msg)
-            {
-                $this->x = $x; $this->y = $y; 
-                $this->setMessage($msg);
-            }
-            
-            protected function validate(&$v): bool
-            {
-                return $this->x >= $this->y;
-            }
-        };
+        $this->extensions = array_map('strtolower', $extensions);
+        return $this;
+    }
+
+    public function setDetector(Detector $detector): self
+    {
+        $this->detector = $detector;
+        return $this;
+    }
+
+    protected function doValidate($var): bool
+    {
+        if ($var instanceof UploadedFileInterface) {
+            $var = $var->getStream()->getMetadata('uri');
+        }
+
+        if (!is_string($var) && !is_file($var) && !is_uploaded_file($var)) {
+            return false;
+        }
+
+        if (!$this->wildcards[':size']?->lessThan(filesize($var))) {
+            $this->message = 'Maximum image size exceeded, maximum size: :size';
+            return false;
+        }
+
+        $mimeType = $this->detector->detectFileMimeType($var);
+
+        if (!str_contains($mimeType, 'image')) {
+            $this->message = 'Invalid mime-type: :mimeType. Allowed type: image/*';
+            $this->wildcards[':mimeType'] = $mimeType;
+            return false;
+        }
+
+        if ($this->extensions != [] && !in_array($ext = strtolower($this->detector->detectFileExtension($var)), $this->extensions)) {
+            $this->message = 'Invalid file extension: :ext. Allowed extensions: :extensions';
+            $this->wildcards[':extensions'] = implode(', ', $this->extensions);
+            $this->wildcards[':ext'] = $ext;
+            return false;
+        }
+
+        list($width, $height) = getimagesize($var);
+
+        if ($this->maxImageWidth != null && $width > $this->maxImageWidth) {
+            $this->message = 'The maximum image width has been exceeded. Maximum width: :width px';
+            $this->wildcards[':width'] = $this->maxImageWidth;
+            return false;
+        }
+
+        if ($this->maxImageHeight != null && $height > $this->maxImageHeight) {
+            $this->message = 'The maximum image height has been exceeded. Maximum height: :height px';
+            $this->wildcards[':height'] = $this->maxImageHeight;
+            return false;
+        }
+
+        return true;
     }
 }
