@@ -7,18 +7,10 @@ use Bermuda\Validation\Rules\RuleInterface;
 /**
  * @param RuleInterface[] $rules
  * @return Validator
- * @throws ValidationException
  */
-function v(iterable $rules = [], ?array $data = null): Validator
+function v(iterable $rules = []): Validator
 {
-    $v = Validator::makeOf($rules);
-    
-    if ($data != null)
-    {
-        $v->validate($data);
-    }
-    
-    return $v;
+    return new Validator($rules);
 }
 
 /**
