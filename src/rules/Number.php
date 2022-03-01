@@ -14,4 +14,9 @@ final class Number implements RuleInterface
     {
         return is_numeric($var);
     }
+    
+    public function getName(): string 
+    {
+        return 'number';
+    }
 }
