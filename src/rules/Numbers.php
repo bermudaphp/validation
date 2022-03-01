@@ -2,33 +2,25 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class Numbers
- * @package Bermuda\Validation\Rules
- */
-final class Numbers extends Number
+final class Numbers implements RuleInterface
 {
-   /**
-     * @inheritDoc
-     */
-    protected function validate(&$value): bool
+    use RuleTrait;
+    public function __construct(string $message = 'Value must be a array of numbers')
     {
-        foreach($value as $v)
-        {
-            if (!parent::validate($v))
-            {
+    }
+
+    protected function doValidate($var): bool
+    {
+        if (!is_array($var)) {
+            return false;
+        }
+        
+        foreach ($var as $item) {
+            if (!is_numeric($item)) {
                 return false;
             }
         }
         
         return true;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function getMessageFor($value): string
-    {
-        return 'Must be a array of numbers';
     }
 }
