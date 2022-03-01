@@ -3,8 +3,6 @@
 namespace Bermuda\Validation\Rules;
 
 use Bermuda\String\StringHelper;
-use Bermuda\Validation\Equalible;
-use function Bermuda\String\_string;
 
 final class Password implements RuleInterface
 {
