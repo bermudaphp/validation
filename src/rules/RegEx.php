@@ -9,8 +9,8 @@ class RegEx implements RuleInterface
     use RuleTrait;
     public function __construct(protected string $exp, string $message = 'Value must be match the regular expression: :exp')
     {
-        $this->exp = $exp;
         $this->message = $message;
+        $this->wildcards[':exp'] = $this->exp = $exp;
     }
 
     /**
