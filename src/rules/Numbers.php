@@ -24,4 +24,9 @@ final class Numbers implements RuleInterface
         
         return true;
     }
+    
+    public function getName(): string 
+    {
+        return 'numbers';
+    }
 }
