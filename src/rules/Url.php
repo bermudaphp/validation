@@ -27,4 +27,9 @@ final class Url extends RegEx
     {
         throw new \RuntimeException(__METHOD__ . ' is dissable from this class');
     }
+    
+    public function getName(): string 
+    {
+        return 'url';
+    }
 }
