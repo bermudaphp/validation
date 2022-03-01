@@ -2,9 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\Validation\Equalible;
-
-final class Equals implements RuleInterface
+final class EqualTo implements RuleInterface
 {
     use RuleTrait;
     public function __construct(private int|float|string $operand, string $message = 'Value must be equal to :operand', private bool $strict = true)
@@ -20,6 +18,6 @@ final class Equals implements RuleInterface
     
     public function getName(): string 
     {
-        return 'equals';
+        return 'equalTo';
     }
 }
