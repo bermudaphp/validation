@@ -2,16 +2,12 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class Url
- * @package Bermuda\Validation\Rules
- */
-final class Url extends RegExp
+final class Url extends RegEx
 {
     public const regexp ='%^(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@|\d{1,3}(?:\.\d{1,3}){3}|(?:(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)(?:\.(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)*(?:\.[a-z\x{00a1}-\x{ffff}]{2,6}))(?::\d+)?(?:[^\s]*)?$%iu';
-    public function __construct()
+    public function __construct(string $message = 'Value must be correct url')
     {
-        parent::__construct(self::regexp);
+        parent::__construct(self::regexp, $message);
     }
 
     /**
@@ -29,13 +25,5 @@ final class Url extends RegExp
     public function withExp(string $regExp): self
     {
         throw new \RuntimeException(__METHOD__ . ' is dissable from this class');
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultMessage(): string
-    {
-        return 'Must be a correct url';
     }
 }
