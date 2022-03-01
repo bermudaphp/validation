@@ -7,12 +7,12 @@ use Bermuda\Validation\Rules\RuleInterface;
 class Validator
 {
     /**
-     * @var RuleInterface[]
+     * @var RuleInterface[]|RuleCollectionInterface[]
      */
     protected array $rules = [];
     public function __construct(iterable $rules = [])
     {
-        $this->registerDefaultRules();
+        $rules = array_merge($this->registerDefaultRules(), $rules);
         $this->addRules($rules);
     }
 
@@ -86,7 +86,8 @@ class Validator
         throw new ValidationException($backtrace, $errors);
     }
     
-    protected function registerDefaultRules(): void
+    protected function getDefaultRules(): array
     {
+        return [];
     }
 }
