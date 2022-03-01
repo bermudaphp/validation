@@ -24,4 +24,9 @@ final class AllOf implements RuleCollectionInterface
 
         return $count > 0 ? $messages : true;
     }
+    
+    public function getName(): string 
+    {
+        return 'allOf';
+    }
 }
