@@ -4,7 +4,7 @@ namespace Bermuda\Validation\Rules;
 
 use Bermuda\String\StringHelper;
 
-final class isTrue implements RuleInterface
+final class IsTrue implements RuleInterface
 {
     use RuleTrait;
     public function __construct(string $message = '', private bool $strict = false)
