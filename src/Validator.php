@@ -27,10 +27,10 @@ class Validator
 
     /**
      * @param string|string[] $name
-     * @param RuleInterface $rule
+     * @param RuleInterface|RuleCollectionInterface $rule
      * @return $this
      */
-    final public function add(string|array $name, RuleInterface $rule): self
+    final public function add(string|array $name, RuleInterface|RuleCollectionInterface $rule): self
     {
         foreach (is_array($name) ? $name : [$name] as $n) {
             $this->rules[$n] = $rule;
@@ -40,7 +40,7 @@ class Validator
     }
     
     /**
-     * @param RuleInterface[] $rules
+     * @param RuleInterface[]|RuleCollectionInterface[] $rules
      * @return $this
      */
     public function addRules(iterable $rules): self
@@ -53,7 +53,7 @@ class Validator
     }
 
     /**
-     * @return array
+     * @return RuleCollectionInterface[]|RuleInterface[]
      */
     final public function getRules(): array
     {
@@ -77,7 +77,6 @@ class Validator
         if ($errors != []) {
             $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
             $backtrace['class'] = static::class;
-
             $this->throwException($backtrace, $errors);
         }
     }
