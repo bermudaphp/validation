@@ -49,7 +49,7 @@ trait RuleCollectionTrait
      */
     public function addRule(RuleInterface $rule): self
     {
-        $this->rules[$rule::class] = $rule;
+        $this->rules[$rule->getName()] = $rule;
         return $this;
     }
 
