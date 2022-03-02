@@ -58,7 +58,10 @@ class File implements RuleInterface
 
     protected function doValidate($var): bool
     {
-        $this->isFile($var);
+        if ($this->isFile($var)) {
+            return false;
+        }
+
         $this->validateFilesize($var);
         $this->validateMimeType($var);
         $this->validateExtension($var);
@@ -84,7 +87,7 @@ class File implements RuleInterface
         }
     }
     
-    protected function isFile($var): void
+    protected function isFile(&$var): bool
     {
         if ($var instanceof UploadedFileInterface) {
             $var = $var->getStream()->getMetadata('uri');
@@ -92,7 +95,10 @@ class File implements RuleInterface
 
         if (!is_string($var) && !is_file($var) && !is_uploaded_file($var)) {
             $this->errors[] = $this->messages['file'];
+            return false;
         }
+
+        return true;
     }
 
     protected function validateExtension(string $filename): void
