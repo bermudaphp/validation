@@ -11,7 +11,7 @@ class Validator
     protected array $rules = [];
 
     /**
-     * @param iterable<RuleInterface|RuleCollectionInterface> $rules
+     * @param iterable<RuleInterface> $rules
      */
     public function __construct(iterable $rules = [])
     {
