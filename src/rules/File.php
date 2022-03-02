@@ -79,7 +79,7 @@ class File implements RuleInterface
 
     protected function validateFilesize(string $filename): void
     {
-        if (!$this->wildcards[':size']?->lessThan(filesize($var))) {
+        if (!$this->wildcards[':size']?->lessThan(filesize($filename))) {
             $this->errors[] = $this->messages['filesize'];
         }
     }
@@ -97,7 +97,7 @@ class File implements RuleInterface
 
     protected function validateExtension(string $filename): void
     {
-        if ($this->extensions != [] && !in_array($ext = strtolower($this->detector->detectFileExtension($var)), $this->extensions)) {
+        if ($this->extensions != [] && !in_array($ext = strtolower($this->detector->detectFileExtension($filename)), $this->extensions)) {
             $this->errors[] = $this->messages['extension'];
             $this->wildcards[':extensions'] = implode(', ', $this->extensions);
             $this->wildcards[':ext'] = $ext;
