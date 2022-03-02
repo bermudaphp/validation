@@ -2,12 +2,15 @@
 
 namespace Bermuda\Validation\Rules;
 
+/**
+ * @method string|bool validate 
+ */
 final class Number implements RuleInterface
 {
     use RuleTrait;
     public function __construct(string $message = 'Value must be a number')
     {
-        $this->message = $message;
+        $this->messages[] = $message;
     }
     
     protected function doValidate($var): bool
