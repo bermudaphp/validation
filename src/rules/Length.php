@@ -2,12 +2,15 @@
 
 namespace Bermuda\Validation\Rules;
 
+/**
+ * @method string|bool validate 
+ */
 abstract class Length implements RuleInterface
 {
     use RuleTrait;
     protected function __construct(string $message, array $wildcards)
     {
-        $this->message = $message;
+        $this->messages[] = $message;
         $this->wildcards = $wildcards;
     }
     
