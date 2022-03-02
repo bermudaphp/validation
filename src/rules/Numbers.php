@@ -2,12 +2,15 @@
 
 namespace Bermuda\Validation\Rules;
 
+/**
+ * @method string|bool validate 
+ */
 final class Numbers implements RuleInterface
 {
     use RuleTrait;
     public function __construct(string $message = 'Value must be a array of numbers')
     {
-        $this->message = $message;
+        $this->messages[] = $message;
     }
 
     protected function doValidate($var): bool
