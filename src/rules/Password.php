@@ -10,16 +10,17 @@ final class Password implements RuleInterface, ValidationDataAwareInterface
     private ?array $data = null;
     private ?string $confirm = null;
     private bool $symbols = true, $numbers = true;
-    public function __construct(private int $length = 8, private array $messages = [])
+    public function __construct(private int $length = 8, array $messages = [])
     {
-        if ($this->messages == []) {
-            $this->messages['not'] = 'Value must be password string';
-            $this->messages['confirm'] = 'Passwords do not match';
-            $this->messages['symbols'] = 'Password must contain at least one symbol';
-            $this->messages['numbers'] = 'Password must contain at least one number';
-            $this->messages['length'] = 'Minimum password length - :length characters';
+        if ($messages == []) {
+            $messages['not'] = 'Value must be password string';
+            $messages['confirm'] = 'Passwords do not match';
+            $messages['symbols'] = 'Password must contain at least one symbol';
+            $messages['numbers'] = 'Password must contain at least one number';
+            $messages['length'] = 'Minimum password length - :length characters';
         }
-
+        
+        $this->messages = $messages;
         $this->wildcards[':length'] = $this->length;
     }
 
@@ -36,32 +37,27 @@ final class Password implements RuleInterface, ValidationDataAwareInterface
     protected function doValidate($var): bool
     {
         if (!is_string($var)) {
-            $this->message = $this->messages['not'];
-            return false;
+            $this->errors[] = $this->messages['not'];
         }
 
         if ($this->symbols && !StringHelper::containsSymbols($var)) {
-            $this->message = $this->messages['symbols'];
-           return false;
+            $this->errors[] = $this->messages['symbols'];
         }
 
         if ($this->numbers && !StringHelper::containsNumbers($var)) {
-            $this->message = $this->messages['numbers'];
-            return false;
+            $this->errors[] = $this->messages['numbers'];
         }
 
         if ($this->length >= mb_strlen($var)) {
-            $this->message = $this->messages['length'];
-            return false;
+            $this->errors[] = $this->messages['length'];
         }
         
         if ($this->confirm != null && ($this->data[$this->confirm] ?? null) != $var) {
-            $this->message = $this->messages['confirm'];
+            $this->errors[] = $this->messages['confirm'];
             $this->wildcards[':confirm'] = $this->confirm;
-            return false;
         }
 
-        return true;
+        return $this->errors == [];
     }
 
     public function getName(): string
