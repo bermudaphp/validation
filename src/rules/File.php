@@ -23,6 +23,7 @@ class File implements RuleInterface
         if ($messages == []) {
             $messages = [
                 'file' => 'Must be file',
+                'upload' => 'File upload failed',
                 'mimeType' => 'Invalid mime-type: :mimeType. Allowed types: :mTypes',
                 'filesize' => 'Maximum file size exceeded, maximum size: :size',
                 'extension' => 'Invalid file extension: :ext. Allowed extensions: :extensions'
@@ -90,6 +91,10 @@ class File implements RuleInterface
     protected function isFile(&$var): bool
     {
         if ($var instanceof UploadedFileInterface) {
+            if ($var->getError() != UPLOAD_ERR_OK) {
+                $this->errors[] = $this->messages['upload'];
+                return false;
+            }
             $var = $var->getStream()->getMetadata('uri');
         }
 
