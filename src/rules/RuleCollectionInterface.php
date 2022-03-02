@@ -3,20 +3,24 @@
 namespace Bermuda\Validation\Rules;
 
 use Traversable;
+use IteratorAggregate;
 
-interface RuleCollectionInterface extends \IteratorAggregate
+interface RuleCollectionInterface extends RuleInterface, IteratorAggregate
 {
     /**
-     * @param $value
-     * @return bool|string|string[]
-     * Returns true if the validation was successful otherwise returns an error message or array of errors
+     * @param RuleInterface $rule
+     * @return RuleCollectionInterface
      */
-    public function validate($value): bool|string|array ;
-    public function addRule(RuleInterface|RuleCollectionInterface $rule): RuleCollectionInterface ;
-    public function hasRule(string|RuleInterface|RuleCollectionInterface $rule): bool ;
-    public function getName(): string ;
+    public function addRule(RuleInterface $rule): RuleCollectionInterface ;
+
     /**
-     * @return Traversable<RuleInterface|RuleCollectionInterface>
+     * @param string|RuleInterface $rule
+     * @return bool
      */
-    public function getIterator(): Traversable ;
+    public function hasRule(string|RuleInterface $rule): bool ;
+
+    /**
+     * @return Traversable<RuleInterface>
+     */
+    public function getIterator(): Traversable;
 }
