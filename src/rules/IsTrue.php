@@ -4,6 +4,9 @@ namespace Bermuda\Validation\Rules;
 
 use Bermuda\String\StringHelper;
 
+/**
+ * @method string|bool validate 
+ */
 final class IsTrue implements RuleInterface
 {
     use RuleTrait;
@@ -11,10 +14,10 @@ final class IsTrue implements RuleInterface
     {
         if ($message == '') {
             $message = $this->strict ? 'Value must be true'
-                : 'Value must be true or equal any of: \'true\', \'on\', \'1\'';
+                : 'Value must be true or equal any of: \'true\', \'on\', \'yes\', \'y\', \'1\'';
         }
 
-        $this->message = $message;
+        $this->messages[] = $message;
     }
 
     protected function doValidate($var): bool
@@ -23,7 +26,7 @@ final class IsTrue implements RuleInterface
             return $var === true;
         }
 
-        return $var === true || (is_string($var) && StringHelper::equals($var, ['on', '1', 'true'])) || $var == 1;
+        return $var === true || (is_string($var) && StringHelper::equals($var, ['on', '1', 'true', 'yes', 'y'])) || $var == 1;
     }
     
     public function getName(): string 
