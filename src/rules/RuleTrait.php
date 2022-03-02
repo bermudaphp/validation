@@ -63,7 +63,7 @@ trait RuleTrait
         $this->errors = [];
         
         if ($errors == [] && count($this->messages) == 1) {
-            $errors = $this->messages;
+            return str_replace(array_keys($wildcards), $wildcards, $this->messages[0]);
         }
         
         foreach($errors as $i => $error) {
