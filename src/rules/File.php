@@ -2,36 +2,105 @@
 
 namespace Bermuda\Validation\Rules;
 
-/**
- * Class File
- * @package Bermuda\Validation\Rules
- */
-class File extends AbstractRule
-{
-    protected ?int $maxFileSize = null;
+use Bermuda\Utils\Byte;
+use Bermuda\Detector\Detector;
+use Bermuda\Detector\FinfoDetector;
+use Psr\Http\Message\UploadedFileInterface;
+use function Bermuda\String\str_contains;
 
-    public function __construct(?int $maxFileSize = null)
+class File implements RuleInterface
+{
+    use RuleTrait;
+    protected Detector $detector;
+    protected array $extensions = [];
+    protected array $mimeTypes = [];
+    public function __construct(int|string $filesize = null, array $messages = [])
     {
-        if ($maxFileSize != null)
-        {
-            $this->setNext(new Filesize($maxFileSize));
+        if ($filesize != null) {
+            $this->wildcards[':size'] = new Byte($filesize);
         }
-        parent::__construct(null);
+        
+        if ($messages == []) {
+            $messages = [
+                'file' => 'Must be file',
+                'mimeType' => 'Invalid mime-type: :mimeType. Allowed types: :mimeTypes',
+                'filesize' => 'Maximum file size exceeded, maximum size: :size',
+                'extension' => 'Invalid file extension: :ext. Allowed extensions: :extensions'
+            ];
+        }
+
+        $this->messages = $messages;
+        $this->detector = new FinfoDetector;
+    }
+
+    public function getName(): string
+    {
+        return 'file';
+    }
+
+    public function setExtensions(string ...$extensions): self
+    {
+        $this->extensions = array_map('strtolower', $extensions);
+        return $this;
+    }
+
+    public function setMimeTypes(string ...$types): self
+    {
+        $this->mimeTypes = array_map('strtolower', $types);
+        return $this;
+    }
+
+    public function setDetector(Detector $detector): self
+    {
+        $this->detector = $detector;
+        return $this;
+    }
+
+    protected function doValidate($var): bool
+    {
+        $this->isFile($var);
+        $this->validateFilesize($var);
+        $this->validateMimeType($var);
+        $this->validateExtension($var);
+        
+        return $this->errors == [];
+    }
+
+    protected function validateMimeType(string $filename): void
+    {
+        $mimeType = $this->detector->detectFileMimeType($filename);
+
+        if ($this->mimeTypes != [] && str_contains($mimeType, $this->mimeTypes)) {
+            $this->errors[] = $this->messages['mimeType'];
+            $this->wildcards[':mimeType'] = $mimeType;
+            $this->wildcards[':mimeTypes'] = implode(', ', $this->mimeTypes);
+        }
+    }
+
+    protected function validateFilesize(string $filename): void
+    {
+        if (!$this->wildcards[':size']?->lessThan(filesize($var))) {
+            $this->errors[] = $this->messages['filesize'];
+        }
     }
     
-    /**
-     * @inheritDoc
-     */
-    protected function validate(&$value): bool
+    protected function isFile($var): void
     {
-        return is_uploaded_file($value);
+        if ($var instanceof UploadedFileInterface) {
+            $var = $var->getStream()->getMetadata('uri');
+        }
+
+        if (!is_string($var) && !is_file($var) && !is_uploaded_file($var)) {
+            $this->errors[] = $this->messages['file'];
+        }
     }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultMessage(): string
+
+    protected function validateExtension(string $filename): void
     {
-        return 'Must be a file';
+        if ($this->extensions != [] && !in_array($ext = strtolower($this->detector->detectFileExtension($var)), $this->extensions)) {
+            $this->errors[] = $this->messages['extension'];
+            $this->wildcards[':extensions'] = implode(', ', $this->extensions);
+            $this->wildcards[':ext'] = $ext;
+        }
     }
 }
