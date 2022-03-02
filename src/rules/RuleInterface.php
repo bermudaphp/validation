@@ -11,14 +11,9 @@ interface RuleInterface
 
     /**
      * @param $value
-     * @return bool|string
+     * @return bool|string|array
      * Returns true if the validation was successful otherwise returns an error message
+     * or errors array
      */
-    public function validate($value): bool|string ;
-
-    /**
-     * Set rule validation error message
-     * @return $this
-     */
-    public function setMessage(string $message): RuleInterface ;
+    public function validate($value): bool|string|array;
 }
