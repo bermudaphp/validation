@@ -4,12 +4,15 @@ namespace Bermuda\Validation\Rules;
 
 use Bermuda\String\StringHelper;
 
+/**
+ * @method string|bool validate 
+ */
 class RegEx implements RuleInterface
 {
     use RuleTrait;
     public function __construct(protected string $exp, string $message = 'Value must be match the regular expression: :exp')
     {
-        $this->message = $message;
+        $this->messages[] = $message;
         $this->wildcards[':exp'] = $this->exp = $exp;
     }
 
