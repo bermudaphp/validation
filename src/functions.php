@@ -3,10 +3,9 @@
 namespace Bermuda\Validation;
 
 use Bermuda\Validation\Rules\RuleInterface;
-use Bermuda\Validation\Rules\RuleCollectionInterface;
 
 /**
- * @param iterable<RuleInterface|RuleCollectionInterface> $rules
+ * @param iterable<RuleInterface> $rules
  * @return Validator
  * @throws ValidationException
  */
