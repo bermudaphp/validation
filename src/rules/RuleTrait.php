@@ -59,12 +59,13 @@ trait RuleTrait
      */
     protected function returnErrors(array $wildcards): string|array
     {
-        $errors = []; $i = 0;
+        $errors = $this->errors; 
+        $this->errors = [];
         
-        foreach($this->errors as $error) {
-            $errors[++$i] = str_replace(array_keys($wildcards), $wildcards, $error);
+        foreach($errors as $i => $error) {
+            $errors[$i] = str_replace(array_keys($wildcards), $wildcards, $error);
         }
         
-        return $i > 1 ? $errors : $errors[$i];
+        return $i > 0 ? $errors : $errors[0];
     }
 }
