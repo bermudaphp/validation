@@ -2,12 +2,15 @@
 
 namespace Bermuda\Validation\Rules;
 
+/**
+ * @method string|bool validate 
+ */
 final class Between implements RuleInterface
 {
     use RuleTrait;
     public function __construct(int|float $min, int|float $max, string $message = 'Value must be between :min and :max')
     {
-        $this->message = $message;
+        $this->messages[] = $message;
         $this->wildcards[':min'] = $min;
         $this->wildcards[':max'] = $max;
     }
