@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\Detector\MimeTypes\Image;
+use Bermuda\Detector\MimeTypes\Image as ImageMime;
 
 final class Image extends File
 {
@@ -12,7 +12,7 @@ final class Image extends File
         parent::__construct($maxImageSize);
         $this->messages['width'] = 'The maximum image width has been exceeded. Maximum width: :width px';
         $this->messages['height'] = 'The maximum image height has been exceeded. Maximum height: :height px';
-        $this->mimeTypes = Image::getTypes();
+        $this->mimeTypes = ImageMime::getTypes();
     }
 
     public function getName(): string
