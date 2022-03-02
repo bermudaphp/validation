@@ -2,12 +2,15 @@
 
 namespace Bermuda\Validation\Rules;
 
+/**
+ * @method string|bool validate 
+ */
 final class Ip implements RuleInterface
 {
     use RuleTrait;
     public function __construct(string $message = 'Must be valid ip-address')
     {
-        $this->message = $message;
+        $this->messages[] = $message;
     }
 
     protected function doValidate($var): bool
