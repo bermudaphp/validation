@@ -36,9 +36,12 @@ trait RuleTrait
     protected function getWildcards($var): array
     {
         $wildcards = [];
-        
-        if (strpos($this->message, $this->valueWildcard) !== false) {
-            $wildcards = [$this->valueWildcard => $this->prepareVar($var)];
+
+        foreach ($this->errors as $error) {
+            if (str_contains($error, $this->valueWildcard)) {
+                $wildcards[$this->valueWildcard] = $this->prepareVar($var);
+                break;
+            }
         }
 
         if ($this->wildcards !== []) {
