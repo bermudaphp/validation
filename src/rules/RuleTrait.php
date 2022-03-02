@@ -75,6 +75,6 @@ trait RuleTrait
             $errors[$i] = str_replace(array_keys($wildcards), $wildcards, $error);
         }
         
-        return $i > 0 ? $errors : $errors[0];
+        return count($errors) == 1 ? $errors[0] : $errors;
     }
 }
