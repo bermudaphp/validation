@@ -4,12 +4,15 @@ namespace Bermuda\Validation\Rules;
 
 use Bermuda\Clock\Clock;
 
+/**
+ * @method string|bool validate 
+ */
 class Date implements RuleInterface
 {
     use RuleTrait;
     public function __construct(string $message = 'Value must be a valid date:format', protected ?string $format = null)
     {
-        $this->message = $message;
+        $this->messages[] = $message;
         $this->wildcards[':format'] = $format == null ? '' : ' in format: ' . $format;
     }
     
