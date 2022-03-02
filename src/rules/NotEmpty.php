@@ -2,12 +2,15 @@
 
 namespace Bermuda\Validation\Rules;
 
+/**
+ * @method string|bool validate 
+ */
 final class NotEmpty implements RuleInterface
 {
     use RuleTrait;
     public function __construct(string $message = 'Must be not empty')
     {
-        $this->message = 'Must be not empty';
+        $this->messages[] = 'Must be not empty';
     }
 
     protected function doValidate($var): bool
@@ -31,7 +34,7 @@ final class NotEmpty implements RuleInterface
             use RuleTrait;
             public function __construct(string $message)
             {
-                $this->message = $message;
+                $this->messages[] = $message;
             }
             protected function doValidate($var): bool
             {
