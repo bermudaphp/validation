@@ -23,7 +23,7 @@ class File implements RuleInterface
         if ($messages == []) {
             $messages = [
                 'file' => 'Must be file',
-                'mimeType' => 'Invalid mime-type: :mimeType. Allowed types: :mimeTypes',
+                'mimeType' => 'Invalid mime-type: :mimeType. Allowed types: :mTypes',
                 'filesize' => 'Maximum file size exceeded, maximum size: :size',
                 'extension' => 'Invalid file extension: :ext. Allowed extensions: :extensions'
             ];
@@ -70,10 +70,10 @@ class File implements RuleInterface
     {
         $mimeType = $this->detector->detectFileMimeType($filename);
 
-        if ($this->mimeTypes != [] && str_contains($mimeType, $this->mimeTypes)) {
+        if ($this->mimeTypes != [] && !str_contains($mimeType, $this->mimeTypes)) {
             $this->errors[] = $this->messages['mimeType'];
             $this->wildcards[':mimeType'] = $mimeType;
-            $this->wildcards[':mimeTypes'] = implode(', ', $this->mimeTypes);
+            $this->wildcards[':mTypes'] = implode(', ', $this->mimeTypes);
         }
     }
 
