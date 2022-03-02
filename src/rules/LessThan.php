@@ -2,12 +2,15 @@
 
 namespace Bermuda\Validation\Rules;
 
+/**
+ * @method string|bool validate 
+ */
 final class LessThan implements RuleInterface
 {
     use RuleTrait;
     public function __construct(float|int $operand, string $message = 'Value must be less than :operand')
     {
-        $this->message = $message;
+        $this->messages[] = $message;
         $this->wildcards[':operand'] = $operand;
     }
 
