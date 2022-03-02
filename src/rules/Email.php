@@ -2,12 +2,15 @@
 
 namespace Bermuda\Validation\Rules;
 
+/**
+ * @method string|bool validate 
+ */
 final class Email implements RuleInterface
 {
     use RuleTrait;
-    public function __construct(string $message = 'Must be valid email')
+    public function __construct(string $message = 'Value must be valid email')
     {
-        $this->message = $message;
+        $this->messages[] = $message;
     }
 
     protected function doValidate($var): bool
