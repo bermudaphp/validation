@@ -4,30 +4,31 @@ namespace Bermuda\Validation\Rules;
 
 trait RuleTrait
 {
-    protected string $message = '';
+    protected array $errors = [];
+    protected array $messages = [];
     protected ?array $wildcards = [];
     protected string $valueWildcard = ':v';
 
     /**
-     * @param string $pattern
+     * @param string|array $messages
      * @return RuleInterface
      */
-    public function setMessage(string $pattern): RuleInterface
+    public function setMessages(string|array $messages): RuleInterface
     {
-        $this->message = $pattern;
+        $this->messages = $messages;
         return $this;
     }
 
     /**
      * @inerhitDoc
      */
-    public function validate($var): bool|string
+    public function validate($var): bool|string|array
     {
         if (($result = $this->doValidate($var)) === true) {
             return true;
         }
 
-        return $this->generateMessage($this->getWildcards($var));
+        return $this->returnErrors($this->getWildcards($var));
     }
 
     protected function getWildcards($var): array
@@ -54,10 +55,16 @@ trait RuleTrait
 
     /**
      * @param array $wildcards
-     * @return string
+     * @return string|string[]
      */
-    protected function generateMessage(array $wildcards): string
+    protected function returnErrors(array $wildcards): string|array
     {
-        return str_replace(array_keys($wildcards), $wildcards, $this->message);
+        $errors = []; $i = 0;
+        
+        foreach($this->errors as $error) {
+            $errors[++$i] = str_replace(array_keys($wildcards), $wildcards, $error);
+        }
+        
+        return $i > 1 ? $errors : $errors[$i];
     }
 }
