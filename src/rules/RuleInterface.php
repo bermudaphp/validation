@@ -15,5 +15,5 @@ interface RuleInterface
      * Returns true if the validation was successful otherwise returns an error message
      * or errors array
      */
-    public function validate($value): bool|string|array;
+    public function validate($value): bool|string|array ;
 }
