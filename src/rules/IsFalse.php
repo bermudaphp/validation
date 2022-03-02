@@ -4,6 +4,9 @@ namespace Bermuda\Validation\Rules;
 
 use Bermuda\String\StringHelper;
 
+/**
+ * @method string|bool validate 
+ */
 final class IsFalse implements RuleInterface
 {
     use RuleTrait;
@@ -11,7 +14,7 @@ final class IsFalse implements RuleInterface
     {
         if ($message == '') {
             $message = $this->strict ? 'Value must be false'
-                : 'Value must be false or equal any of: \'false\', \'off\', \'0\'';
+                : 'Value must be false or equal any of: \'false\', \'off\', \'no\',  \'n\', 0';
         }
 
         $this->message = $message;
@@ -23,7 +26,7 @@ final class IsFalse implements RuleInterface
             return $var === false;
         }
 
-        return $var === false || (is_string($var) && StringHelper::equals($var, ['off', '0', 'false'])) || $var == 0;
+        return $var === false || (is_string($var) && StringHelper::equals($var, ['off', '0', 'false', 'no', 'n'])) || $var == 0;
     }
     
     public function getName(): string 
