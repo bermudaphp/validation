@@ -15,14 +15,12 @@ trait RuleTrait
      */
     public function setMessages(string|array $messages): RuleInterface
     {
-        if (is_string($messages)) {
-            $messages = [$messages];
+        foreach (is_string($messages) ? [$messages] : $messages as $name => $message) {
+            $this->messages[$name] = $message;
         }
-        
-        $this->messages = $messages;
+
         return $this;
     }
-
     /**
      * @inerhitDoc
      */
