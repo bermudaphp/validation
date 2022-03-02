@@ -62,6 +62,10 @@ trait RuleTrait
         $errors = $this->errors; 
         $this->errors = [];
         
+        if ($errors == [] && count($this->messages) == 1) {
+            $errors = $this->messages;
+        }
+        
         foreach($errors as $i => $error) {
             $errors[$i] = str_replace(array_keys($wildcards), $wildcards, $error);
         }
