@@ -3,6 +3,7 @@
 namespace Bermuda\Validation\Rules;
 
 use Bermuda\Detector\MimeTypes\Image as ImageMime;
+use Psr\Http\Message\UploadedFileInterface;
 
 final class Image extends File
 {
@@ -22,7 +23,14 @@ final class Image extends File
 
     protected function doValidate($var): bool
     {
-       parent::doValidate($var);
+       if (parent::doValidate($var) == false) {
+           return false;
+       }
+
+       if ($var instanceof UploadedFileInterface) {
+           $var = $var->getStream()->getMetadata('uri');
+       }
+
        list($width, $height) = getimagesize($var);
 
        if ($this->maxImageWidth != null && $width > $this->maxImageWidth) {
