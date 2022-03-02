@@ -2,6 +2,9 @@
 
 namespace Bermuda\Validation\Rules;
 
+/**
+ * @method string|bool validate 
+ */
 final class YoutubeVideoUrl extends RegEx
 {
     public const regEx = '~^(?:https?://)?(?:www[.])?(?:youtube[.]com/watch[?]v=|youtu[.]be/)([^&]{11})~x';
