@@ -30,10 +30,10 @@ class Validator
 
     /**
      * @param string|string[] $name
-     * @param RuleInterface|RuleCollectionInterface $rule
+     * @param RuleInterface
      * @return $this
      */
-    final public function add(string|array $name, RuleInterface|RuleCollectionInterface $rule): self
+    final public function add(string|array $name, RuleInterface $rule): self
     {
         foreach (is_array($name) ? $name : [$name] as $n) {
             $this->rules[$n] = $rule;
@@ -43,7 +43,7 @@ class Validator
     }
     
     /**
-     * @param iterable<RuleInterface|RuleCollectionInterface> $rules
+     * @param iterable<RuleInterface> $rules
      * @return $this
      */
     public function addRules(iterable $rules): self
