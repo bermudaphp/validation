@@ -58,7 +58,7 @@ class File implements RuleInterface
 
     protected function doValidate($var): bool
     {
-        if ($this->isFile($var)) {
+        if (!$this->isFile($var)) {
             return false;
         }
 
