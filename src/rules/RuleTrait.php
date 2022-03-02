@@ -15,6 +15,10 @@ trait RuleTrait
      */
     public function setMessages(string|array $messages): RuleInterface
     {
+        if (is_string($messages)) {
+            $messages = [$messages];
+        }
+        
         $this->messages = $messages;
         return $this;
     }
