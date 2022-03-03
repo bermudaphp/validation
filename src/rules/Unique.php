@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validation;
+namespace Bermuda\Validation\Rules;
 
 use Bermuda\Validation\Rules\RuleInterface;
 use Bermuda\Validation\Rules\RuleTrait;
