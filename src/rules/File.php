@@ -83,7 +83,7 @@ class File implements RuleInterface
 
     protected function validateFilesize(string $filename): void
     {
-        if (!$this->wildcards[':size']?->lessThan(filesize($filename))) {
+        if ($this->wildcards[':size']?->lessThan(filesize($filename))) {
             $this->errors[] = $this->messages['filesize'];
         }
     }
@@ -95,6 +95,7 @@ class File implements RuleInterface
                 $this->errors[] = $this->messages['upload'];
                 return false;
             }
+            
             $var = $var->getStream()->getMetadata('uri');
         }
 
