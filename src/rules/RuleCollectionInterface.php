@@ -22,5 +22,5 @@ interface RuleCollectionInterface extends RuleInterface, IteratorAggregate
     /**
      * @return Traversable<RuleInterface>
      */
-    public function getIterator(): Traversable;
+    public function getIterator(): Traversable ;
 }
