@@ -1,29 +1,41 @@
 <?php
 
-namespace Bermuda\Validation\Rules;
+namespace App\Validation;
 
 use Bermuda\Validation\Rules\RuleInterface;
 use Bermuda\Validation\Rules\RuleTrait;
 
-final class Unique implements RuleInterface
+final class Callback implements RuleInterface
 {
     use RuleTrait;
-    private \Closure $isUnique;
-    public function __construct(callable $isUnique, string $message = 'Must be unique')
+    private string $name;
+    private \Closure $callback;
+    public function __construct(callable $rule, string $message)
     {
         $this->messages[] = $message;
-        $this->isUnique = static function($var) use ($isUnique): bool {
-            return $isUnique($var);
+        $this->callback = static function($var) use ($rule): bool {
+            return $rule($var);
         };
     }
 
+    /**
+     * @param string $name
+     * @return Callback
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+
     public function getName(): string
     {
-        return 'unique';
+        return $this->name ?? spl_object_hash($this);
     }
 
     protected function doValidate($var): bool
     {
-        return ($this->isUnique)($var);
+        return ($this->callback)($var);
     }
 }
