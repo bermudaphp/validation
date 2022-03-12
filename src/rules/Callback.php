@@ -13,9 +13,7 @@ final class Callback implements RuleInterface
     public function __construct(callable $rule, string $message)
     {
         $this->messages[] = $message;
-        $this->callback = static function($var) use ($rule): bool {
-            return $rule($var);
-        };
+        $this->callback = static fn($var): bool => $rule($var);
     }
 
     /**
