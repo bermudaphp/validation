@@ -135,7 +135,7 @@ abstract class Length implements RuleInterface
         return new class($message, [':min' => $min, ':max' => $max]) extends Length {
             protected function doValidate($var): bool
             {
-                return is_string($var) && $var = $this->prepareVar($var) >= $this->wildcards[':min'] && $this->wildcards[':max'] >= $var;
+                return is_string($var) && ($var = $this->prepareVar($var)) >= $this->wildcards[':min'] && $this->wildcards[':max'] >= $var;
             }
             
             public function getName(): string 
