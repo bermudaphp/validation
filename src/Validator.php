@@ -15,8 +15,11 @@ class Validator
      */
     public function __construct(iterable $rules = [])
     {
-        $this->addRules($this->getDefaultRules())
-            ->addRules($rules);
+        $this->addRules($this->getDefaultRules());
+        
+        if ($rules != []) {
+            $this->addRules($rules);
+        }
     }
 
     /**
