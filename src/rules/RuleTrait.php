@@ -36,13 +36,7 @@ trait RuleTrait
     protected function getWildcards($var): array
     {
         $wildcards = [];
-
-        foreach ($this->errors as $error) {
-            if (str_contains($error, $this->valueWildcard)) {
-                $wildcards[$this->valueWildcard] = $this->prepareVar($var);
-                break;
-            }
-        }
+        $wildcards[$this->valueWildcard] = $this->prepareVar($var);
 
         if ($this->wildcards !== []) {
             $wildcards = array_merge($wildcards, $this->wildcards);
