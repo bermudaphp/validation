@@ -14,11 +14,6 @@ abstract class Length implements RuleInterface
         $this->wildcards = $wildcards;
     }
     
-    protected function prepareVar($var): string
-    {
-        return mb_strlen($var);
-    }
-    
     public function getName(): string 
     {
         return 'length';
