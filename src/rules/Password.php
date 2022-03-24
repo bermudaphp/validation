@@ -50,7 +50,7 @@ final class Password implements RuleInterface, ValidationDataAwareInterface
             $this->errors[] = $this->messages['numbers'];
         }
 
-        if ($this->length >= mb_strlen($var)) {
+        if ($this->length > mb_strlen($var)) {
             $this->errors[] = $this->messages['length'];
         }
         
