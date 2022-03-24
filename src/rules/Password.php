@@ -38,6 +38,7 @@ final class Password implements RuleInterface, ValidationDataAwareInterface
     {
         if (!is_string($var)) {
             $this->errors[] = $this->messages['not'];
+            return false;
         }
 
         if ($this->symbols && !StringHelper::containsSymbols($var)) {
