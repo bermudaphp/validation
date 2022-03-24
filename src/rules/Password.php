@@ -13,7 +13,7 @@ final class Password implements RuleInterface, ValidationDataAwareInterface
     public function __construct(private int $length = 8, array $messages = [])
     {
         if ($messages == []) {
-            $messages['not'] = 'Value must be password string';
+            $messages['stringable'] = 'Must be a password string';
             $messages['confirm'] = 'Passwords do not match';
             $messages['symbols'] = 'Password must contain at least one symbol';
             $messages['numbers'] = 'Password must contain at least one number';
@@ -37,7 +37,7 @@ final class Password implements RuleInterface, ValidationDataAwareInterface
     protected function doValidate($var): bool
     {
         if (!StringHelper::isStringable($var)) {
-            $this->errors[] = $this->messages['not'];
+            $this->errors[] = $this->messages['stringable'];
             return false;
         }
         
