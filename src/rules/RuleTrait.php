@@ -52,7 +52,7 @@ trait RuleTrait
         }
 
         if (is_object($var)) {
-            return "object of class {$var::class}";
+            return 'object of class ' . $var::class;
         }
 
         if (is_resource($var)) {
