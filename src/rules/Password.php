@@ -36,11 +36,12 @@ final class Password implements RuleInterface, ValidationDataAwareInterface
 
     protected function doValidate($var): bool
     {
-        if (!is_string($var)) {
+        if (!StringHelper::isStringable($var)) {
             $this->errors[] = $this->messages['not'];
             return false;
         }
-
+        
+        $var = (string) $var;
         if ($this->symbols && !StringHelper::containsSymbols($var)) {
             $this->errors[] = $this->messages['symbols'];
         }
