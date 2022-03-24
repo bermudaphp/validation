@@ -79,7 +79,7 @@ class Validator
                 $rule->setData($data);
             }
 
-            if (($result = $rule->validate($data[$name])) !== true) {
+            if (($result = $rule->validate($data[$name] ?? null)) !== true) {
                 $errors[$name] = $result;
             }
         }
