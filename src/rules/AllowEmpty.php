@@ -19,4 +19,12 @@ final class AllowEmpty implements RuleInterface
         
         return $this->nextRule->validate($value);
     }
+    
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'allowEmpty';
+    }
 }
