@@ -2,6 +2,8 @@
 
 namespace Bermuda\Validation\Rules;
 
+use function Bermuda\String\str_contains;
+
 trait RuleTrait
 {
     protected array $errors = [];
@@ -74,8 +76,8 @@ trait RuleTrait
         $this->errors = [];
         
         if ($errors == [] && count($this->messages) == 1) {
-            if (str_contains($this->messages[0], $this->valueWildcard)) {
-                $wildcards = $this->getWildcards($var);
+            $wildcards = $this->getWildcards($var);
+            if (str_contains($this->messages[0], array_keys($wildcards))) {
                 return str_replace(array_keys($wildcards), $wildcards, $this->messages[0]);
             }
             
