@@ -14,27 +14,22 @@ abstract class Length implements RuleInterface
         $this->wildcards = $wildcards;
     }
     
-    public function getName(): string 
-    {
-        return 'length';
-    }
-
     /**
      * @param int $length
      * @param string $message
      * @return static
      */
-    public static function equalTo(int $length, string $message = 'The string length must be equal to :len'): self
+    public static function equalTo(int $length, string $message = 'The string length must be equal to :length'): self
     {
-        return new class($message, [':len' => $length]) extends Length {
+        return new class($message, [':length' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return is_string($var) && mb_strlen($var) == $this->wildcards[':len'];
+                return is_string($var) && mb_strlen($var) == $this->wildcards[':length'];
             }
             
             public function getName(): string 
             {
-                return 'length.equalTo';
+                return 'length-equal-to';
             }
         };
     }
@@ -44,17 +39,17 @@ abstract class Length implements RuleInterface
      * @param string $message
      * @return static
      */
-    public static function greaterThan(int $length, string $message = 'The string length must be greater than :len'): self
+    public static function greaterThan(int $length, string $message = 'The string length must be greater than :length'): self
     {
-        return new class($message, [':len' => $length]) extends Length {
+        return new class($message, [':length' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return is_string($var) && mb_strlen($var) > $this->wildcards[':len'];
+                return is_string($var) && mb_strlen($var) > $this->wildcards[':length'];
             }
             
             public function getName(): string 
             {
-                return 'length.greaterThan';
+                return 'length-greater-than';
             }
         };
     }
@@ -64,17 +59,17 @@ abstract class Length implements RuleInterface
      * @param string $message
      * @return static
      */
-    public static function greaterThanEquals(int $length, string $message = 'The string length must be greater than or equals to :len'): self
+    public static function greaterThanEquals(int $length, string $message = 'The string length must be greater than or equals to :length'): self
     {
-        return new class($message, [':len' => $length]) extends Length {
+        return new class($message, [':length' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return is_string($var) && mb_strlen($var) >= $this->wildcards[':len'];
+                return is_string($var) && mb_strlen($var) >= $this->wildcards[':length'];
             }
             
             public function getName(): string 
             {
-                return 'length.greaterThanEquals';
+                return 'length-greater-than-equals';
             }
         };
     }
@@ -84,17 +79,17 @@ abstract class Length implements RuleInterface
      * @param string $message
      * @return static
      */
-    public static function lessThan(int $length, string $message = 'The string length must be less than :len'): self
+    public static function lessThan(int $length, string $message = 'The string length must be less than :length'): self
     {
-        return new class($message, [':len' => $length]) extends Length {
+        return new class($message, [':length' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return is_string($var) && mb_strlen($var) < $this->wildcards[':len'];
+                return is_string($var) && mb_strlen($var) < $this->wildcards[':length'];
             }
             
             public function getName(): string 
             {
-                return 'length.lessThan';
+                return 'length-less-than';
             }
         };
     }
@@ -104,17 +99,17 @@ abstract class Length implements RuleInterface
      * @param string $message
      * @return static
      */
-    public static function lessThanEquals(int $length, string $message = 'The string length must be less than or equals to :len'): self
+    public static function lessThanEquals(int $length, string $message = 'The string length must be less than or equals to :length'): self
     {
-        return new class($message, [':len' => $length]) extends Length {
+        return new class($message, [':length' => $length]) extends Length {
             protected function doValidate($var): bool
             {
-                return is_string($var) && mb_strlen($var) <= $this->wildcards[':len'];
+                return is_string($var) && mb_strlen($var) <= $this->wildcards[':length'];
             }
             
             public function getName(): string 
             {
-                return 'length.lessThanEquals';
+                return 'length-less-than-equals';
             }
         };
     }
@@ -135,7 +130,7 @@ abstract class Length implements RuleInterface
             
             public function getName(): string 
             {
-                return 'length.between';
+                return 'length-between';
             }
         };
     }
