@@ -15,12 +15,11 @@ final class Required implements RuleInterface
 
     protected function doValidate($var): bool
     {
-        if (!is_string($var)) {
-            $this->errors[] = 'Must be a string';
+        if (empty($var) || (is_string($var) && empty(trim($var)))) {
             return false;
         }
         
-        return !empty(trim($var));
+        return true;
     }
 
     public function getName(): string
