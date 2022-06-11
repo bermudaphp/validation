@@ -15,11 +15,7 @@ final class Email implements RuleInterface
 
     protected function doValidate($var): bool
     {
-        if (!is_string($var)) {
-            return false;
-        }
-
-        return filter_var($var, FILTER_VALIDATE_EMAIL);
+        return is_string($var) && filter_var($var, FILTER_VALIDATE_EMAIL);
     }
     
     public function getName(): string 
