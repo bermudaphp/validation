@@ -16,10 +16,7 @@ class Validator
     public function __construct(iterable $rules = [])
     {
         $this->addRules($this->getDefaultRules());
-        
-        if ($rules != []) {
-            $this->addRules($rules);
-        }
+        if ($rules != []) $this->addRules($rules);
     }
 
     /**
@@ -38,10 +35,7 @@ class Validator
      */
     final public function add(string|array $name, RuleInterface $rule): self
     {
-        foreach (is_array($name) ? $name : [$name] as $n) {
-            $this->rules[$n] = $rule;
-        }
-
+        foreach (is_array($name) ? $name : [$name] as $n) $this->rules[$n] = $rule;
         return $this;
     }
     
@@ -51,10 +45,7 @@ class Validator
      */
     public function addRules(iterable $rules): self
     {
-        foreach($rules as $n => $rule) {
-            $this->add($n, $rule);
-        }
-        
+        foreach($rules as $n => $rule) $this->add($n, $rule);
         return $this;
     }
 
@@ -75,18 +66,11 @@ class Validator
     {
         $errors = [];
         foreach ($this->rules as $name => $rule) {
-            if ($rule instanceof ValidationDataAwareInterface) {
-                $rule->setData($data);
-            }
-
-            if (($result = $rule->validate($data[$name] ?? null)) !== true) {
-                $errors[$name] = $result;
-            }
+            if ($rule instanceof ValidationDataAwareInterface) $rule->setData($data);
+            if (($result = $rule->validate($data[$name] ?? null)) !== true) $errors[$name] = $result;
         }
 
-        if ($errors != []) {
-            throw $this->createException($errors, $data);
-        }
+        if ($errors !== []) throw $this->createException($errors, $data);
     }
 
     protected function createException(array $errors, array $data, $deep = 3): ValidationException
