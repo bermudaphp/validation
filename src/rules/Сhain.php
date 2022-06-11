@@ -2,15 +2,17 @@
 
 namespace Bermuda\Validation\Rules;
 
-final class Сhain implements RuleCollectionInterface
+final class Сhain implements RuleCollectionInterface, ValidationDataAwareInterface
 {
-    use RuleCollectionTrait;
+    use RuleCollectionTrait, ValidationDataTrait;
     /**
      * @inerhitDoc
      */
     public function validate($value): bool|string
     {
+        if ($this->data === null) throw new NullValidationDataException;
         foreach ($this->rules as $rule) {
+            if ($rule instanceof ValidationDataAwareInterface) $rule->setData($this->data);
             if (($result = $rule->validate($value)) !== true) {
                 return $result;
             }
