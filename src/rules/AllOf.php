@@ -25,6 +25,14 @@ final class AllOf implements RuleCollectionInterface, ValidationDataAwareInterfa
         return $count > 0 ? $messages : true;
     }
     
+    public static function firstFailure(iterable $rules = []): self
+    {
+        $self = new self($rules);
+        $self->beforeFirstFailure = true;
+        
+        return $self;
+    }
+    
     public function getName(): string 
     {
         return 'allOf';
