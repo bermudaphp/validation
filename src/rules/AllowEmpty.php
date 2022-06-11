@@ -4,7 +4,7 @@ namespace Bermuda\Validation\Rules;
 
 use Bermuda\Validation\ValidationException;
 
-final class AllowEmpty implements RuleInterface, ValidationDataAwareInterface
+final class NotRequired implements RuleInterface, ValidationDataAwareInterface
 {
     use ValidationDataTrait;
     public function __construct(private string $columnName, private RuleInterface $nextRule) {
@@ -25,6 +25,6 @@ final class AllowEmpty implements RuleInterface, ValidationDataAwareInterface
      */
     public function getName(): string
     {
-        return 'allowEmpty';
+        return 'not-required';
     }
 }
