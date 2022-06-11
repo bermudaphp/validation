@@ -2,9 +2,12 @@
 
 namespace Bermuda\Validation\Rules;
 
-final class AllowEmpty implements RuleInterface
+use Bermuda\Validation\ValidationException;
+
+final class AllowEmpty implements RuleInterface, ValidationDataAwareInterface
 {
-    public function __construct(private RuleInterface $nextRule) {
+    use ValidationDataTrait;
+    public function __construct(private string $columnName, private RuleInterface $nextRule) {
     }
 
     /**
@@ -13,11 +16,8 @@ final class AllowEmpty implements RuleInterface
      */
     public function validate($value): bool|string|array
     {
-        if (empty($value)) {
-            return true;
-        }
-        
-        return $this->nextRule->validate($value);
+        if ($this->data === null) throw new NullValidationDataException;
+        return !isset($this->data[$this->columnName]) ? true : $this->nextRule->validate($value);
     }
     
     /**
