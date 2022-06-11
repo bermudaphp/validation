@@ -10,9 +10,9 @@ use Bermuda\Validation\ValidationException;
 final class Required implements RuleInterface, ValidationDataAwareInterface
 {
     use RuleTrait, ValidationDataTrait;
-    public function __construct(private string $columnName)
+    public function __construct(private string $columnName, ?string $message = null)
     {
-        $this->messages[] = "$columnName is required";
+        $this->messages[] = $message === null ? "$columnName is required" : $message;
     }
 
     protected function doValidate($var): bool
