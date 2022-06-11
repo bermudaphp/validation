@@ -17,10 +17,7 @@ final class Required implements RuleInterface, ValidationDataAwareInterface
 
     protected function doValidate($var): bool
     {
-        if ($this->data === null) {
-            throw new ValidationException('Validation data is null');
-        }
-        
+        if ($this->data === null) throw new NullValidationDataException;
         return isset($this->data[$this->columnName]);
     }
 
