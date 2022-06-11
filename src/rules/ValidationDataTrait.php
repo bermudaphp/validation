@@ -1,6 +1,6 @@
 <?php
 
-namespace Bermuda\Validation;
+namespace Bermuda\Validation\Rules;
 
 trait ValidationDataTrait
 {
