@@ -1,11 +1,6 @@
 <?php
 
-namespace App\Validation;
-
-use Bermuda\Validation\Rules\RuleInterface;
-use Bermuda\Validation\Rules\RuleTrait;
-use Bermuda\Validation\Rules\ValidationDataAwareInterface;
-use Bermuda\Validation\Rules\ValidationDataTrait;
+namespace Bermuda\Validation\Rules;
 
 final class Callback implements RuleInterface, ValidationDataAwareInterface
 {
@@ -15,7 +10,7 @@ final class Callback implements RuleInterface, ValidationDataAwareInterface
     public function __construct(callable $rule, string $message)
     {
         $this->messages[] = $message;
-        $this->callback = static fn($var): bool => $rule($var);
+        $this->callback = static fn($var, array $data): bool => $rule($var, $data);
     }
 
     /**
@@ -36,6 +31,7 @@ final class Callback implements RuleInterface, ValidationDataAwareInterface
 
     protected function doValidate($var): bool
     {
+        if ($this->data === null) throw new NullValidationDataException;
         return ($this->callback)($var, $this->data);
     }
 }
