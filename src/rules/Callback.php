@@ -10,12 +10,7 @@ final class Callback implements RuleInterface, ValidationDataAwareInterface
     public function __construct(callable $rule, string $message)
     {
         $this->messages[] = $message;
-        if ($rule instanceof \Closure) {
-            $rule = $rule->bindTo(function (string|array $errors): void {
-                $this->errors = is_string($errors) ? [$errors] : $errors;
-            });
-        }
-        $this->callback = fn($var, array $data): bool => $rule($var, $data);
+        $this->callback = fn($var, array $data, callable $setErrors): bool => $rule($var, $data, $setErrors);
     }
 
     /**
@@ -36,6 +31,8 @@ final class Callback implements RuleInterface, ValidationDataAwareInterface
 
     protected function doValidate($var): bool
     {
-        return ($this->callback)($var, $this->data);
+        return ($this->callback)($var, $this->data, function (string|array $errors): void {
+            $this->errors = is_string($errors) ? [$errors] : $errors;
+        });
     }
 }
