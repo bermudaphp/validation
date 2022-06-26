@@ -4,10 +4,12 @@ namespace App\Validation;
 
 use Bermuda\Validation\Rules\RuleInterface;
 use Bermuda\Validation\Rules\RuleTrait;
+use Bermuda\Validation\Rules\ValidationDataAwareInterface;
+use Bermuda\Validation\Rules\ValidationDataTrait;
 
-final class Callback implements RuleInterface
+final class Callback implements RuleInterface, ValidationDataAwareInterface
 {
-    use RuleTrait;
+    use RuleTrait, ValidationDataTrait;
     private string $name;
     private \Closure $callback;
     public function __construct(callable $rule, string $message)
@@ -34,6 +36,6 @@ final class Callback implements RuleInterface
 
     protected function doValidate($var): bool
     {
-        return ($this->callback)($var);
+        return ($this->callback)($var, $this->data);
     }
 }
