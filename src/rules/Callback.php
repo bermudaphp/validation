@@ -14,7 +14,6 @@ final class Callback implements RuleInterface, ValidationDataAwareInterface
             $rule = $rule->bindTo(function (string|array $errors): void {
                 $this->errors = is_string($errors) ? [$errors] : $errors;
             });
-
         }
         $this->callback = fn($var, array $data): bool => $rule($var, $data);
     }
