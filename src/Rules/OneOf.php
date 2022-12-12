@@ -3,6 +3,7 @@
 namespace Bermuda\Validation\Rules;
 
 use Generator;
+use Bermuda\Validation\NullValidationDataException;
 
 final class OneOf implements RuleCollectionInterface, ValidationDataAwareInterface
 {
