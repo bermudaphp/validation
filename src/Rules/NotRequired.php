@@ -17,6 +17,8 @@ final class NotRequired implements RuleInterface, ValidationDataAwareInterface
     public function validate($value): bool|string|array
     {
         if ($this->data === null) throw new NullValidationDataException;
+        if ($this->nextRule instanceof ValidationDataAwareInterface) $this->nextRule->setData($this->data);
+
         return !isset($this->data[$this->columnName]) ? true : $this->nextRule->validate($value);
     }
     
