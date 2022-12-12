@@ -1,6 +1,6 @@
 <?php
 
-namespace Bermuda\Validation\Rules;
+namespace Bermuda\Validation;
 
 final class NullValidationDataException extends \Exception
 {
