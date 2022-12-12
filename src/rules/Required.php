@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\Validation\ValidationException;
+use Bermuda\Validation\NullValidationDataException;
 
 /**
  * @method string|bool validate
