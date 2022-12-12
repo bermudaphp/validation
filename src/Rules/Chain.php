@@ -2,6 +2,8 @@
 
 namespace Bermuda\Validation\Rules;
 
+use Bermuda\Validation\NullValidationDataException;
+
 final class Сhain implements RuleCollectionInterface, ValidationDataAwareInterface
 {
     use RuleCollectionTrait, ValidationDataTrait;
