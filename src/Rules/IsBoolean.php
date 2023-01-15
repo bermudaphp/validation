@@ -27,7 +27,7 @@ final class IsBoolean implements RuleInterface
         }
 
         return is_bool($var) || (is_string($var) && StringHelper::isBool($var)
-            || ($var == 1 || $var == 0);
+            || ($var == 1 || $var == 0));
     }
     
     public function getName(): string 
