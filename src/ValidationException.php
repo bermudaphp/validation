@@ -24,6 +24,15 @@ class ValidationException extends \RuntimeException
     }
 
     /**
+     * @param string $key
+     * @return string
+     */
+    public function getErrorsAsJson(string $key = 'errors'): string
+    {
+        return json_encode([$key => $this->errors]);
+    }
+
+    /**
      * @return array
      */
     public function getValidationData(): array
