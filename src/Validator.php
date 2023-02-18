@@ -31,26 +31,26 @@ class Validator
     /**
      * @param string|string[] $name
      * @param RuleInterface
-     * @return $this
+     * @return static
      */
-    final public function add(string|array $name, RuleInterface $rule): self
+    final public function add(string|array $name, RuleInterface $rule): static
     {
         foreach (is_array($name) ? $name : [$name] as $n) $this->rules[$n] = $rule;
         return $this;
     }
-    
+
     /**
      * @param iterable<RuleInterface> $rules
-     * @return $this
+     * @return static
      */
-    public function addRules(iterable $rules): self
+    public function addRules(iterable $rules): static
     {
         foreach($rules as $n => $rule) $this->add($n, $rule);
         return $this;
     }
 
     /**
-     * @return array
+     * @return RuleInterface[]
      */
     final public function getRules(): array
     {
@@ -58,8 +58,20 @@ class Validator
     }
 
     /**
+     * @param iterable<RuleInterface> $rules
+     * @return $this
+     */
+    final public function withRules(iterable $rules): static
+    {
+        $copy = clone $this;
+        $copy->rules = [];
+
+        return $copy->addRules($rules);
+    }
+
+    /**
      * @param array $data
-     * @throws ValidationException 
+     * @throws ValidationException
      * If validation failed
      */
     final public function validate(array $data): void
@@ -73,11 +85,14 @@ class Validator
         if ($errors !== []) throw $this->createException($errors, $data);
     }
 
-    protected function createException(array $errors, array $data, $deep = 3): ValidationException
+    protected function createException(array $errors, array $data): ValidationException
     {
-        return new ValidationException($errors, $data, $this, $deep);
+        return new ValidationException($errors, $data, $this);
     }
 
+    /**
+     * @return RuleInterface[]
+     */
     protected function getDefaultRules(): array
     {
         return [];
