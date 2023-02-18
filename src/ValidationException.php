@@ -12,7 +12,7 @@ class ValidationException extends \RuntimeException
             $this->line = $stack['line'];
         }
 
-        parent::__construct('Validation failed. Errors count: ' .count($errors), 422);
+        parent::__construct('Validation failed. Number of errors:: ' .count($errors), 422);
     }
 
     /**
