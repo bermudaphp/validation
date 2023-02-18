@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation;
 
-final class ValidationException extends \RuntimeException
+class ValidationException extends \RuntimeException
 {
     public function __construct(
         public readonly array $errors,
