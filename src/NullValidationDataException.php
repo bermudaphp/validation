@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation;
 
-final class NullValidationDataException extends \Exception
+final class NullValidationDataException extends \RuntimeException
 {
     public function __construct()
     {
