@@ -82,14 +82,12 @@ class Validator
             if (($result = $rule->validate($data[$name] ?? null)) !== true) $errors[$name] = $result;
         }
 
-        if ($errors !== []) throw $this->createException($errors, $data);
+        if ($errors !== []) {
+            $stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+            throw new ValidationException($errors, $data, $this, $stack['file'], $stack['line']);
+        }
     }
-
-    protected function createException(array $errors, array $data): ValidationException
-    {
-        return new ValidationException($errors, $data, $this);
-    }
-
+    
     /**
      * @return RuleInterface[]
      */
