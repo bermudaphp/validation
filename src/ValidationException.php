@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation;
 
-class ValidationException extends \RuntimeException
+final class ValidationException extends \RuntimeException
 {
     public function __construct(
         public readonly array $errors,
@@ -14,7 +14,10 @@ class ValidationException extends \RuntimeException
         $this->file = $file;
         $this->line = $line;
 
-        parent::__construct('Validation failed. Errors count: ' .count($errors), 422);
+        parent::__construct(
+            sprintf('Validation failed with %s %s', $c = count($errors), $c > 1 ? 'errors' : 'error'), 
+            422
+        );
     }
 
     /**
