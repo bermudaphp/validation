@@ -23,7 +23,7 @@ class Validator
      * @param array $data
      * @throws ValidationException if validation failed
      */
-    final public function __invoke(array $data): void
+    public function __invoke(array $data): void
     {
         $this->validate($data);
     }
@@ -33,7 +33,7 @@ class Validator
      * @param RuleInterface
      * @return static
      */
-    final public function add(string|array $name, RuleInterface $rule): static
+    public function add(string|array $name, RuleInterface $rule): static
     {
         foreach (is_array($name) ? $name : [$name] as $n) $this->rules[$n] = $rule;
         return $this;
@@ -52,7 +52,7 @@ class Validator
     /**
      * @return RuleInterface[]
      */
-    final public function getRules(): array
+    public function getRules(): array
     {
         return $this->rules;
     }
@@ -61,7 +61,7 @@ class Validator
      * @param iterable<RuleInterface> $rules
      * @return $this
      */
-    final public function withRules(iterable $rules): static
+    public function withRules(iterable $rules): static
     {
         $copy = clone $this;
         $copy->rules = [];
@@ -74,7 +74,7 @@ class Validator
      * @throws ValidationException
      * If validation failed
      */
-    final public function validate(array $data): void
+    public function validate(array $data): void
     {
         $errors = [];
         foreach ($this->rules as $name => $rule) {
