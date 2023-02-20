@@ -28,6 +28,6 @@ class ValidationException extends \RuntimeException
      */
     public function toJson(string $key = 'errors'): string
     {
-        return json_encode([$key = $this->errors], JSON_THROW_ON_ERROR);
+        return json_encode([$key => $this->errors], JSON_THROW_ON_ERROR);
     }
 }
