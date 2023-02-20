@@ -6,7 +6,7 @@ use Bermuda\Validation\Rules\RuleInterface;
 use Bermuda\Validation\Rules\RuleCollectionInterface;
 use Bermuda\Validation\Rules\ValidationDataAwareInterface;
 
-class Validator
+class Validator implements ValidatorInterface
 {
     protected array $rules = [];
 
