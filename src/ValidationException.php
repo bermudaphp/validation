@@ -2,12 +2,12 @@
 
 namespace Bermuda\Validation;
 
-final class ValidationException extends \RuntimeException
+class ValidationException extends \RuntimeException
 {
     public function __construct(
         public readonly array $errors,
         public readonly array $data,
-        public readonly Validator $validator,
+        public readonly ValidatorInterface $validator,
         public string $file, public int $line
     )
     {
