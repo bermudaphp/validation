@@ -21,7 +21,7 @@ class Validator implements ValidatorInterface
 
     /**
      * @param array $data
-     * @throws ValidationException if validation failed
+     * @throws ValidationException
      */
     public function __invoke(array $data): void
     {
@@ -70,9 +70,7 @@ class Validator implements ValidatorInterface
     }
 
     /**
-     * @param array $data
-     * @throws ValidationException
-     * If validation failed
+     * @inheritDoc
      */
     public function validate(array $data): void
     {
