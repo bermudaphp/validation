@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\String\StringHelper;
+use Bermuda\Stdlib\StrHelper;
 
 /**
  * @method string|bool validate 
