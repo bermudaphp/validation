@@ -6,7 +6,7 @@ use Bermuda\Utils\Byte;
 use Bermuda\Detector\Detector;
 use Bermuda\Detector\FinfoDetector;
 use Psr\Http\Message\UploadedFileInterface;
-use function Bermuda\String\str_contains;
+use function Bermuda\Stdlib\StrHelper;
 
 class File implements RuleInterface
 {
@@ -74,7 +74,7 @@ class File implements RuleInterface
     {
         $mimeType = $this->detector->detectFileMimeType($filename);
 
-        if ($this->mimeTypes != [] && !str_contains($mimeType, $this->mimeTypes)) {
+        if ($this->mimeTypes != [] && !StrHelper::contains($mimeType, $this->mimeTypes)) {
             $this->errors[] = $this->messages['mimeType'];
             $this->wildcards[':mimeType'] = $mimeType;
             $this->wildcards[':mTypes'] = implode(', ', $this->mimeTypes);
