@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\String\StringHelper;
+use Bermuda\Stdlib\StrHelper;
 
 final class Password implements RuleInterface, ValidationDataAwareInterface
 {
@@ -36,17 +36,17 @@ final class Password implements RuleInterface, ValidationDataAwareInterface
 
     protected function doValidate($var): bool
     {
-        if (!StringHelper::isStringable($var)) {
+        if (!StrHelper::isStringable($var)) {
             $this->errors[] = $this->messages['stringable'];
             return false;
         }
         
         $var = (string) $var;
-        if ($this->symbols && !StringHelper::containsSymbols($var)) {
+        if ($this->symbols && !StrHelper::containsSymbols($var)) {
             $this->errors[] = $this->messages['symbols'];
         }
 
-        if ($this->numbers && !StringHelper::containsNumbers($var)) {
+        if ($this->numbers && !StrHelper::containsNumbers($var)) {
             $this->errors[] = $this->messages['numbers'];
         }
 
