@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\String\StringHelper;
+use Bermuda\Stdlib\StrHelper;
 
 /**
  * @method string|bool validate 
@@ -26,7 +26,7 @@ final class IsFalse implements RuleInterface
             return $var === false;
         }
 
-        return $var === false || (is_string($var) && StringHelper::equals($var, ['off', '0', 'false', 'no', 'n'])) || $var == 0;
+        return $var === false || (is_string($var) && StrHelper::equals($var, ['off', '0', 'false', 'no', 'n'])) || $var == 0;
     }
     
     public function getName(): string 
