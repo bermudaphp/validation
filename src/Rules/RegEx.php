@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\String\StringHelper;
+use Bermuda\Stdlib\StrHelper;
 
 /**
  * @method string|bool validate 
@@ -42,7 +42,7 @@ class RegEx implements RuleInterface
             return false;
         }
         
-        return StringHelper::match($this->exp, $var);
+        return StrHelper::match($this->exp, $var);
     }
     
     public function getName(): string 
