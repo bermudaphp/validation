@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use function Bermuda\String\str_contains;
+use function Bermuda\Stdlib\StrHelper;
 
 trait RuleTrait
 {
@@ -77,7 +77,7 @@ trait RuleTrait
         
         if ($errors == [] && count($this->messages) == 1) {
             $wildcards = $this->getWildcards($var);
-            if (str_contains($this->messages[0], array_keys($wildcards))) {
+            if (StrHelper::contains($this->messages[0], array_keys($wildcards))) {
                 return str_replace(array_keys($wildcards), $wildcards, $this->messages[0]);
             }
             
