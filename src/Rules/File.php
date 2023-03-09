@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use Bermuda\Utils\Byte;
+use Bermuda\Stdlib\Byte;
 use Bermuda\Detector\Detector;
 use Bermuda\Detector\FinfoDetector;
 use Psr\Http\Message\UploadedFileInterface;
