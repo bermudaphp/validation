@@ -26,7 +26,7 @@ final class IsTrue implements RuleInterface
             return $var === true;
         }
 
-        return $var === true || (is_string($var) && StrHelper::equals($var, ['on', '1', 'true', 'yes', 'y'])) || $var == 1;
+        return $var === true || (is_string($var) && StrHelper::isTrue($var)) || $var == 1;
     }
     
     public function getName(): string 
