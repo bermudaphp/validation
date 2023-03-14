@@ -2,7 +2,7 @@
 
 namespace Bermuda\Validation\Rules;
 
-use function Bermuda\Stdlib\StrHelper;
+use Bermuda\Stdlib\StrHelper;
 
 trait RuleTrait
 {
