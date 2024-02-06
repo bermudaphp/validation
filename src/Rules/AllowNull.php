@@ -4,7 +4,7 @@ namespace Bermuda\Validation\Rules;
 
 use Bermuda\Validation\NullValidationDataException;
 
-final class NotRequired implements RuleInterface, ValidationDataAwareInterface
+final class AllowNull implements RuleInterface, ValidationDataAwareInterface
 {
     use ValidationDataTrait;
     public function __construct(private string $columnName, private RuleInterface $nextRule) {
