@@ -7,7 +7,7 @@ use Psr\Http\Message\UploadedFileInterface;
 
 final class Image extends File
 {
-    public function __construct(int|string $maxImageSize = null,
+    public function __construct(null|int|string $maxImageSize = null,
         private ?int $maxImageWidth = null, private ?int $maxImageHeight = null)
     {
         parent::__construct($maxImageSize);
