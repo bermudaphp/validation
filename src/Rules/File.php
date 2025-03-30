@@ -14,7 +14,7 @@ class File implements RuleInterface
     protected Detector $detector;
     protected array $extensions = [];
     protected array $mimeTypes = [];
-    public function __construct(int|string $filesize = null, array $messages = [])
+    public function __construct(null|int|string $filesize = null, array $messages = [])
     {
         if ($filesize != null) {
             $this->wildcards[':size'] = new Byte($filesize);
